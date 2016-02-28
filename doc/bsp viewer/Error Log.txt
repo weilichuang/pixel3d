@@ -1,0 +1,460 @@
+<-> Window Class Registered
+<-> Window Created.
+<-> DC Created
+<-> Pixel Format Found.
+<-> Pixel Format set.
+<-> GL Rendering Context Created.
+<-> GL Rendering Context Activated.
+
+<-> Window Size: (640, 480)
+<-> Color Buffer Bits (R, G, B, A): (8, 8, 8, 8)
+<-> Depth Buffer Bits: 24
+<-> Stencil Buffer Bits: 8
+
+<-> Window Created!
+
+<-> Font created successfully.
+<-> ARB_multitexture supported!
+<-> EXT_texture_env_combine supported!
+<-> EXT_draw_range_elements supported!
+<-> EXT_multi_draw_arrays supported!
+<!> textures/tabd2map01/tab_steps_2.tga does not exist
+<-> Loading textures/tabd2map01/tab_steps_2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_steps_2.jpg loaded successfully
+<!> noshader.tga does not exist
+<-> Loading noshader.jpg in LoadJPG()
+<!> noshader.jpg does not exist.
+<!> textures/common/caulk.tga does not exist
+<-> Loading textures/common/caulk.jpg in LoadJPG()
+<!> textures/common/caulk.jpg does not exist.
+<!> textures/tabd2map01/tab_brown1_c.tga does not exist
+<-> Loading textures/tabd2map01/tab_brown1_c.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_brown1_c.jpg loaded successfully
+<!> textures/tabd2map01/tab_grate.tga does not exist
+<-> Loading textures/tabd2map01/tab_grate.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_grate.jpg loaded successfully
+<!> textures/base_wall/rusted.tga does not exist
+<-> Loading textures/base_wall/rusted.jpg in LoadJPG()
+<!> textures/base_wall/rusted.jpg does not exist.
+<!> textures/tabd2map01/tab_largerblock3b_2.tga does not exist
+<-> Loading textures/tabd2map01/tab_largerblock3b_2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_largerblock3b_2.jpg loaded successfully
+<!> textures/tabd2map01/tab_bronze_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_bronze_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bronze_1.jpg loaded successfully
+<!> textures/tabd2map01/tab_browngrn.tga does not exist
+<-> Loading textures/tabd2map01/tab_browngrn.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_browngrn.jpg loaded successfully
+<!> textures/tabd2map01/q3_roof_01.tga does not exist
+<-> Loading textures/tabd2map01/q3_roof_01.jpg in LoadJPG()
+<-> textures/tabd2map01/q3_roof_01.jpg loaded successfully
+<!> textures/tabd2map01/tab_bronze_0a.tga does not exist
+<-> Loading textures/tabd2map01/tab_bronze_0a.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bronze_0a.jpg loaded successfully
+<!> textures/tabd2map01/tab_bronze_0b.tga does not exist
+<-> Loading textures/tabd2map01/tab_bronze_0b.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bronze_0b.jpg loaded successfully
+<!> textures/tabd2map01/lun_nubiansky2.tga does not exist
+<-> Loading textures/tabd2map01/lun_nubiansky2.jpg in LoadJPG()
+<!> textures/tabd2map01/lun_nubiansky2.jpg does not exist.
+<!> textures/tabd2map01/tab_browngrn_c.tga does not exist
+<-> Loading textures/tabd2map01/tab_browngrn_c.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_browngrn_c.jpg loaded successfully
+<!> textures/base_wall/basewall03.tga does not exist
+<-> Loading textures/base_wall/basewall03.jpg in LoadJPG()
+<!> textures/base_wall/basewall03.jpg does not exist.
+<!> textures/tabd2map01/tab_bluecarpet.tga does not exist
+<-> Loading textures/tabd2map01/tab_bluecarpet.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bluecarpet.jpg loaded successfully
+<!> textures/tabd2map01/tab_bluecarpet3.tga does not exist
+<-> Loading textures/tabd2map01/tab_bluecarpet3.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bluecarpet3.jpg loaded successfully
+<!> textures/tabd2map01/tab_grass_00.tga does not exist
+<-> Loading textures/tabd2map01/tab_grass_00.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_grass_00.jpg loaded successfully
+<!> textures/tabd2map01/palmet_03.tga does not exist
+<-> Loading textures/tabd2map01/palmet_03.jpg in LoadJPG()
+<-> textures/tabd2map01/palmet_03.jpg loaded successfully
+<!> textures/tabd2map01/q3_crete.tga does not exist
+<-> Loading textures/tabd2map01/q3_crete.jpg in LoadJPG()
+<-> textures/tabd2map01/q3_crete.jpg loaded successfully
+<!> textures/tabd2map01/tab_flat18.tga does not exist
+<-> Loading textures/tabd2map01/tab_flat18.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_flat18.jpg loaded successfully
+<!> textures/tabd2map01/tab_wood.tga does not exist
+<-> Loading textures/tabd2map01/tab_wood.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_wood.jpg loaded successfully
+<!> textures/tabd2map01/mkoxide_pipebod.tga does not exist
+<-> Loading textures/tabd2map01/mkoxide_pipebod.jpg in LoadJPG()
+<-> textures/tabd2map01/mkoxide_pipebod.jpg loaded successfully
+<!> textures/tabd2map01/tab_browngrn_full.tga does not exist
+<-> Loading textures/tabd2map01/tab_browngrn_full.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_browngrn_full.jpg loaded successfully
+<!> textures/tabd2map01/tab_bronze_2.tga does not exist
+<-> Loading textures/tabd2map01/tab_bronze_2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bronze_2.jpg loaded successfully
+<!> textures/common/clip.tga does not exist
+<-> Loading textures/common/clip.jpg in LoadJPG()
+<!> textures/common/clip.jpg does not exist.
+<!> textures/tabd2map01/tab_bronze_1_b.tga does not exist
+<-> Loading textures/tabd2map01/tab_bronze_1_b.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bronze_1_b.jpg loaded successfully
+<!> textures/tabd2map01/tab_browngrn_d.tga does not exist
+<-> Loading textures/tabd2map01/tab_browngrn_d.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_browngrn_d.jpg loaded successfully
+<!> textures/tabd2map01/tab_brownrock.tga does not exist
+<-> Loading textures/tabd2map01/tab_brownrock.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_brownrock.jpg loaded successfully
+<!> textures/sfx/blackness.tga does not exist
+<-> Loading textures/sfx/blackness.jpg in LoadJPG()
+<!> textures/sfx/blackness.jpg does not exist.
+<-> Loading textures/tabd2map01_lun/spanglue.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/spanglue.tga correctly.
+<!> textures/tabd2map01/tab_spanglue_edge.tga does not exist
+<-> Loading textures/tabd2map01/tab_spanglue_edge.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_spanglue_edge.jpg loaded successfully
+<!> textures/tabd2map01/tab_bluecarpet4.tga does not exist
+<-> Loading textures/tabd2map01/tab_bluecarpet4.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bluecarpet4.jpg loaded successfully
+<!> textures/tabd2map01/tab_brown1_a_d.tga does not exist
+<-> Loading textures/tabd2map01/tab_brown1_a_d.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_brown1_a_d.jpg loaded successfully
+<!> textures/tabd2map01/tab_floor_4_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_floor_4_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_floor_4_1.jpg loaded successfully
+<!> textures/tabd2map01/tab_bronze_2_b.tga does not exist
+<-> Loading textures/tabd2map01/tab_bronze_2_b.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bronze_2_b.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_06.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_06.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_06.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_00.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_00.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_00.jpg loaded successfully
+<!> textures/tabd2map01/q3_ceil122a_nolight.tga does not exist
+<-> Loading textures/tabd2map01/q3_ceil122a_nolight.jpg in LoadJPG()
+<!> textures/tabd2map01/q3_ceil122a_nolight.jpg does not exist.
+<!> textures/tabd2map01/q3_xceil1_nolight.tga does not exist
+<-> Loading textures/tabd2map01/q3_xceil1_nolight.jpg in LoadJPG()
+<!> textures/tabd2map01/q3_xceil1_nolight.jpg does not exist.
+<!> textures/tabd2map01/tab_tekgrn_01.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_01.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_01.jpg loaded successfully
+<!> textures/tabd2map01/tab_ter_sand.tga does not exist
+<-> Loading textures/tabd2map01/tab_ter_sand.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_ter_sand.jpg loaded successfully
+<!> textures/tabd2map01/ter_dirtgrass.tga does not exist
+<-> Loading textures/tabd2map01/ter_dirtgrass.jpg in LoadJPG()
+<!> textures/tabd2map01/ter_dirtgrass.jpg does not exist.
+<!> textures/tabd2map01/ter_sandgrass.tga does not exist
+<-> Loading textures/tabd2map01/ter_sandgrass.jpg in LoadJPG()
+<!> textures/tabd2map01/ter_sandgrass.jpg does not exist.
+<!> textures/tabd2map01/alpha_050.tga does not exist
+<-> Loading textures/tabd2map01/alpha_050.jpg in LoadJPG()
+<!> textures/tabd2map01/alpha_050.jpg does not exist.
+<!> textures/tabd2map01/tab_steps_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_steps_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_steps_1.jpg loaded successfully
+<!> textures/tabd2map01/tab_tech_wires.tga does not exist
+<-> Loading textures/tabd2map01/tab_tech_wires.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tech_wires.jpg loaded successfully
+<!> textures/tabd2map01/q3_roof_02.tga does not exist
+<-> Loading textures/tabd2map01/q3_roof_02.jpg in LoadJPG()
+<-> textures/tabd2map01/q3_roof_02.jpg loaded successfully
+<!> textures/tabd2map01/tab_brown1_a.tga does not exist
+<-> Loading textures/tabd2map01/tab_brown1_a.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_brown1_a.jpg loaded successfully
+<!> textures/gothic_floor/largerblock3b3.tga does not exist
+<-> Loading textures/gothic_floor/largerblock3b3.jpg in LoadJPG()
+<!> textures/gothic_floor/largerblock3b3.jpg does not exist.
+<!> textures/tabd2map01/tab_tech_fusebox.tga does not exist
+<-> Loading textures/tabd2map01/tab_tech_fusebox.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tech_fusebox.jpg loaded successfully
+<!> textures/tabd2map01/tab_tech_fusebox2.tga does not exist
+<-> Loading textures/tabd2map01/tab_tech_fusebox2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tech_fusebox2.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_02.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_02.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_02.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_03.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_03.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_03.jpg loaded successfully
+<!> textures/tabd2map01/tekwall1_b.tga does not exist
+<-> Loading textures/tabd2map01/tekwall1_b.jpg in LoadJPG()
+<-> textures/tabd2map01/tekwall1_b.jpg loaded successfully
+<!> textures/tabd2map01/tab_floor5_3.tga does not exist
+<-> Loading textures/tabd2map01/tab_floor5_3.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_floor5_3.jpg loaded successfully
+<!> textures/sfx/fan3bladeb.tga does not exist
+<-> Loading textures/sfx/fan3bladeb.jpg in LoadJPG()
+<!> textures/sfx/fan3bladeb.jpg does not exist.
+<!> textures/base_floor/proto_grate4.tga does not exist
+<-> Loading textures/base_floor/proto_grate4.jpg in LoadJPG()
+<!> textures/base_floor/proto_grate4.jpg does not exist.
+<!> textures/tabd2map01/tab_doorside.tga does not exist
+<-> Loading textures/tabd2map01/tab_doorside.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_doorside.jpg loaded successfully
+<!> textures/tabd2map01/tab_cement9.tga does not exist
+<-> Loading textures/tabd2map01/tab_cement9.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_cement9.jpg loaded successfully
+<!> textures/base_light/xceil1_39_5k.tga does not exist
+<-> Loading textures/base_light/xceil1_39_5k.jpg in LoadJPG()
+<!> textures/base_light/xceil1_39_5k.jpg does not exist.
+<!> textures/tabd2map01/tab_floor_0_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_floor_0_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_floor_0_1.jpg loaded successfully
+<-> Loading textures/tabd2map01/tab_pjgrate2.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01/tab_pjgrate2.tga correctly.
+<!> textures/tabd2map01/q3_ceil1_4_4k.tga does not exist
+<-> Loading textures/tabd2map01/q3_ceil1_4_4k.jpg in LoadJPG()
+<!> textures/tabd2map01/q3_ceil1_4_4k.jpg does not exist.
+<!> textures/tabd2map01/tab_ceil1_2.tga does not exist
+<-> Loading textures/tabd2map01/tab_ceil1_2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_ceil1_2.jpg loaded successfully
+<!> textures/tabd2map01/tab_ceil1_3b.tga does not exist
+<-> Loading textures/tabd2map01/tab_ceil1_3b.jpg in LoadJPG()
+<!> textures/tabd2map01/tab_ceil1_3b.jpg does not exist.
+<!> textures/tabd2map01/tab_ceil3_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_ceil3_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_ceil3_1.jpg loaded successfully
+<!> textures/tabd2map01_lun3dm4/zinc_rusty1ach.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/zinc_rusty1ach.jpg in LoadJPG()
+<-> textures/tabd2map01_lun3dm4/zinc_rusty1ach.jpg loaded successfully
+<!> textures/tabd2map01/tab_ceil3_3.tga does not exist
+<-> Loading textures/tabd2map01/tab_ceil3_3.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_ceil3_3.jpg loaded successfully
+<!> textures/tabd2map01/tab_metal17_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_metal17_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_metal17_1.jpg loaded successfully
+<!> textures/tabd2map01/tab_door3_6_side.tga does not exist
+<-> Loading textures/tabd2map01/tab_door3_6_side.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_door3_6_side.jpg loaded successfully
+<!> textures/tabd2map01/tab_dirtyfloor.tga does not exist
+<-> Loading textures/tabd2map01/tab_dirtyfloor.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_dirtyfloor.jpg loaded successfully
+<!> textures/tabd2map01/tab_brown1_b_d.tga does not exist
+<-> Loading textures/tabd2map01/tab_brown1_b_d.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_brown1_b_d.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_07.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_07.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_07.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_03b.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_03b.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_03b.jpg loaded successfully
+<!> textures/tabd2map01/q3_ceil1_4_6k.tga does not exist
+<-> Loading textures/tabd2map01/q3_ceil1_4_6k.jpg in LoadJPG()
+<!> textures/tabd2map01/q3_ceil1_4_6k.jpg does not exist.
+<!> textures/tabd2map01/tab_ceil1_2_rand.tga does not exist
+<-> Loading textures/tabd2map01/tab_ceil1_2_rand.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_ceil1_2_rand.jpg loaded successfully
+<!> textures/tabd2map01/tab_ceil1_2b.tga does not exist
+<-> Loading textures/tabd2map01/tab_ceil1_2b.jpg in LoadJPG()
+<!> textures/tabd2map01/tab_ceil1_2b.jpg does not exist.
+<!> textures/base_light/ceil1_38_10k.tga does not exist
+<-> Loading textures/base_light/ceil1_38_10k.jpg in LoadJPG()
+<!> textures/base_light/ceil1_38_10k.jpg does not exist.
+<!> textures/tabd2map01_lun3dm4/goth1_2000.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/goth1_2000.jpg in LoadJPG()
+<!> textures/tabd2map01_lun3dm4/goth1_2000.jpg does not exist.
+<!> textures/tabd2map01/tab_UACwall_nologo.tga does not exist
+<-> Loading textures/tabd2map01/tab_UACwall_nologo.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_UACwall_nologo.jpg loaded successfully
+<!> textures/tabd2map01/tab_exit_sign.tga does not exist
+<-> Loading textures/tabd2map01/tab_exit_sign.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_exit_sign.jpg loaded successfully
+<!> textures/tabd2map01_lun/concrete0.tga does not exist
+<-> Loading textures/tabd2map01_lun/concrete0.jpg in LoadJPG()
+<-> textures/tabd2map01_lun/concrete0.jpg loaded successfully
+<!> textures/base_floor/clang_floor2.tga does not exist
+<-> Loading textures/base_floor/clang_floor2.jpg in LoadJPG()
+<!> textures/base_floor/clang_floor2.jpg does not exist.
+<!> textures/base_support/plate2_5.tga does not exist
+<-> Loading textures/base_support/plate2_5.jpg in LoadJPG()
+<!> textures/base_support/plate2_5.jpg does not exist.
+<!> textures/tabd2map01/tab_tekflr_01.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekflr_01.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekflr_01.jpg loaded successfully
+<!> textures/tabd2map01/tab_windowlight.tga does not exist
+<-> Loading textures/tabd2map01/tab_windowlight.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_windowlight.jpg loaded successfully
+<-> Loading textures/tabd2map01_lun/compblue1.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/compblue1.tga correctly.
+<!> textures/base_trim/dirty_pewter_big.tga does not exist
+<-> Loading textures/base_trim/dirty_pewter_big.jpg in LoadJPG()
+<!> textures/base_trim/dirty_pewter_big.jpg does not exist.
+<-> Loading textures/tabd2map01_lun/comp3.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/comp3.tga correctly.
+<-> Loading textures/tabd2map01_lun/span1b.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/span1b.tga correctly.
+<-> Loading textures/tabd2map01_lun/span1d.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/span1d.tga correctly.
+<-> Loading textures/tabd2map01_lun/span3.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/span3.tga correctly.
+<!> textures/tabd2map01_lun/comp3_5.tga does not exist
+<-> Loading textures/tabd2map01_lun/comp3_5.jpg in LoadJPG()
+<!> textures/tabd2map01_lun/comp3_5.jpg does not exist.
+<!> textures/tabd2map01_lun/comp3_4.tga does not exist
+<-> Loading textures/tabd2map01_lun/comp3_4.jpg in LoadJPG()
+<!> textures/tabd2map01_lun/comp3_4.jpg does not exist.
+<-> Loading textures/tabd2map01_lun/span1c.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/span1c.tga correctly.
+<!> textures/tabd2map01_lun/comp3_3.tga does not exist
+<-> Loading textures/tabd2map01_lun/comp3_3.jpg in LoadJPG()
+<!> textures/tabd2map01_lun/comp3_3.jpg does not exist.
+<!> textures/tabd2map01_lun/comp3_2.tga does not exist
+<-> Loading textures/tabd2map01_lun/comp3_2.jpg in LoadJPG()
+<!> textures/tabd2map01_lun/comp3_2.jpg does not exist.
+<!> textures/tabd2map01_lun/comp3_1.tga does not exist
+<-> Loading textures/tabd2map01_lun/comp3_1.jpg in LoadJPG()
+<!> textures/tabd2map01_lun/comp3_1.jpg does not exist.
+<!> textures/base_floor/metaltechfloor01final.tga does not exist
+<-> Loading textures/base_floor/metaltechfloor01final.jpg in LoadJPG()
+<!> textures/base_floor/metaltechfloor01final.jpg does not exist.
+<!> textures/tabd2map01_lun/q1c2tek.tga does not exist
+<-> Loading textures/tabd2map01_lun/q1c2tek.jpg in LoadJPG()
+<-> textures/tabd2map01_lun/q1c2tek.jpg loaded successfully
+<!> textures/base_wall/concrete.tga does not exist
+<-> Loading textures/base_wall/concrete.jpg in LoadJPG()
+<!> textures/base_wall/concrete.jpg does not exist.
+<!> textures/tabd2map01_lun3dm4/litpan1_2000.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/litpan1_2000.jpg in LoadJPG()
+<!> textures/tabd2map01_lun3dm4/litpan1_2000.jpg does not exist.
+<!> textures/tabd2map01_lun3dm4/litpan1_1000.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/litpan1_1000.jpg in LoadJPG()
+<!> textures/tabd2map01_lun3dm4/litpan1_1000.jpg does not exist.
+<!> textures/gothic_trim/metalsupport4i.tga does not exist
+<-> Loading textures/gothic_trim/metalsupport4i.jpg in LoadJPG()
+<!> textures/gothic_trim/metalsupport4i.jpg does not exist.
+<!> textures/tabd2map01_lun/concrete1.tga does not exist
+<-> Loading textures/tabd2map01_lun/concrete1.jpg in LoadJPG()
+<-> textures/tabd2map01_lun/concrete1.jpg loaded successfully
+<!> textures/tabd2map01_lun3dm4/litpan1_flik.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/litpan1_flik.jpg in LoadJPG()
+<!> textures/tabd2map01_lun3dm4/litpan1_flik.jpg does not exist.
+<!> textures/tabd2map01/tab_slime16.tga does not exist
+<-> Loading textures/tabd2map01/tab_slime16.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_slime16.jpg loaded successfully
+<!> textures/tabd2map01_lun3dm4/wcrete6.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/wcrete6.jpg in LoadJPG()
+<-> textures/tabd2map01_lun3dm4/wcrete6.jpg loaded successfully
+<!> textures/tabd2map01/tab_bluecarpet2.tga does not exist
+<-> Loading textures/tabd2map01/tab_bluecarpet2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bluecarpet2.jpg loaded successfully
+<!> textures/base_trim/dark_tin2.tga does not exist
+<-> Loading textures/base_trim/dark_tin2.jpg in LoadJPG()
+<!> textures/base_trim/dark_tin2.jpg does not exist.
+<!> textures/tabd2map01/tab_doompipewall.tga does not exist
+<-> Loading textures/tabd2map01/tab_doompipewall.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_doompipewall.jpg loaded successfully
+<!> textures/base_wall/basewall01.tga does not exist
+<-> Loading textures/base_wall/basewall01.jpg in LoadJPG()
+<!> textures/base_wall/basewall01.jpg does not exist.
+<!> textures/base_wall/basewall02.tga does not exist
+<-> Loading textures/base_wall/basewall02.jpg in LoadJPG()
+<!> textures/base_wall/basewall02.jpg does not exist.
+<!> textures/tabd2map01/tab_tekgrn_05_light_500.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_05_light_500.jpg in LoadJPG()
+<!> textures/tabd2map01/tab_tekgrn_05_light_500.jpg does not exist.
+<!> textures/tabd2map01/tab_tekgrn_05.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_05.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_05.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_05_light.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_05_light.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_05_light.jpg loaded successfully
+<!> textures/tabd2map01/tab_tekgrn_06b.tga does not exist
+<-> Loading textures/tabd2map01/tab_tekgrn_06b.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_tekgrn_06b.jpg loaded successfully
+<!> textures/common/hint.tga does not exist
+<-> Loading textures/common/hint.jpg in LoadJPG()
+<!> textures/common/hint.jpg does not exist.
+<!> textures/tabd2map01/fog_green_a.tga does not exist
+<-> Loading textures/tabd2map01/fog_green_a.jpg in LoadJPG()
+<!> textures/tabd2map01/fog_green_a.jpg does not exist.
+<!> textures/common/botclip.tga does not exist
+<-> Loading textures/common/botclip.jpg in LoadJPG()
+<!> textures/common/botclip.jpg does not exist.
+<!> textures/tabd2map01/alpha_100.tga does not exist
+<-> Loading textures/tabd2map01/alpha_100.jpg in LoadJPG()
+<!> textures/tabd2map01/alpha_100.jpg does not exist.
+<!> textures/tabd2map01/alpha_000.tga does not exist
+<-> Loading textures/tabd2map01/alpha_000.jpg in LoadJPG()
+<!> textures/tabd2map01/alpha_000.jpg does not exist.
+<!> textures/tabd2map01/alpha_075.tga does not exist
+<-> Loading textures/tabd2map01/alpha_075.jpg in LoadJPG()
+<!> textures/tabd2map01/alpha_075.jpg does not exist.
+<!> textures/tabd2map01/alpha_025.tga does not exist
+<-> Loading textures/tabd2map01/alpha_025.jpg in LoadJPG()
+<!> textures/tabd2map01/alpha_025.jpg does not exist.
+<!> textures/tabd2map01/alpha_085.tga does not exist
+<-> Loading textures/tabd2map01/alpha_085.jpg in LoadJPG()
+<!> textures/tabd2map01/alpha_085.jpg does not exist.
+<!> textures/common/weapclip.tga does not exist
+<-> Loading textures/common/weapclip.jpg in LoadJPG()
+<!> textures/common/weapclip.jpg does not exist.
+<!> textures/tabd2map01/tab_water.tga does not exist
+<-> Loading textures/tabd2map01/tab_water.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_water.jpg loaded successfully
+<!> textures/common/nodraw.tga does not exist
+<-> Loading textures/common/nodraw.jpg in LoadJPG()
+<!> textures/common/nodraw.jpg does not exist.
+<!> textures/sfx/fan3.tga does not exist
+<-> Loading textures/sfx/fan3.jpg in LoadJPG()
+<!> textures/sfx/fan3.jpg does not exist.
+<!> textures/base_trim/wires02.tga does not exist
+<-> Loading textures/base_trim/wires02.jpg in LoadJPG()
+<!> textures/base_trim/wires02.jpg does not exist.
+<-> Loading textures/tabd2map01/sprite_grass3.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01/sprite_grass3.tga correctly.
+<-> Loading textures/tabd2map01/sprite_grass1.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01/sprite_grass1.tga correctly.
+<!> textures/tabd2map01/palmet_04.tga does not exist
+<-> Loading textures/tabd2map01/palmet_04.jpg in LoadJPG()
+<-> textures/tabd2map01/palmet_04.jpg loaded successfully
+<!> textures/tabd2map01/tab_doompipe_1.tga does not exist
+<-> Loading textures/tabd2map01/tab_doompipe_1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_doompipe_1.jpg loaded successfully
+<!> textures/tabd2map01/tab_doompipe_2.tga does not exist
+<-> Loading textures/tabd2map01/tab_doompipe_2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_doompipe_2.jpg loaded successfully
+<!> models/mapobjects/skel/skel.tga does not exist
+<-> Loading models/mapobjects/skel/skel.jpg in LoadJPG()
+<!> models/mapobjects/skel/skel.jpg does not exist.
+<!> textures/tabd2map01/tab_bigdoor1.tga does not exist
+<-> Loading textures/tabd2map01/tab_bigdoor1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_bigdoor1.jpg loaded successfully
+<!> textures/tabd2map01_lun3dm4/xpiplun2a.tga does not exist
+<-> Loading textures/tabd2map01_lun3dm4/xpiplun2a.jpg in LoadJPG()
+<-> textures/tabd2map01_lun3dm4/xpiplun2a.jpg loaded successfully
+<!> textures/tabd2map01/tab_blackmetal.tga does not exist
+<-> Loading textures/tabd2map01/tab_blackmetal.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_blackmetal.jpg loaded successfully
+<!> textures/tabd2map01/tab_shinymetal.tga does not exist
+<-> Loading textures/tabd2map01/tab_shinymetal.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_shinymetal.jpg loaded successfully
+<!> textures/tabd2map01/tab_button2.tga does not exist
+<-> Loading textures/tabd2map01/tab_button2.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_button2.jpg loaded successfully
+<-> Loading textures/tabd2map01_lun/span1.tga in LoadUncompressedTGA()
+<-> Loaded textures/tabd2map01_lun/span1.tga correctly.
+<!> textures/tabd2map01/tab_button2b.tga does not exist
+<-> Loading textures/tabd2map01/tab_button2b.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_button2b.jpg loaded successfully
+<!> textures/tabd2map01/tab_button1.tga does not exist
+<-> Loading textures/tabd2map01/tab_button1.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_button1.jpg loaded successfully
+<!> textures/tabd2map01/tab_door3_6.tga does not exist
+<-> Loading textures/tabd2map01/tab_door3_6.jpg in LoadJPG()
+<-> textures/tabd2map01/tab_door3_6.jpg loaded successfully
+<!> textures/common/trigger.tga does not exist
+<-> Loading textures/common/trigger.jpg in LoadJPG()
+<!> textures/common/trigger.jpg does not exist.
+<-> tabd2map01.bsp Loaded successfully
+<-> Demo Initiation Successful
+<-> OpenGL Initiation Successful
+
+<-> DC and RC released.
+<-> Rendering Context Released.
+<-> Device Context Released.
+<-> hWnd released.
+<-> Class unregistered.
+<-> Exiting...

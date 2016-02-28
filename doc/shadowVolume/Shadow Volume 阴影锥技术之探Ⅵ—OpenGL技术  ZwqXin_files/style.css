@@ -1,0 +1,197 @@
+/* BlogRoll 样式 */
+#hpfg-blogroll div.hpfg-feed {
+	float:left;
+	width:128px;
+	margin:6px 18px 12px 0;
+	padding:0 0 0 5px;
+	text-indent: 0em;
+	border-left: 1px solid #FFCCCC;
+	cursor:default;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+#hpfg-blogroll div.hpfg-title {
+	margin:5px 0;
+	font-size:14px;
+	font-weight:bold;
+}
+
+#hpfg-blogroll div.hpfg-title a {
+	font-size:14px;
+	text-decoration: underline;
+}
+
+#hpfg-blogroll span.hpfg-switch img {
+	display:none;
+}
+#hpfg-blogroll p.hpfg-item {
+	margin:0 0 0 8px;
+	color:gray;
+}
+#hpfg-blogroll p.hpfg-item a {
+	text-decoration: none;
+}
+#hpfg-blogroll p.hpfg-code {
+	text-indent: 0em;
+}
+/*clear*/
+#hpfg-blogroll div.clear {
+	border-top:1px solid transparent !important;
+	margin-top:-1px !important;
+	border-top:0;
+	margin-top:0;
+	height:1px;
+	font-size:1px;
+	clear:left;
+	visibility:hidden;
+}
+/*BlogRoll 静态链接样式*/
+#hpfg-blogroll ul.hpfg-staticlink {
+	float:left;
+	width:100%;
+	margin:0 0;
+	padding:10px 5px;
+	text-indent: 0em;
+	cursor:default;
+	list-style-type:none;
+	list-style-position : outside;
+}
+#hpfg-blogroll ul.hpfg-staticlink li {
+	display:block;
+	float:left;
+	height:20px;
+	width:155px;
+	margin:3px 5px;
+	padding:0 5px;
+	border-left: 3px solid #FFCCCC;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+
+/*关于侧栏效果的样式*/
+#hpfg-side div.hpfg-feed {
+	width:98%;
+	text-indent: 0em;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+
+#hpfg-side div.hpfg-title {
+	margin:5px 0;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration: none;
+}
+#hpfg-side div.hpfg-title a {
+	font-size:14px;
+	text-decoration: underline;
+}
+#hpfg-side div.hpfg-title span.hpfg-switch {
+	background:url("images/open.png") no-repeat left top;
+}
+#hpfg-side span.hpfg-switch {
+	cursor:pointer;
+	width:16px;
+	height:16px;
+	font-size:14px;
+}
+#hpfg-side span.hpfg-switch img {
+	visibility:hidden;
+}
+#hpfg-side span.hpfg-href img {
+	margin:0 2px 0 0;
+}
+#hpfg-side p.hpfg-item {
+	margin:0 0 0 8px;
+	color:gray;
+	display:none;
+}
+#hpfg-side p.hpfg-code {
+	text-indent: 0em;
+}
+
+/*关于侧栏打开效果的样式*/
+#hpfg-side div.hpfg-title-a {
+	margin:5px 0;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration: none;
+}
+#hpfg-side div.hpfg-title-a a {
+	font-size:14px;
+	text-decoration: underline;
+}
+#hpfg-side div.hpfg-title-a span.hpfg-switch {
+	background:url("images/close.png") no-repeat left top;
+}
+
+
+/* 文章前数字, Feed大小 */
+span.hpfg-titlenum {
+	display:none;
+}
+span.hpfg-feedsize {
+	display:none;
+}
+
+
+
+/* 对新旧日期的文章应用不同样式 */
+span.date-old a {
+	color:#666666;
+}
+span.date-old a:hover {
+	color:#999999;
+}
+/*
+span.date-new a {
+	color:navy;
+}*/
+span.date-new a:visited {
+	color:#666666;
+}/*
+span.date-new a :hover{
+	color:blue;
+}
+*/
+
+/* 更新状态的样式 */
+small.hpfg-info {
+	color:gray;
+	line-height:160%;
+	/*display:none;*/	
+}
+span.hpfg-info-status {
+}
+span.hpfg-info-time {
+	/*display:none;*/
+}
+
+/* 以下是对PinkHeart样式的兼容修正 */
+div.article div.hpfg-feed {
+	float:left;
+	width:152px;
+	margin:6px 18px 12px 0;
+	padding:0 0 0 5px;
+	border-left: 3px solid #FFCCCC;
+	cursor:default;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+body.blogroll div.article-body {
+	text-indent: 0em;
+}
+body.blogroll div.article-body a.new-window {
+	margin:0;
+	padding:0;
+	background:none;
+}
+#divLinkage a.new-window{
+	margin:0;
+	padding:0;
+	background:none;
+}

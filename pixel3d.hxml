@@ -1,0 +1,7 @@
+-cp src
+-swf bin/Max3DSTest.swf
+-swf-header 540:480:60:008000
+--flash-strict
+-swf-version 10
+-main MS3DFileLoaderTest
+-swf-version 10.2

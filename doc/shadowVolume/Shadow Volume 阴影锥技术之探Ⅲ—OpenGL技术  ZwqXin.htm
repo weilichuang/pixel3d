@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0058)http://www.zwqxin.com/archives/opengl/shadow-volume-3.html -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+         <META name="description" content="ZwqXin:  Shadow Volume 阴影锥技术之探Ⅲ OpenGL,Shadow,Demo">
+         <META name="keywords" content="Shadow Volume 阴影锥技术之探Ⅲ,OpenGL,Shadow,Demo">
+	
+	<META http-equiv="Content-Language" content="zh-CN">
+	<!-- <link rel="stylesheet" rev="stylesheet" href="http://www.zwqxin.com/themes/ipati/style/ipati.css" type="text/css" media="screen" /> -->
+	<LINK rel="stylesheet" rev="stylesheet" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/style.css.asp" type="text/css" media="screen">
+	<LINK rel="stylesheet" rev="stylesheet" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/print.css" type="text/css" media="print">
+	<LINK rel="alternate" type="application/rss+xml" href="http://www.zwqxin.com/rss.xml" title="ZwqXin">
+	<LINK rel="alternate" type="application/atom+xml" href="http://www.zwqxin.com/atom.xml" title="ZwqXin">
+	<SCRIPT language="JavaScript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/common.js" type="text/javascript"></SCRIPT>
+         
+	<LINK rel="stylesheet" rev="stylesheet" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/style.css" type="text/css" media="screen">
+	<SCRIPT language="JavaScript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/common(1).js" type="text/javascript"></SCRIPT>
+	<TITLE>Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术:  ZwqXin</TITLE>
+	<LINK type="text/css" rel="stylesheet" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/SyntaxHighlighter.css">
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shCore.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushCpp.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushCSharp.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushCss.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushDelphi.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushJava.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushJScript.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushPhp.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushPython.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushRuby.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushSql.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushVb.js"></SCRIPT>
+	<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/shBrushXml.js"></SCRIPT>
+	<SCRIPT language="javascript">
+		window.onload = function () {
+			dp.SyntaxHighlighter.ClipboardSwf = 'http://www.zwqxin.com/PLUGIN/River_SyntaxHighlighter/Scripts/clipboard.swf';
+			dp.SyntaxHighlighter.BloggerMode();
+			dp.SyntaxHighlighter.HighlightAll('code');
+		}
+	</SCRIPT>
+<LINK rel="stylesheet" type="text/css" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/widget00.css" media="all"></HEAD><BODY class="single">
+<SCRIPT language="JavaScript" type="text/javascript">
+	var str00="http://www.zwqxin.com/";
+	var str01="名称或邮箱不能为空";
+	var str02="名称或邮箱格式不对";
+	var str03="留言不能为空或过长";
+	var str06="显示UBB表情>>";
+	var intMaxLen="1000";
+	var strFaceName="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64";
+	var strFaceSize="24";
+	var strBatchView="";
+	var strBatchInculde="";
+	var strBatchCount="";
+</SCRIPT>
+
+
+
+<!--第一层:开始全局-->
+<DIV id="divAll">
+	<DIV id="divPage">
+	<DIV id="divMiddle">
+
+<!--头部信息-->
+<DIV class="top">				
+   <DIV class="header">
+          <DIV class="left"><A href="http://www.zwqxin.com/"> ZwqXin</A></DIV>		
+          <DIV class="right">
+	 <!-- 公告代码开始 -->
+<H2>Welcome to ZwqXin</H2>
+<BR>			
+<P>3D Graphics、OpenGL、GLSL、C/C++、GameEngine ……<BR><BR>What are you looking for?</P>
+<!--公告代码结束 -->
+	 </DIV>
+    </DIV>	
+</DIV>
+
+
+<!--第二层:开始容器-->
+<DIV class="container">
+
+<!--显示导航-->	
+<DIV class="navigation">
+     <UL><LI><A href="http://www.zwqxin.com/">首页</A></LI>
+<LI><A href="http://www.zwqxin.com/tags.asp">TagCloud</A></LI>
+<LI><A href="http://www.zwqxin.com/guestbook.asp">留言簿</A></LI>
+<LI><A href="http://www.zwqxin.com/cmd.asp?act=login">Admin</A></LI>
+<LI><A href="http://www.zwqxin.com/AboutMe/">关于我</A></LI>
+
+</UL>
+</DIV>
+
+<!--显示主体-->
+<DIV class="main">    
+       <DIV id="divMain">
+         <DIV class="post cate1 auth1">
+<DIV class="post-nav"><A class="l" href="http://www.zwqxin.com/archives/opengl/shadow-volume-2.html">« Shadow Volume 阴影锥技术之探Ⅱ</A><A class="r" href="http://www.zwqxin.com/archives/opengl/shadow-volume-demo2.html">Shadow Volume Demo2 »</A></DIV>
+	<H2 class="post-title">Shadow Volume 阴影锥技术之探Ⅲ</H2>	
+         <H4 class="post-date">2009-2-1 21:58:16  | 发布:zwqxin</H4>
+	<DIV class="post-body"><P>&nbsp;本文是<A href="http://www.zwqxin.com/">ZwqXin</A>关于Shadow volume阴影锥技术实践记录的第三辑。固定管道之 Z-PASS 算法的最后一篇。本文着重接着第Ⅱ篇谈谈针对复杂模型的阴影生成的实现。继续接下来可能会从Z-FAIL算法或者shader实现方面继续探讨本系列。前两篇为：</P>
+<UL>
+    <LI><A target="_blank" href="http://www.zwqxin.com/archives/opengl/shadow-volume-1.html">Shadow Volume 阴影锥技术之探Ⅰ</A></LI>
+    <LI><A target="_blank" href="http://www.zwqxin.com/archives/opengl/shadow-volume-2.html">Shadow Volume 阴影锥技术之探Ⅱ</A></LI>
+</UL>
+<P>我们把<A target="_blank" href="http://www.zwqxin.com/archives/opengl/shadow-volume-2.html">上一篇最后的步骤</A>再总结一次：<BR>
+初始化步骤：ImportShadowModel（）</P>
+<UL>
+    <LI>1.用CLoad3DS载入模型（ImportModel）</LI>
+    <LI>2.把CLoad3DS中的Model结构，转化为CShadow3DS的ShadowModel结构</LI>
+    <LI>3.找邻面（边）（SetConnectivity）</LI>
+    <LI>4.Face To Plane转换</LI>
+</UL>
+<P>渲染实时步骤：RenderShadowModel()</P>
+<UL>
+    <LI>1.转换光源到模型空间（所必要的逆矩阵操作）</LI>
+    <LI>2.渲染原Model</LI>
+    <LI>3.判断面的朝光性</LI>
+    <LI>4.蒙板判断，画Shadow Volume</LI>
+    <LI>5.渲染阴影</LI>
+</UL>
+<P>在CLoad3DS类里面，存储模型数据的是一个名为t3DModel的结构,我的CShadow3DS类要获得并扩充这个结构。其中通过CLoad3DS类的API：GetModel()直接取得这个模型。在<A target="_blank" href="http://www.zwqxin.com/archives/opengl/3ds-cload3ds-view.html">一个读取3DS文件的类CLoad3DS浅析Ⅰ</A>中说过，模型由一系列对象组成，每个对象由一系列三角面片组成 。而我需要扩充的是面信息，因此新建了一个结构sFace，并在与t3DObject对应的s3DObject结构（存储对象信息）中，把sFace类型的指针放进去。s3DObject完全是为了与CLoad3DS中的模型对象对应的。真正的主角是sFace，它相当于重写了CLoad3DS的tFace结构，用于存储“具阴影模型”的面信息：索引，邻面，平面方程参数结构和面的朝光性。</P>
+<DIV class="HighLighter" contenteditable="false">
+<DIV class="dp-highlighter" contenteditable="false">
+<DIV class="bar">&nbsp;</DIV>
+<OL class="dp-c">
+    <LI class="alt"><SPAN><SPAN class="keyword">struct</SPAN><SPAN>&nbsp;sFace </SPAN></SPAN></LI>
+    <LI><SPAN>{ </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;</SPAN><SPAN class="keyword">struct</SPAN><SPAN>&nbsp;EqrPlane </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;{ </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GLfloat&nbsp;a,b,c,d; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}eqr; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;vertIndex[3];&nbsp; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;neigh_face[3]; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">bool</SPAN><SPAN>&nbsp;facelight; </SPAN></LI>
+    <LI><SPAN>}; </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="keyword">struct</SPAN><SPAN>&nbsp;s3DObject </SPAN></LI>
+    <LI class="alt"><SPAN>{ </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;numofFaces; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;sFace&nbsp;*psFaces; </SPAN></LI>
+    <LI><SPAN>};</SPAN></LI>
+</OL>
+</DIV>
+<DIV class="c#" contenteditable="false" style="display: none">
+<PRE>struct sFace
+{
+  struct EqrPlane
+	{
+		GLfloat a,b,c,d;
+	}eqr;
+    int vertIndex[3]; 
+    int neigh_face[3];
+	bool facelight;
+};
+
+struct s3DObject
+{
+   int numofFaces;
+   sFace *psFaces;
+};</PRE>
+</DIV>
+<DIV contenteditable="false">
+<LINK href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/SyntaxHighlighter(1).css" type="text/css" rel="stylesheet"></DIV>
+</DIV>
+<P>ImportShadowModel（）是新的初始化函数（客户端调用）：</P>
+<DIV class="HighLighter" contenteditable="false">
+<DIV class="dp-highlighter" contenteditable="false">
+<DIV class="bar">&nbsp;</DIV>
+<OL class="dp-c">
+    <LI class="alt"><SPAN><SPAN class="keyword">void</SPAN><SPAN>&nbsp;CShadow3DS::ImportShadowModel(GLuint&nbsp;Model_id,&nbsp;</SPAN><SPAN class="keyword">char</SPAN><SPAN>&nbsp;*strFileName) </SPAN></SPAN></LI>
+    <LI><SPAN>{ </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;ImportModel(Model_id,&nbsp;strFileName);&nbsp;</SPAN><SPAN class="comment">//步骤1,载入模型 </SPAN></LI>
+    <LI>&nbsp;</LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;s3DObject&nbsp;newsobject=&nbsp;{0}; </SPAN></LI>
+    <LI><SPAN>　 </SPAN></LI>
+    <LI class="alt"><SPAN class="comment">//步骤2,这里是初始化shadow版本模型:遍历原模型各个对象,把该对象中有用的信息:面数,面索引等存入新结构s3DObject&nbsp;,s3Face&nbsp;中,并初始化各面的邻面索引为-1(无),非朝光,其余填充0 </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(vector&lt;t3DObject&gt;::iterator&nbsp;p_r&nbsp;=&nbsp;GetModel().pObject.begin();&nbsp;p_r!=GetModel().pObject.end();&nbsp;p_r++) </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;{ </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newsobject.numofFaces=&nbsp;p_r-&gt;numOfFaces; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newsobject.psFaces&nbsp;=&nbsp;</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;sFace&nbsp;[newsobject.numofFaces]; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memset(newsobject.psFaces,&nbsp;0,&nbsp;</SPAN><SPAN class="keyword">sizeof</SPAN><SPAN>(sFace)&nbsp;*&nbsp;newsobject.numofFaces); </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;j&nbsp;=&nbsp;0&nbsp;;&nbsp;j&lt;&nbsp;newsobject.numofFaces;&nbsp;j++)&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;i&nbsp;=&nbsp;0&nbsp;;&nbsp;i&lt;3;&nbsp;i++) </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newsobject.psFaces[j].vertIndex[i]&nbsp;=&nbsp;p_r-&gt;pFaces[j].vertIndex[i]; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newsobject.psFaces[j].neigh_face[i]&nbsp;=&nbsp;NO_NEIGH_FACE;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} </SPAN></LI>
+    <LI><SPAN class="comment">//把遍历中每次得到的新结构压入vector&lt;s3DObject&nbsp;&gt;psObject中,它能满足shadow版本模型的各种数据存储需求 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;psObject.push_back(newsobject);&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;} </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;SetConnectivity();</SPAN><SPAN class="comment">//步骤3,找邻面 </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//步骤4,对每个面,进行Face&nbsp;to&nbsp;Plane的转换 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;iter_obj&nbsp;=&nbsp;0;&nbsp;iter_obj&nbsp;&lt;&nbsp;GetModel().numOfObjects;&nbsp;iter_obj++) </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(</SPAN><SPAN class="keyword">int</SPAN><SPAN>&nbsp;iter_face&nbsp;=&nbsp;0&nbsp;;&nbsp;iter_face&nbsp;&lt;&nbsp;GetModel().pObject[iter_obj].numOfFaces;&nbsp;iter_face++)&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FaceToPlane(iter_obj,&nbsp;iter_face); </SPAN></LI>
+    <LI><SPAN>&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>}</SPAN></LI>
+</OL>
+</DIV>
+<DIV class="c#" contenteditable="false" style="display: none">
+<PRE>void CShadow3DS::ImportShadowModel(GLuint Model_id, char *strFileName)
+{
+   ImportModel(Model_id, strFileName); //步骤1,载入模型
+
+   s3DObject newsobject= {0};
+　
+//步骤2,这里是初始化shadow版本模型:遍历原模型各个对象,把该对象中有用的信息:面数,面索引等存入新结构s3DObject ,s3Face 中,并初始化各面的邻面索引为-1(无),非朝光,其余填充0
+   for(vector&lt;t3DObject&gt;::iterator p_r = GetModel().pObject.begin(); p_r!=GetModel().pObject.end(); p_r++)
+   {
+       newsobject.numofFaces= p_r-&gt;numOfFaces;
+	   newsobject.psFaces = new sFace [newsobject.numofFaces];
+	   memset(newsobject.psFaces, 0, sizeof(sFace) * newsobject.numofFaces);
+
+	   for(int j = 0 ; j&lt; newsobject.numofFaces; j++)	
+		   for(int i = 0 ; i&lt;3; i++)
+		   {
+			   newsobject.psFaces[j].vertIndex[i] = p_r-&gt;pFaces[j].vertIndex[i];
+			   newsobject.psFaces[j].neigh_face[i] = NO_NEIGH_FACE;	
+		   }
+//把遍历中每次得到的新结构压入vector&lt;s3DObject &gt;psObject中,它能满足shadow版本模型的各种数据存储需求
+	   psObject.push_back(newsobject);    
+   }
+
+    SetConnectivity();//步骤3,找邻面
+
+//步骤4,对每个面,进行Face to Plane的转换
+   for(int iter_obj = 0; iter_obj &lt; GetModel().numOfObjects; iter_obj++)
+	 for(int iter_face = 0 ; iter_face &lt; GetModel().pObject[iter_obj].numOfFaces; iter_face++)	
+			 FaceToPlane(iter_obj, iter_face);
+ 
+}</PRE>
+</DIV>
+<DIV contenteditable="false">
+<LINK href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/SyntaxHighlighter(1).css" type="text/css" rel="stylesheet"></DIV>
+</DIV>
+<P>RenderShadowModel()是新的渲染函数（客户端调用）：</P>
+<DIV class="HighLighter" contenteditable="false">
+<DIV class="dp-highlighter" contenteditable="false">
+<DIV class="bar">&nbsp;</DIV>
+<OL class="dp-c">
+    <LI class="alt"><SPAN><SPAN class="keyword">void</SPAN><SPAN>&nbsp;CShadow3DS::RenderShadowModel() </SPAN></SPAN></LI>
+    <LI><SPAN>{&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;ToModelCoord();</SPAN><SPAN class="comment">//步骤1:转换光源到模型空间 </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glLoadIdentity();</SPAN><SPAN class="comment">//把当前矩阵作为单位矩阵（接下来的变换以此为基准） </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;RenderModel();</SPAN><SPAN class="comment">//步骤2:渲染原Model&nbsp; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;RenderShadow();</SPAN><SPAN class="comment">//步骤345,判断并渲染阴影 </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN>} </SPAN></LI>
+    <LI class="alt"><SPAN class="comment">//先看看步骤345: </SPAN></LI>
+    <LI><SPAN class="keyword">void</SPAN><SPAN>&nbsp;CShadow3DS::RenderShadow() </SPAN></LI>
+    <LI class="alt"><SPAN>{ </SPAN></LI>
+    <LI><SPAN>....</SPAN><SPAN class="comment">//转换光源到模型空间必要的反变换,后述 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;ShadowCast() </SPAN></LI>
+    <LI><SPAN>&nbsp;{ </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;FaceLightJudging();</SPAN><SPAN class="comment">//步骤3.找出每帧中哪些面具有朝光性 </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;.........</SPAN><SPAN class="comment">//步骤4:接下来是蒙板值非0之判断,代码跟第一篇中三角形面片的ShadowCast()代码是一样的,功能也一样,只不过这里仅处理朝光的面,并且画ShadowVolume的方法(ShadowVolume()&nbsp;)不同 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;ShadowVolume()&nbsp;;</SPAN><SPAN class="comment">//具体的画法思路见"第二篇-第2个问题" </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;.......... </SPAN></LI>
+    <LI class="alt"><SPAN class="comment">//注意阴影锥各侧面（silhouette&nbsp;edge)分正面朝观察者与背面朝贯彻者观察者渲染两次.逆时针为正的保证由3DS模型自己提供(通过顶点索引) </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;ShadowVolume()&nbsp;;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;........ </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;} </SPAN></LI>
+    <LI class="alt"><SPAN>}</SPAN></LI>
+</OL>
+</DIV>
+<DIV class="c#" contenteditable="false" style="display: none">
+<PRE>void CShadow3DS::RenderShadowModel()
+{   
+	ToModelCoord();//步骤1:转换光源到模型空间
+	glLoadIdentity();//把当前矩阵作为单位矩阵（接下来的变换以此为基准）
+   RenderModel();//步骤2:渲染原Model 
+	RenderShadow();//步骤345,判断并渲染阴影
+
+}
+//先看看步骤345:
+void CShadow3DS::RenderShadow()
+{
+....//转换光源到模型空间必要的反变换,后述
+ ShadowCast()
+ {
+    FaceLightJudging();//步骤3.找出每帧中哪些面具有朝光性
+   .........//步骤4:接下来是蒙板值非0之判断,代码跟第一篇中三角形面片的ShadowCast()代码是一样的,功能也一样,只不过这里仅处理朝光的面,并且画ShadowVolume的方法(ShadowVolume() )不同
+   ShadowVolume() ;//具体的画法思路见"第二篇-第2个问题"
+  ..........
+//注意阴影锥各侧面（silhouette edge)分正面朝观察者与背面朝贯彻者观察者渲染两次.逆时针为正的保证由3DS模型自己提供(通过顶点索引)
+  ShadowVolume() ; 
+  ........
+  }
+}</PRE>
+</DIV>
+<DIV contenteditable="false">
+<LINK href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/SyntaxHighlighter(1).css" type="text/css" rel="stylesheet"></DIV>
+</DIV>
+<P>再提醒一下:"逆时针为正"这个假设非常灰常重要(见"<A target="_blank" href="http://www.zwqxin.com/archives/opengl/shadow-volume-2.html">第二篇-第1,2个问题</A>"，两处)。</P>
+<P>那么，还有一个也非常灰常重要的问题：把光源位置从视图空间转换入模型空间。这里并不是说改动实际光源位置（实际的光源还是由glLightPosition在视图空间确定），而是改动“它在模型空间”的位置，而且要保证这种转换不影响实际视图空间的任何其他东西！OPENGL中把模型空间转换成视图空间，需要在模型空间原矩阵的基础上，<SPAN style="color: #ff0000">左乘 <EM><FONT color="#000000">模视矩阵(ModelViewMatrix)</FONT></EM><FONT color="#000000"> ；因此，</FONT></SPAN>把现空间从视图空间转回模型空间，需要用&nbsp;<EM>模视矩阵(ModelViewMatrix)</EM>的逆矩阵 <SPAN style="color: #ff0000">左乘</SPAN>现存空间的矩阵——这样抵消后就能把一个物件转回模型空间，并可在模型空间操控物件了。重点是：<EM>模视矩阵(ModelViewMatrix)</EM>的逆矩阵。</P>
+<P>怎么求逆呢？这里我得相当佩服NEHE，因为他在我参考的NEHE 27#中，并没有真正“求逆”，而是用了一个简单的技巧，花费极小的计算开销，就完成了光源的转换！最初我根本没有懂得他那串“calculate to local coordinate system”在干嘛，还特意在网上找了个可算逆矩阵（用的高斯消主元，虽然计算方法课程上学过，要我自己写出来还是为难- -）的矩阵类，&nbsp;准备....但是我还是被NEHE那几句简短的代码折服了，最后宁愿花一整夜去领会去尝试，他的这种“ doing all the actions in reverse order”的方法。当中想明白其用意的契机是突然间脑海中闪起以前看的一些有关3D矩阵的片段，恍然大白！好了，具体的我想专门写篇文章来记录。这里只在代码中简短说说：</P>
+<DIV class="HighLighter" contenteditable="false">
+<DIV class="dp-highlighter" contenteditable="false">
+<DIV class="bar">&nbsp;</DIV>
+<OL class="dp-c">
+    <LI class="alt"><SPAN><SPAN class="keyword">void</SPAN><SPAN>&nbsp;CShadow3DS::ToModelCoord() </SPAN></SPAN></LI>
+    <LI><SPAN>{ </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;CVector4D&nbsp;antiRotLight,antiTransLight; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;CMatrix16&nbsp;current_mvmatrix; </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//分别保存MV矩阵的旋转部分（包括缩放）和移动部分 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;antiRotLight&nbsp;=&nbsp;LightPos; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;antiTransLight.</SPAN><SPAN class="keyword">set</SPAN><SPAN>(0,0,0,1); </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//把当前矩阵作为单位矩阵（接下来的变换以此为基准），glLoadIdentity()其实也在压栈 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glLoadIdentity();&nbsp; </SPAN></LI>
+    <LI>&nbsp;</LI>
+    <LI class="alt"><SPAN class="comment">//根据CLoad3DS中的模型变换，作其反变换 </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glRotatef(-GetRot().y,0,1,0);&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glRotatef(-GetRot().z,0,0,1); </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glRotatef(-GetRot().x,1,0,0); </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glRotatef(-1,&nbsp;1,&nbsp;0,&nbsp;0); </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glScalef(1/GetSize(),1/GetSize(),1/GetSize()); </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//存储旋转部分为：MV矩阵乘以光源实际坐标 </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glGetFloatv(GL_MODELVIEW_MATRIX,current_mvmatrix.mt); </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;antiRotLight&nbsp;=&nbsp;current_mvmatrix&nbsp;*&nbsp;antiRotLight; </SPAN></LI>
+    <LI class="alt"><SPAN class="comment">//继续 </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glTranslatef(-GetPos().x,&nbsp;-GetPos().y,&nbsp;-GetPos().z); </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//存储平移部分为：MV矩阵乘以（0，0，0，1）&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;glGetFloatv(GL_MODELVIEW_MATRIX,current_mvmatrix.mt);&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;antiTransLight&nbsp;=&nbsp;current_mvmatrix&nbsp;*&nbsp;antiTransLight;&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//结合这两部分到mvLightPos:在模型空间和视图空间之间玩无间道的家伙&nbsp;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;mvLightPos.x&nbsp;=&nbsp;antiRotLight.x&nbsp;+&nbsp;antiTransLight.x; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;mvLightPos.y&nbsp;=&nbsp;antiRotLight.y&nbsp;+&nbsp;antiTransLight.y; </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;mvLightPos.z&nbsp;=&nbsp;antiRotLight.z&nbsp;+&nbsp;antiTransLight.z;&nbsp;&nbsp;&nbsp; </SPAN></LI>
+    <LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;mvLightPos.w&nbsp;=&nbsp;1.0;&nbsp; </SPAN></LI>
+    <LI class="alt"><SPAN>} </SPAN></LI>
+    <LI><SPAN class="comment">//.......接下来在RenderShadow()中,不压栈地作正变换,使两者变换抵消,实际中因而只剩下RenderModel()中受glPushMatrix()保护的正变换,一切跟没做这些的时候一致,做这些处理只是为了得到上面那个mvLightPos </SPAN></LI>
+    <LI class="alt">&nbsp;</LI>
+    <LI><SPAN class="comment">//mvLightPos,应用于判断面朝光性判断和画ShadowVolume,它在模型空间中可以不断变化,但在视图空间(基于实际视觉)中永远与实际光源坐标重合,即相对于光源不动.(注意,模型在这个过程中与之相反.)</SPAN></LI>
+</OL>
+</DIV>
+<DIV class="c#" contenteditable="false" style="display: none">
+<PRE>void CShadow3DS::ToModelCoord()
+{
+	CVector4D antiRotLight,antiTransLight;
+	CMatrix16 current_mvmatrix;
+
+//分别保存MV矩阵的旋转部分（包括缩放）和移动部分
+	antiRotLight = LightPos;
+    antiTransLight.set(0,0,0,1);
+
+//把当前矩阵作为单位矩阵（接下来的变换以此为基准），glLoadIdentity()其实也在压栈
+	glLoadIdentity(); 
+
+//根据CLoad3DS中的模型变换，作其反变换
+  	glRotatef(-GetRot().y,0,1,0);  	
+	glRotatef(-GetRot().z,0,0,1);
+	glRotatef(-GetRot().x,1,0,0);
+    glRotatef(-1, 1, 0, 0);
+	glScalef(1/GetSize(),1/GetSize(),1/GetSize());
+
+//存储旋转部分为：MV矩阵乘以光源实际坐标
+	glGetFloatv(GL_MODELVIEW_MATRIX,current_mvmatrix.mt);
+	antiRotLight = current_mvmatrix * antiRotLight;
+//继续
+	glTranslatef(-GetPos().x, -GetPos().y, -GetPos().z);
+
+//存储平移部分为：MV矩阵乘以（0，0，0，1）	
+	glGetFloatv(GL_MODELVIEW_MATRIX,current_mvmatrix.mt);	 
+	antiTransLight = current_mvmatrix * antiTransLight;	 
+
+//结合这两部分到mvLightPos:在模型空间和视图空间之间玩无间道的家伙	 
+    mvLightPos.x = antiRotLight.x + antiTransLight.x;
+    mvLightPos.y = antiRotLight.y + antiTransLight.y;
+    mvLightPos.z = antiRotLight.z + antiTransLight.z;	
+    mvLightPos.w = 1.0;	
+}
+//.......接下来在RenderShadow()中,不压栈地作正变换,使两者变换抵消,实际中因而只剩下RenderModel()中受glPushMatrix()保护的正变换,一切跟没做这些的时候一致,做这些处理只是为了得到上面那个mvLightPos
+
+//mvLightPos,应用于判断面朝光性判断和画ShadowVolume,它在模型空间中可以不断变化,但在视图空间(基于实际视觉)中永远与实际光源坐标重合,即相对于光源不动.(注意,模型在这个过程中与之相反.)</PRE>
+</DIV>
+<DIV contenteditable="false">
+<LINK href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/SyntaxHighlighter(1).css" type="text/css" rel="stylesheet"></DIV>
+</DIV>
+<P style="text-align: center">大致要说的就是这些.。程序中其他部分的小动作相信很容易看明白，就不多费舌头了。截图：<BR>
+<A target="_self" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin.htm"><IMG alt="Shadow Volume Demo2" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/10.jpg"></A><BR>
+<A target="_self" href="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin.htm"><IMG alt="Shadow Volume Demo2" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/7.jpg"></A><BR>
+更详细截图，包括成功之前的，看这里：<BR>
+<A target="_self" href="http://www.zwqxin.cn/archives/opengl/shadow-volume-demo2.html"><STRONG>Shadow Volume Demo2 -ZwqXin.com</STRONG></A></P>
+<P>下一篇见:<A target="_self" href="http://www.zwqxin.com/archives/opengl/shadow-volume-4.html">Shadow Volume 阴影锥技术之探Ⅳ</A>&nbsp;<BR>
+放上本DEMO：<A target="_blank" href="http://www.zwqxin.com/upload/2009/2/ShadowVolumeDemo2byZwqxin.rar">ShadowVolumeDemo2byZwqxin.rar</A><BR>
+<SPAN style="color: #ff6600">按键：</SPAN><BR>
+&nbsp;&nbsp;&nbsp; →&nbsp;&nbsp; ←&nbsp;&nbsp; ↑&nbsp;&nbsp; ↓&nbsp; PageUp&nbsp; 移动光源 <BR>
+&nbsp;&nbsp; 鼠标左键下按不放并移动鼠标：旋转视角；鼠标滚轮移动<BR>
+&nbsp;&nbsp; 鼠标右键：自动旋转开关<BR>
+&nbsp; &nbsp;空格：转变查看模式：正常模式/辅助可视阴影锥/光源射线模式</P></DIV>
+         <SCRIPT type="text/javascript">document.body.oncopy=function(){event.returnValue=false;var t=document.selection.createRange().text;var s="\n本文来源于ZwqXin http://www.zwqxin.com/ , 转载请注明\n原文地址：http://www.zwqxin.com/archives/opengl/shadow-volume-3.html ";
+          clipboardData.setData('Text','\r\n'+t+'\r\n'+s+'\r\n\r\n\r\n');}</SCRIPT>
+
+<!--div class="adsense"-->
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-0073344511322033";
+/* 468x60 zwqxin */
+google_ad_slot = "3505524010";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/show_ads.js">
+</SCRIPT><SCRIPT src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/expansion_embed.js"></SCRIPT><SCRIPT src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/test_domain.js"></SCRIPT><SCRIPT>window.google_render_ad();</SCRIPT><INS style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><INS style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><IFRAME allowtransparency="true" frameborder="0" height="60" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="468"></IFRAME></INS></INS>
+<!--/div-->
+
+	<H5 class="post-tags">Tags: <A href="http://www.zwqxin.com/catalog.asp?tags=OpenGL">OpenGL</A>&nbsp;&nbsp;<A href="http://www.zwqxin.com/catalog.asp?tags=Shadow">Shadow</A>&nbsp;&nbsp;<A href="http://www.zwqxin.com/catalog.asp?tags=Demo">Demo</A>&nbsp;&nbsp; <SCRIPT type="text/javascript">
+addthis_pub= 'wolfit';
+addthis_logo= 'http://download.rainbowsoft.org/image/common/zbloglogo.gif';
+addthis_brand= 'Z-Blog';
+addthis_options= 'favorites, delicious, twitter, digg, myspace, facebook, google, live,  email, more';
+</SCRIPT>
+<A href="http://www.addthis.com/AddThis.php" onmouseover="return addthis_open(this, &#39;&#39;, &#39;[URL]&#39;, &#39;[TITLE]&#39;)" onmouseout="addthis_close()" onclick="return addthis_sendto()"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/button1-bm.gif" width="125" height="16" border="0" align="left" alt=""></A>
+<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/addthis_widget.js"></SCRIPT>
+</H5>
+	<H6 class="post-footer">
+		分类:<A style="font-weight:bold" href="http://www.zwqxin.com/archives/opengl.html">OpenGL技术 </A>
+                 | 评论:0 | 引用:0 | 浏览:<SPAN id="spn15">108</SPAN>
+                  <DIV class="post-nav2"><A class="l" href="http://www.zwqxin.com/archives/opengl/shadow-volume-2.html">« Shadow Volume 阴影锥技术之探Ⅱ</A><A class="r" href="http://www.zwqxin.com/archives/opengl/shadow-volume-demo2.html">Shadow Volume Demo2 »</A></DIV>
+		<SCRIPT language="JavaScript" type="text/javascript">strBatchCount+="spn15=15,"</SCRIPT>
+	</H6>
+
+</DIV>
+
+
+
+<UL class="msg trackback">
+	<LI class="tbname"><A href="http://www.zwqxin.com/cmd.asp?act=gettburl&id=15" target="_blank">点击这里获取该日志的TrackBack引用地址</A></LI>
+</UL>
+<UL class="msg mutuality">
+	<LI class="tbname">相关文章:</LI>
+	<LI class="msgarticle"><P><A href="http://www.zwqxin.com/archives/opengl/shadow-volume-2.html">Shadow Volume 阴影锥技术之探Ⅱ</A>&nbsp;&nbsp;(2009-1-31 18:45:52)</P><P><A href="http://www.zwqxin.com/archives/opengl/shadow-volume-1.html">Shadow Volume 阴影锥技术之探Ⅰ</A>&nbsp;&nbsp;(2009-1-24 22:35:21)</P><P><A href="http://www.zwqxin.com/archives/MFC/3-nehe-frame-vc6.html.html">自剖一下自己用的NEHE OpenGL框架(下篇)</A>&nbsp;&nbsp;(2009-1-23 13:28:37)</P><P><A href="http://www.zwqxin.com/archives/MFC/2-nehe-frame-vc6.html">自剖一下自己用的NEHE OpenGL框架(中篇)</A>&nbsp;&nbsp;(2009-1-22 14:39:8)</P><P><A href="http://www.zwqxin.com/archives/MFC/nehe-frame-vc6.html">自剖一下自己用的NEHE OpenGL框架(上篇)</A>&nbsp;&nbsp;(2009-1-21 21:28:37)</P><P><A href="http://www.zwqxin.com/archives/opengl/opengl-dll-lib.html">OpenGL常用的库</A>&nbsp;&nbsp;(2009-1-20 1:56:13)</P><P><A href="http://www.zwqxin.com/archives/opengl/tutorial-recommendation.html">搜集的优良OpenGL教程</A>&nbsp;&nbsp;(2009-1-18 14:12:37)</P><P><A href="http://www.zwqxin.com/archives/opengl/learn-opengl-first.html">学OpenGL的第一步,不应是配置环境</A>&nbsp;&nbsp;(2009-1-15 15:48:35)</P></LI>
+</UL>
+
+<DIV style="display:none;" id="divAjaxComment"></DIV>
+<DIV class="post" id="divCommentPost">
+	<P class="posttop"><A name="comment">发表评论:</A></P>
+	<FORM id="frmSumbit" target="_self" method="post" action="http://www.zwqxin.com/cmd.asp?act=cmt&key=836034ee">
+	<INPUT type="hidden" name="inpId" id="inpId" value="15">
+	<INPUT type="hidden" name="inpArticle" id="inpArticle" value="">
+	<INPUT type="hidden" name="inpLocation" id="inpLocation" value="">
+	<P><INPUT type="text" name="inpName" id="inpName" class="text" value="" size="28" tabindex="1"> <LABEL for="inpName">名称(*)</LABEL></P>
+	<P><INPUT type="text" name="inpEmail" id="inpEmail" class="text" value="" size="28" tabindex="2"> <LABEL for="inpEmail">邮箱</LABEL></P>
+	<P><INPUT type="text" name="inpHomePage" id="inpHomePage" class="text" value="" size="28" tabindex="3"> <LABEL for="inpHomePage">网站链接</LABEL></P>
+	
+	<P><LABEL for="txaArticle">正文(*)(留言最长字数:1000)</LABEL></P>
+	<P><TEXTAREA name="txaArticle" id="txaArticle" onchange="GetActiveText(this.id);" onclick="GetActiveText(this.id);" onfocus="GetActiveText(this.id);" class="text" cols="50" rows="4" tabindex="5"></TEXTAREA></P>
+	<P><INPUT name="btnSumbit" type="submit" tabindex="6" value="提交" onclick="JavaScript:return VerifyMessage()" class="button"> <INPUT type="checkbox" name="chkRemember" value="1" id="chkRemember"> <LABEL for="chkRemember">记住我,下次回复时不用重新输入个人信息</LABEL></P>
+	<SCRIPT language="JavaScript" type="text/javascript">objActive="txaArticle";ExportUbbFrame();</SCRIPT><P id="ubb"><A title=" 粗体" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[B]&#39;,&#39;[/B]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/text_bold.png" height="20" width="20" border="0" alt="粗体"></A>  <A title="斜体" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[I]&#39;,&#39;[/I]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/text_italic.png" height="20" width="20" border="0" alt="斜体"></A>  <A title="下划线" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[U]&#39;,&#39;[/U]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/text_underline.png" height="20" width="20" border="0" alt="下划线"></A>  <A title="删除线" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[S]&#39;,&#39;[/S]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/text_strikethrough.png" height="20" width="20" border="0" alt="删除线"></A>  <A title="链接" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[URL]&#39;,&#39;[/URL]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/link.png" height="20" width="20" border="0" alt="链接"></A>  <A title="链接2" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[URL=http://]&#39;,&#39;[/URL]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/link_add.png" height="20" width="20" border="0" alt="链接2"></A>  <A title="Email" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[EMAIL]&#39;,&#39;[/EMAIL]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/email_add.png" height="20" width="20" border="0" alt="Email"></A>  <A title="引用" onmousedown="InsertText(objActive,ReplaceText(objActive,&#39;[QUOTE]&#39;,&#39;[/QUOTE]&#39;),true);" style="padding:2px;cursor:pointer;"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/comment.png" height="20" width="20" border="0" alt="引用"></A>  <A title="表情" style="cursor:pointer;text-align:right;" onclick="InsertUbbFace();if(document.getElementById(&#39;UbbFrame&#39;).style.display==&#39;none&#39;){document.getElementById(&#39;UbbFrame&#39;).style.display=&#39;block&#39;;}else{document.getElementById(&#39;UbbFrame&#39;).style.display=&#39;none&#39;}"><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/emoticon_smile.png" height="24" width="24" border="0" alt="表情">表情</A> </P><P id="UbbFrame" style="display:none;"></P>
+	</FORM>
+	<P class="postbottom">◎欢迎参与讨论，请在这里发表您的看法、交流您的观点。</P>
+	<SCRIPT language="JavaScript" type="text/javascript">LoadRememberInfo();</SCRIPT>
+</DIV>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       </DIV>
+
+     <!--第三层:开始侧栏-->
+     <DIV id="divSidebar">
+
+<!--日历-->
+<DIV class="function" id="divCalendar">
+<H3>日历</H3>
+<DIV id="divCalendar2"><DIV class="year2009 month5"><P class="y"><A href="http://www.zwqxin.com/catalog.asp?date=2009-4">&lt;&lt;</A>  <A href="http://www.zwqxin.com/catalog.asp?date=2009-5">2009-5</A>  <A href="http://www.zwqxin.com/catalog.asp?date=2009-6">&gt;&gt;</A></P><P class="w">Sun</P><P class="w">Mon</P><P class="w">Tue</P><P class="w">Wed</P><P class="w">Thu</P><P class="w">Fri</P><P class="w">Sat</P><P class="nd"></P><P class="nd"></P><P class="nd"></P><P class="nd"></P><P class="nd"></P><P id="pCalendar_2009_5_1" class="d">1</P><P id="pCalendar_2009_5_2" class="yd"><A class="l" href="http://www.zwqxin.com/catalog.asp?date=2009-5-2">2</A></P><P id="pCalendar_2009_5_3" class="yd"><A class="l" href="http://www.zwqxin.com/catalog.asp?date=2009-5-3">3</A></P><P id="pCalendar_2009_5_4" class="d">4</P><P id="pCalendar_2009_5_5" class="d">5</P><P id="pCalendar_2009_5_6" class="yd"><A class="l" href="http://www.zwqxin.com/catalog.asp?date=2009-5-6">6</A></P><P id="pCalendar_2009_5_7" class="d">7</P><P id="pCalendar_2009_5_8" class="d">8</P><P id="pCalendar_2009_5_9" class="d">9</P><P id="pCalendar_2009_5_10" class="d">10</P><P id="pCalendar_2009_5_11" class="d">11</P><P id="pCalendar_2009_5_12" class="d">12</P><P id="pCalendar_2009_5_13" class="d">13</P><P id="pCalendar_2009_5_14" class="d">14</P><P id="pCalendar_2009_5_15" class="d">15</P><P id="pCalendar_2009_5_16" class="d">16</P><P id="pCalendar_2009_5_17" class="d">17</P><P id="pCalendar_2009_5_18" class="d">18</P><P id="pCalendar_2009_5_19" class="d">19</P><P id="pCalendar_2009_5_20" class="d">20</P><P id="pCalendar_2009_5_21" class="d">21</P><P id="pCalendar_2009_5_22" class="d">22</P><P id="pCalendar_2009_5_23" class="d">23</P><P id="pCalendar_2009_5_24" class="d">24</P><P id="pCalendar_2009_5_25" class="d">25</P><P id="pCalendar_2009_5_26" class="d">26</P><P id="pCalendar_2009_5_27" class="d">27</P><P id="pCalendar_2009_5_28" class="d">28</P><P id="pCalendar_2009_5_29" class="d">29</P><P id="pCalendar_2009_5_30" class="d cd">30</P><P id="pCalendar_2009_5_31" class="d">31</P><P class="nd"></P><P class="nd"></P><P class="nd"></P><P class="nd"></P><P class="nd"></P><P class="nd"></P></DIV></DIV>
+</DIV>
+
+<!--搜索(Google)-->
+<DIV class="function" id="divSearchPanel"> 
+  <H3>站内搜索</H3> 
+  <UL><LI>
+<FORM action="http://www.zwqxin.com/search.asp" id="cse-search-box">
+  <DIV>
+    <INPUT type="hidden" name="cx" value="013520536336067158253:4km6jqpswea">
+    <INPUT type="hidden" name="cof" value="FORID:11">
+    <INPUT type="hidden" name="ie" value="UTF-8">
+    <INPUT type="text" name="q" size="18" style="border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(126, 157, 185); border-right-color: rgb(126, 157, 185); border-bottom-color: rgb(126, 157, 185); border-left-color: rgb(126, 157, 185); padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; background-image: url(http://www.google.com/coop/intl/en/images/google_custom_search_watermark.gif); background-repeat: no-repeat; background-attachment: initial; -webkit-background-clip: initial; -webkit-background-origin: initial; background-color: rgb(255, 255, 255); background-position: 0% 50%; ">
+    <INPUT type="image" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/Searcher.gif" name="sa" id="btnG" value="搜索">
+  </DIV>
+</FORM>
+</LI>
+<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/brand"></SCRIPT></UL>
+</DIV>
+
+ 
+<!--分类目录-->
+<DIV class="function" id="divCatalog">
+  <H3>文章类别</H3>
+  <UL><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=1" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/opengl.html">OpenGL技术<SPAN class="article-nums"> (27)</SPAN></A></LI><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=5" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/shaderglsl.html">Shader技术<SPAN class="article-nums"> (2)</SPAN></A></LI><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=4" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/cpp.html">C/C++<SPAN class="article-nums"> (3)</SPAN></A></LI><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=2" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/MFC.html">VC/MFC<SPAN class="article-nums"> (5)</SPAN></A></LI><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=7" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/arithmetic.html">图形相关算法<SPAN class="article-nums"> (1)</SPAN></A></LI><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=6" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/image-processing.html">图像处理<SPAN class="article-nums"> (3)</SPAN></A></LI><LI><SPAN class="feed-icon"><A href="http://www.zwqxin.com/feed.asp?cate=3" target="_blank"><IMG title="rss" width="20" height="12" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/rss.png" border="0" alt="rss"></A>&nbsp;</SPAN><A href="http://www.zwqxin.com/archives/Way.html">心途<SPAN class="article-nums"> (2)</SPAN></A></LI></UL>
+</DIV>
+
+<GOOGLE adsese="">
+<DIV class="adsense">
+<UL>
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-0073344511322033";
+/* 120x240, zwqxin */
+google_ad_slot = "4429378095";
+google_ad_width = 120;
+google_ad_height = 240;
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/show_ads.js">
+</SCRIPT><SCRIPT>window.google_render_ad();</SCRIPT><INS style="display:inline-table;border:none;height:240px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><INS style="display:block;border:none;height:240px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><IFRAME allowtransparency="true" frameborder="0" height="240" hspace="0" id="google_ads_frame2" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/ads(1).htm" style="left:0;position:absolute;top:0" vspace="0" width="120"></IFRAME></INS></INS>
+</UL>
+</DIV>
+
+<!--最近回复-->
+<DIV class="function" id="divComments">
+  <H3>最新评论&amp;回复</H3>
+  <UL id="ulComments"><LI><A href="http://www.zwqxin.com/archives/image-processing/image-intensity-binarization.html#cmt10" title="2009-4-12 20:27:50 post by abu">hao! 写了这么多...</A></LI><LI><A href="http://www.zwqxin.com/archives/opengl/opengl-matrix-what.html#cmt7" title="2009-3-3 21:31:55 post by zwqxin">To pbhy1212:...</A></LI><LI><A href="http://www.zwqxin.com/archives/opengl/opengl-matrix-what.html#cmt6" title="2009-2-25 12:11:32 post by chris">写的挺好的，有点疑问，g...</A></LI><LI><A href="http://www.zwqxin.com/archives/opengl/opengl-matrix-what.html#cmt5" title="2009-2-25 8:34:48 post by pbhy1212">你关于OpenGl渲染世...</A></LI></UL>
+</DIV>
+
+<!--最近发表-->
+<DIV class="function" id="divPrevious">
+<H3>最近发表</H3>
+<UL id="ulPrevious"><LI><A href="http://www.zwqxin.com/archives/arithmetic/quick-sort-implement.html" title="QuickSort 快速排序的实现"><SPAN class="article-date">[05/06]</SPAN>QuickSort 快速排序的实现</A></LI><LI><A href="http://www.zwqxin.com/archives/opengl/antialiasing-multi-sample-2.html" title="全屏反锯齿 - 多重采样Ⅱ"><SPAN class="article-date">[05/03]</SPAN>全屏反锯齿 - 多重采样Ⅱ</A></LI><LI><A href="http://www.zwqxin.com/archives/opengl/antialiasing-multi-sample-1.html" title="全屏反锯齿 - 多重采样Ⅰ"><SPAN class="article-date">[05/02]</SPAN>全屏反锯齿 - 多重采样Ⅰ</A></LI><LI><A href="http://www.zwqxin.com/archives/image-processing/image-process-point-histogram.html" title="点与直方图处理的小结"><SPAN class="article-date">[04/28]</SPAN>点与直方图处理的小结</A></LI><LI><A href="http://www.zwqxin.com/archives/image-processing/image-process-spatial-domain-filter.html" title="图像处理里的空间域滤波"><SPAN class="article-date">[04/27]</SPAN>图像处理里的空间域滤波</A></LI><LI><A href="http://www.zwqxin.com/archives/MFC/sub-winproc-win32.html" title="WIN32下的窗口子类化"><SPAN class="article-date">[04/24]</SPAN>WIN32下的窗口子类化</A></LI><LI><A href="http://www.zwqxin.com/archives/image-processing/image-intensity-binarization.html" title="基于亮度的图像二值化处理"><SPAN class="article-date">[04/02]</SPAN>基于亮度的图像二值化处理</A></LI><LI><A href="http://www.zwqxin.com/archives/image-processing/bmp-operate-copy-memory.html" title="认识HBITMAP与Bmp操作(整内存拷贝版)"><SPAN class="article-date">[03/29]</SPAN>认识HBITMAP与Bmp操作(整内存拷贝版)</A></LI><LI><A href="http://www.zwqxin.com/archives/image-processing/bmp-operate-print-pixel.html" title="Bmp文件的结构与基本操作(逐像素印屏版)"><SPAN class="article-date">[03/25]</SPAN>Bmp文件的结构与基本操作(逐像素印屏版)</A></LI><LI><A href="http://www.zwqxin.com/archives/Way/one-year-after-use-opengl.html" title="遇上OpenGL，一年"><SPAN class="article-date">[03/20]</SPAN>遇上OpenGL，一年</A></LI><LI><A href="http://www.zwqxin.com/archives/MFC/know-a-little-about-win32.html" title="Win32编程实现的一点小功能"><SPAN class="article-date">[03/16]</SPAN>Win32编程实现的一点小功能</A></LI><LI><A href="http://www.zwqxin.com/archives/MFC/windows-game-programer-2.html" title="WINDOWS游戏编程大师技巧笔记之&mdash;&mdash;WIN32编程"><SPAN class="article-date">[03/14]</SPAN>WINDOWS游戏编程大师技巧笔记之——WIN32编程</A></LI><LI><A href="http://www.zwqxin.com/archives/cpp/windows-game-programer-1.html" title="WINDOWS游戏编程大师技巧笔记之&mdash;&mdash;学海无崖"><SPAN class="article-date">[03/10]</SPAN>WINDOWS游戏编程大师技巧笔记之——学海无崖</A></LI><LI><A href="http://www.zwqxin.com/archives/shaderglsl/review-cube-mapping-shader.html" title="Shader快速复习：Cube Mapping(立方环境贴图)"><SPAN class="article-date">[03/08]</SPAN>Shader快速复习：Cube Mapping(立方环境贴图)</A></LI><LI><A href="http://www.zwqxin.com/archives/shaderglsl/review-per-pixel-lighting-shader.html" title="Shader快速复习：Per Pixel Lighting(逐像素光照)"><SPAN class="article-date">[03/06]</SPAN>Shader快速复习：Per Pixel Lighting(逐像素光照)</A></LI></UL>
+</DIV>
+
+	</GOOGLE></DIV><!--结束第三层-->
+
+<!--底部信息-->
+        <DIV id="divBottom">
+        <H3 id="BlogPowerBy">Powered By <A href="http://www.rainbowsoft.org/" title="RainbowSoft Studio Z-Blog">Z-Blog 1.8 Arwen Build 81206</A></H3>
+        <H2 id="BlogCopyRight">Copyright 2008-2009 ZwqXin. Some Rights Reserved. Theme edited from <A href="http://www.paati.cn/">ipati</A>. <SCRIPT src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/stat.php" language="JavaScript" charset="gb2312"></SCRIPT><A href="http://www.cnzz.com/stat/website.php?web_id=1238406" target="_blank" title="站长统计">站长统计</A><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/stat.htm" border="0" width="0" height="0"><SCRIPT src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/stat(1).php" language="JavaScript" charset="gb2312"></SCRIPT><A href="http://www.cnzz.com/stat/website.php?web_id=1238406" target="_blank" title="站长统计"><IMG border="0" hspace="0" vspace="0" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/pic1.gif"></A><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/stat(2).htm" border="0" width="0" height="0"><SCRIPT src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/stat(3).php" language="JavaScript" charset="gb2312"></SCRIPT><A href="http://www.cnzz.com/stat/website.php?web_id=1220138" target="_blank" title="站长统计"><IMG border="0" hspace="0" vspace="0" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/pic1.gif"></A><IMG src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/stat(4).htm" border="0" width="0" height="0"></H2>
+        </DIV>
+
+<SCRIPT language="JavaScript" type="text/javascript">
+
+/*		jQuery 1.1 API used		*/
+var RevertID=0;
+$(document).ready(function(){ 
+
+try{
+	var elScript = document.createElement("script");
+	elScript.setAttribute("language", "JavaScript");
+	elScript.setAttribute("src", "http://www.zwqxin.com/function/c_html_js.asp?act=batch"+unescape("%26")+"view=" + escape(strBatchView)+unescape("%26")+"inculde=" + escape(strBatchInculde)+unescape("%26")+"count=" + escape(strBatchCount));
+	document.getElementsByTagName("body")[0].appendChild(elScript);
+	}
+catch(e){};
+
+	if(document.getElementById("inpVerify")){
+		var objImageValid=$("img[@src^='"+str00+"function/c_validcode.asp?name=commentvalid']");
+		objImageValid.css("cursor","pointer");
+		objImageValid.click( function() {
+				objImageValid.attr("src",str00+"function/c_validcode.asp?name=commentvalid"+"&random="+Math.random());
+		} );
+	}
+});
+</SCRIPT>
+
+
+</DIV><!--结束第二层-->
+
+<!--结束第一层-->
+	</DIV>
+	</DIV>
+</DIV>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</DIV><SCRIPT language="JavaScript" src="./Shadow Volume 阴影锥技术之探Ⅲ—OpenGL技术  ZwqXin_files/c_html_js.asp"></SCRIPT></BODY></HTML>

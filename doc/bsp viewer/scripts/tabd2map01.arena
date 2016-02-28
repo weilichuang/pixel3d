@@ -1,0 +1,11 @@
+// Return to the Entryway
+// by Tabun (www.tabun.nl)
+
+{
+	map "tabd2map01"
+	bots "doom ranger sarge grunt"
+	longname "Return to the Entryway"
+	fraglimit 25
+	type "ffa tourney team"
+}
+

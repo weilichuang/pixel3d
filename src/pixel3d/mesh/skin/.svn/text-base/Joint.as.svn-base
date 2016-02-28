@@ -1,0 +1,55 @@
+﻿package cj7.mesh.skin
+{
+	import cj7.math.Matrix4;
+	import cj7.math.Quaternion;
+	import cj7.math.Vector3D;
+	public class Joint
+	{
+		public var name : String;
+		public var localMatrix : Matrix4;
+		public var children : Array;
+		public var attachedMeshes : Array;
+		public var positionKeys : Array;
+		public var scaleKeys : Array;
+		public var rotationKeys : Array;
+		public var weights : Array;
+		
+		public var globalInversedMatrix : Matrix4;//the x format pre-calculates this
+		
+		
+		//! Unnecessary for loaders, will be overwritten on finalize
+		public var globalMatrix : Matrix4;
+		public var globalAnimatedMatrix : Matrix4;
+		public var localAnimatedMatrix : Matrix4;
+		public var animatedposition : Vector3D;
+		public var animatedscale : Vector3D;
+		public var animatedrotation : Quaternion;
+		
+		
+		internal var useAnimationFrom : Joint;
+		internal var localAnimatedMatrix_Animated : Boolean;
+		internal var globalSkinningSpace : Boolean;
+		internal var positionHint : int;
+		internal var scaleHint : int;
+		internal var rotationHint : int;
+		
+		public function Joint ()
+		{
+			name="";
+			localMatrix = new Matrix4 ();
+			globalInversedMatrix = new Matrix4 ();
+			globalMatrix = new Matrix4 ();
+			globalAnimatedMatrix = new Matrix4 ();
+			localAnimatedMatrix = new Matrix4 ();
+			animatedposition = new Vector3D ();
+			animatedscale = new Vector3D ();
+			animatedrotation = new Quaternion ();
+			children = new Array ();
+			attachedMeshes = new Array ();
+			positionKeys = new Array ();
+			scaleKeys = new Array ();
+			rotationKeys = new Array ();
+			weights = new Array ();
+		}
+	}
+}

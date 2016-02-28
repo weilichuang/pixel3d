@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/316/trunk/src/cj7/mesh/skin
+END
+PositionKey.as
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/149/trunk/src/cj7/mesh/skin/PositionKey.as
+END
+ScaleKey.as
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/149/trunk/src/cj7/mesh/skin/ScaleKey.as
+END
+SkinMesh.as
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/319/trunk/src/cj7/mesh/skin/SkinMesh.as
+END
+Joint.as
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/281/trunk/src/cj7/mesh/skin/Joint.as
+END
+Weight.as
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/281/trunk/src/cj7/mesh/skin/Weight.as
+END
+RotationKey.as
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/149/trunk/src/cj7/mesh/skin/RotationKey.as
+END
+IntepolationMode.as
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/269/trunk/src/cj7/mesh/skin/IntepolationMode.as
+END
+ISkinMesh.as
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/274/trunk/src/cj7/mesh/skin/ISkinMesh.as
+END
+SkinMeshBuffer.as
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/182/trunk/src/cj7/mesh/skin/SkinMeshBuffer.as
+END

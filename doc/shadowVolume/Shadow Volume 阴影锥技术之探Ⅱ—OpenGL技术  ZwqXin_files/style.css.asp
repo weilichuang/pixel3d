@@ -1,0 +1,1 @@
+@import url("http://www.zwqxin.com/themes/ipati/style/ipati.css");

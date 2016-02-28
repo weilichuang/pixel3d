@@ -1,0 +1,37 @@
+-cp src
+-swf-version 17
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+
+--each
+--next
+-swf bin/IntersectionTest.swf
+-main IntersectionTest
+
+--next
+-swf bin/LightMapTest.swf
+-main LightMapTest
+
+--next
+-swf bin/Max3DSTest.swf
+-main Max3DSTest
+
+--next
+-swf bin/MD2Test.swf
+-main MD2Test
+
+--next
+-swf bin/MS3DFileLoaderTest.swf
+-main MS3DFileLoaderTest
+
+--next
+-swf bin/MS3DStaticMeshTest.swf
+-main MS3DStaticMeshTest
+
+--next
+-swf bin/OgreLoaderTest.swf
+-main OgreLoaderTest
+
+--next
+-swf bin/Quake3SceneNodeTest.swf
+-main Quake3SceneNodeTest

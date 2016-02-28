@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0087)http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<META http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<META name="description" content="朱目懒马的不落戈,,先了解shadowVolume的原理和一些相关知识。。。。TheTheoryofStencilShadowVolumes要源码的可以在这下载源码ShadowCalculator.h文件#ifndefINC_SHADOWCALCULATOR_H#defineINC_SHADOWCALCULATOR_H//防止重复包此含头文件#include&lt;d3dx9.h&gt;#include&lt;stdio.h&gt;#include&#39;CMesh.h&#39;#ifndefINC_MSHEDGES#defineINC_MSHEDGEStypedefstructmshEdges{D3DXVECTOR3v1;D3DXVECTOR3v2;D3DXVECTOR3vNorm;}_mshEdges;#endifclassShadowV">
+<META name="keywords" content="朱目懒马的不落戈,,">
+<TITLE>阴影(shadow Volume)程序注释一_荒人_新浪博客</TITLE>
+<SCRIPT>
+var scope = {
+	$uid : "1255209140",
+	$PRODUCT_NAME : "blog",
+	$pageid : "article",
+	$key :  "0e6c5203d0bcb1d346b5bc58468f3cb6",
+	$sort_id : "117",
+    $loadconf : true,
+	$flag2008 : "0",
+	$articleid : "4ad0f8b4010004wu" ,
+	$isCommentAllow : "1"
+};
+var	$encrypt_code = "9c3661ab676c97a405c29f22afce618e";
+var config = {"common":{"t":"1_2","r":0,"head":[],"bg":[],"pageset":0,"invitationset":0},"private":{"cms":0,"blogsize":0,"ad":0,"sms":0,"adver":0,"tj":0},"component":{"c1":[901,3,1002,1,2,1001,12,17],"c2":[],"x":2},"product":{"c":24,"j":18}};
+var fav = {"4ad0f8b4010004wu":"d6ccce0fe77741e4a25c99c66972dfc1"} ;
+</SCRIPT>
+
+<STYLE>.MASSad24f6d8e59f{display:none}</STYLE>
+<SCRIPT type="text/javascript" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/boot.js"></SCRIPT><SCRIPT id="" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/combine" charset="utf-8"></SCRIPT><SCRIPT id="" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/config.js" charset="UTF-8"></SCRIPT>
+<SCRIPT type="text/javascript">loadCss();</SCRIPT><LINK id="" rel="stylesheet" type="text/css" href="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/default.css"><LINK id="" rel="stylesheet" type="text/css" href="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/blog.css"><LINK id="themeLink" rel="stylesheet" type="text/css" href="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/t.css">
+<SCRIPT src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/platform_tray.compressed.js"></SCRIPT>
+
+<LINK href="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/im.css" type="text/css" rel="stylesheet">
+
+<!--# block name="blk737369" --><!--# endblock -->
+<!--#include file="/hits?act=4&aid=${aid}" stub="blk737369" --> 
+<SCRIPT type="text/javascript" charset="utf-8" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/uic"></SCRIPT><SCRIPT type="text/javascript" charset="utf-8" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/Query.php"></SCRIPT><SCRIPT type="text/javascript" charset="utf-8" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/hits"></SCRIPT><SCRIPT type="text/javascript" charset="utf-8" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/listhtml.php"></SCRIPT></HEAD><BODY>
+<DIV id="sinatopbar">
+<SCRIPT type="text/javascript">
+<!--
+	document.write(SinaSysTray.getHTML());
+//-->
+</SCRIPT><DIV class="sinatopbar" id="login_bar_5864">  <DIV class="stb">		<!--产品Logo-->     <DIV class="logo" title="返回新浪博客首页"><A id="login_bar_logo_link_5864" href="http://blog.sina.com.cn/" target="_blank" class="logoPic lp_blog"></A></DIV>       <DIV class="stbcen">       <!--运营导航-->       <DIV class="st_Jh_vblog_nologin">			<SPAN class="v1" id="login_yunying_span_5864"><A href="http://blog.sina.com.cn/" id="login_operation_first_btn_5864" target="_blank">博客首页</A></SPAN>           <SPAN class="Mb_line"></SPAN>           <SPAN class="v2" id="login_bar_operation_span_5864"><A href="http://blog.sina.com.cn/lm/rank/index.html" id="login_operation_second_btn_5864" target="_blank">排行榜</A></SPAN>			<SPAN class="v2" style="display:none;" id="login_bar_video_btn_5864"><A href="javascript:;" id="login_bar_video_5864"><STRONG>点播单</STRONG><EM>(0)</EM></A><INPUT type="hidden" id="video_number_5864" value="0"></SPAN>           <SPAN class="vAd" id="login_ad_content_5864"><A target="_blank" href="http://blog.sina.com.cn/lm/z/zhuliugan/index.html">H1N1流感隔离者博客</A></SPAN>       </DIV>		<!--登陆按钮-->       <DIV class="stblog">               <SPAN class="stblog1"><INPUT type="button" value="登录" id="login_login_btn_5864" style="cursor: pointer"></SPAN>               <SPAN class="stbline_j"></SPAN>               <SPAN class="stblog2"><A href="http://login.sina.com.cn/hd/reg.php?entry=blog" id="login_reg_btn_5864" target="_blank">注册</A></SPAN>       </DIV>       </DIV>		<DIV class="t_help">          <SPAN class="stb_sosline"></SPAN>          <SPAN class="helplink">				<A id="login_help_link_5864" href="http://blog.sina.com.cn/lm/help/2009/index.html" target="_blank">帮助</A>			</SPAN>		</DIV>		<!--搜索区域-->       <DIV class="stbsea"><FORM id="login_bar_search_form_5864" method="get" target="_blank" action="http://uni.sina.com.cn/c.php"><DIV style="overflow:hidden">            <INPUT name="ie" value="utf-8" type="hidden"><INPUT name="e" value="utf8" type="hidden" style="width:0px;"><INPUT name="k" value="" type="hidden" id="login_bar_search_hide_k_5864" style="width:0px;"><INPUT name="ts" value="" type="hidden" id="login_bar_search_hide_ts_5864" style="width:0px;"><INPUT name="key" value="" type="hidden" id="login_bar_search_hide_key_5864">            <INPUT name="keyword" value="" type="hidden" style="width:0px;" id="login_bar_search_hide_key_word_5864"><INPUT name="t" value="blog" type="hidden" id="login_bar_search_hide_t_5864" style="width:0px;"></DIV><DIV class="sts1" style="background:url(http://simg.sinajs.cn/common/images/sinatopbar/090315_bg2.gif) no-repeat; background-position:2px 0px;*background-position:2px 2px; width:117px; padding:0px 0px 0px 4px; height:24px;"><INPUT type="text" class="stinp1" style="background:none transparent; height:18px; padding:2px 0px 2px 2px; width:109px;" id="login_bar_search_input_5864"></DIV><DIV class="sts2"><DIV class="anainp" id="login_bar_search_menu_label_5864">博文</DIV><DIV class="arrow" id="login_bar_search_menu_arrow_5864"></DIV></DIV><DIV class="sts3"><INPUT class="suba" type="submit" value="搜索"></DIV></FORM></DIV>   </DIV><DIV class="layerBox layerBox_Md_1" id="search_menu_5864" style="position: absolute; z-index: 1000; display: none; ">	<UL class="layerIn_No_1">		<LI class="bottomline"><A href="javascript:;" b_value="space" style="text-decoration:none;">综合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="blog" style="text-decoration:none;">博文&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="bauthor" style="text-decoration:none;">博主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="photo" style="text-decoration:none;">图片&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="music" style="text-decoration:none;">音乐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="vblog" style="text-decoration:none;">视频&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI class="bottomline"><A href="javascript:;" b_value="vauthor" style="text-decoration:none;">播主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="tiezi" style="text-decoration:none;">论坛&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="bar" style="text-decoration:none;">新浪吧&nbsp;&nbsp;&nbsp;</A></LI>		<LI><A href="javascript:;" b_value="quanzi" style="text-decoration:none;">圈子&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A></LI>	</UL></DIV></DIV>
+</DIV>
+<SCRIPT type="text/javascript">
+<!--
+	SinaSysTray.base_init({
+		"type" : scope.$PRODUCT_NAME || "",
+		"uid" : $UID || "0"
+	});
+//-->
+</SCRIPT>
+<DIV class="wrapper">
+  <DIV class="headpic100" id="headpic100">
+<DIV class="headpic950" id="headPic950">
+<DIV class="toppicflash" id="toppicflash">
+</DIV>
+  <DIV class="ntoptitle" id="ntoptitle"> 
+  <DIV class="ntopns" id="blogTitle">
+  <DIV class="ntitname" id="blogname"><A href="http://blog.sina.com.cn/zhumulanma">朱目懒马的不落戈</A>
+   </DIV>
+   <DIV class="ntitsite">http://blog.sina.com.cn/zhumulanma<A id="SubscribeNewRss" href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#" class="CP_a_fuc" onclick="return false;">[<CITE>订阅</CITE>]</A></DIV> 
+  </DIV>
+  </DIV>
+
+</DIV>
+<DIV class="termenubg"></DIV>
+  <DIV class="termenu">
+  <DIV class="termenuc" id="clone_template">
+    <DIV class="termenutag">
+     <DIV class="user">
+     <DIV class="userhead"><A href="http://blog.sina.com.cn/zhumulanma"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/50" title="返回荒人的博客个人首页" alt="返回荒人的博客个人首页"></A></DIV><DIV class="username"><A style="cursor:hand;" href="http://blog.sina.com.cn/zhumulanma"><SPAN id="nav_name">荒人</SPAN></A></DIV>
+     </DIV>
+	 
+     <DIV class="promenu">
+     <LI class="on"><SPAN id="nav_blog"><A href="http://blog.sina.com.cn/zhumulanma">博客</A></SPAN></LI>     
+     <LI><SPAN id="nav_photo"><A href="http://photo.blog.sina.com.cn/zhumulanma">相册</A></SPAN></LI>
+     <LI><SPAN id="nav_music"><A href="http://music.sina.com.cn/m/1255209140">音乐</A></SPAN></LI>
+     <LI><SPAN id="nav_vblog"><A href="http://you.video.sina.com.cn/zhumulanma">播客</A></SPAN></LI>
+	 <LI><SPAN id="nav_tiezi"><A href="http://profile.blog.sina.com.cn/zhumulanma">个人中心</A></SPAN></LI>
+	 <!--   <li><span id="nav_quanzi"><a href="http://q.sina.com.cn/m/zhumulanma">圈子</a></span></li>-->
+     </DIV>
+    </DIV>
+    <DIV class="termenutxt">
+    <DIV class="tmtcen">
+        <DIV class="floatLeft">
+        <SPAN><A href="http://blog.sina.com.cn/zhumulanma">首页</A></SPAN><SPAN class="linesp"></SPAN><SPAN><A href="http://blog.sina.com.cn/s/articlelist_1255209140_0_1.html">博文</A></SPAN><SPAN class="linesp"></SPAN><SPAN><A href="http://blog.sina.com.cn/s/favourites_1255209140_1.html">收藏</A></SPAN><SPAN class="linesp"></SPAN><SPAN><A href="http://profile.blog.sina.com.cn/circle.php?uid=1255209140&page=1&type=3">博客圈</A></SPAN><!--<span >  <a href="http://blog.sina.com.cn/lm/rank/index.html" target="_blank">排行榜</a></span>--></DIV>
+        <DIV class="floatRight">
+        
+        </DIV>
+    </DIV>
+    </DIV>
+  </DIV>
+  </DIV>
+</DIV>
+  <DIV class="contentLayout">
+    
+      <DIV class="column_2 floatLeft">
+<DIV id="advertise_top" class="components730 SinaAd_hide"></DIV>
+<DIV class="components730">
+        <DIV class="component">
+          <DIV class="componentBar">
+                <SPAN class="floatRight articleFontSize" id="articleFontManage">字体大小：<A onclick="changeFontSize(2);return false;" href="">大</A><B>中</B><A onclick="changeFontSize(0);return false;" href="">小</A></SPAN>
+                <SPAN class="title">正文</SPAN>
+                
+            </DIV>
+<DIV class="componentContent article"><DIV class="comconblog"> 
+<DIV class="articleTitle">
+<DIV style="display: inline;">
+<B id="t_4ad0f8b4010004wu">阴影(shadow&nbsp;Volume)程序注释一</B><SPAN class="time">(2006-09-17 20:08:17)</SPAN></DIV></DIV>
+<DIV class="articleTag">
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="0">
+<TBODY><TR>
+<TD>
+<SCRIPT>
+var $tag='';
+var $tag_code='2792e9049ba85767f97641acf763cfee';
+</SCRIPT>
+&nbsp;
+</TD>
+<TD width="250" align="right" valign="top">分类：<A href="http://blog.sina.com.cn/s/articlelist_1255209140_2_1.html">游戏开发</A></TD>
+</TR></TBODY>
+</TABLE>
+</DIV>
+<DIV class="articleContent" id="articleBody">
+<DIV>先了解shadow Volume的原理和一些相关知识。。。。<BR>
+<A href="http://www.gamedev.net/reference/articles/article1873.asp" target="_blank">The Theory of Stencil Shadow
+Volumes</A><WBR><BR>
+要源码的可以在这下载<FONT color="#EE1D24"><WBR> <A href="http://www.gameluna.com/DownloadShow.asp?ID=48" target="_blank">源码</A></FONT></DIV>
+<DIV><FONT color="#EE1D24"><FONT color="#000000">ShadowCalculator.h文件</FONT><BR>
+<BR>
+#ifndef INC_SHADOWCALCULATOR_H<BR>
+#define INC_SHADOWCALCULATOR_H //防止重复包此含头文件<BR>
+<BR>
+#include &lt;d3dx9.h&gt;<BR>
+#include &lt;stdio.h&gt;<BR>
+#include "CMesh.h"<BR>
+<BR>
+#ifndef INC_MSHEDGES<BR>
+#define INC_MSHEDGES<BR>
+typedef struct mshEdges {<BR>
+D3DXVECTOR3 v1;<BR>
+D3DXVECTOR3 v2;<BR>
+D3DXVECTOR3 vNorm;<BR>
+} _mshEdges;<BR>
+#endif<BR>
+<BR>
+class ShadowVolume<BR>
+{<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> D3DXVECTOR3
+m_pVertices[32000]; // Vertex data for rendering shadow
+volume<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+DWORD&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+m_dwNumVertices;<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+D3DXMATRIX&nbsp;<WBR> m_matWorld;<BR>
+<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> VOID
+AddEdge( WORD* pEdges, DWORD&amp; dwNumEdges, WORD v0, WORD v1
+);<BR>
+<BR>
+public:<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+VOID&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+Reset();<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> HRESULT
+BuildFromMesh( CMesh* pMeshClass, D3DXVECTOR3 vLight );<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> HRESULT
+Render( LPDIRECT3DDEVICE9 pd3dDevice );<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+VOID&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+SetWorldMatrix( D3DXMATRIX m ) { m_matWorld = m; };<BR>
+&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>
+DWORD&nbsp;<WBR>&nbsp;<WBR> dwTriangles() { return
+(m_dwNumVertices / 3); };<BR>
+};<BR>
+<BR>
+#endif //INC_SHADOWCALCULATOR_H</FONT></DIV>
+<DIV><FONT color="#EE1D24"><FONT color="#000000">上面的我就不讲了，地球人都看得懂拉。</FONT><BR>
+<BR>
+<WBR></FONT><WBR><BR></DIV>
+
+ </DIV>
+<!--   -->
+<DIV class="articleInfo floatLeft">						
+
+
+<!--（<a href="http://my2008.sina.com.cn/blog/rule.html" target="_blank">规则</a>）<span class="space12"></span>（<a href="#" onclick="return false;"><span onclick="showMyRecord();">积分</span></a>）
+<span class="space12"></span>//-->
+
+
+
+                 
+</DIV>
+<DIV class="articleUtil floatRight"> 
+<A>阅读</A><SPAN id="r_4ad0f8b4010004wu" class="sub">(85)</SPAN><SPAN class="space">|</SPAN><A href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#comment">评论</A><SPAN id="c_4ad0f8b4010004wu" class="sub">(0)</SPAN><SPAN class="space">|</SPAN><A id="f_4ad0f8b4010004wu" href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#" onclick="$articleManage(&#39;4ad0f8b4010004wu&#39;,5);return false;">收藏</A><SPAN id="fn_4ad0f8b4010004wu" class="sub">(0)</SPAN><SPAN class="space">|</SPAN><A href="http://blog.sina.com.cn/main_v5/ria/print.html?blog_id=blog_4ad0f8b4010004wu" target="_blank">打印</A><SPAN class="space">|</SPAN><A id="q_4ad0f8b4010004wu" onclick="$jubao(&#39;4ad0f8b4010004wu&#39;)" href="javascript:;">举报</A>
+</DIV>
+<DIV class="CP_j_linedot"></DIV>
+<DIV class="articleContext">前一篇：<SPAN class="space6"></SPAN><A href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wl.html~type=v5_one&label=rela_prevarticle">先了解shadow&nbsp;Volume的原理和一些相关知识。。。。</A><BR>后一篇：<SPAN class="space6"></SPAN><A href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wt.html~type=v5_one&label=rela_nextarticle">阴影(shadow&nbsp;Volume)程序注释二</A></DIV>
+<DIV id="advertise_bottom" class="sinaPlan SinaAd_hide"></DIV>
+<!-- 内容开始 -->
+		             <DIV class="CP_cmtpost" id="CP_cmtpost_cms">
+	<DIV class="CP_cmtt_d"><SPAN class="floatLeft"><STRONG>评论</STRONG>&nbsp;&nbsp;&nbsp;&nbsp;<A href="http://blog.sina.com.cn/lm/8/2009/0325/105340.html" target="_blank">重要提示：警惕虚假中奖信息，点击查看详情</A><EM><SPAN class="my2008" id="COMMENT_FIRST_HOT"></SPAN></EM><A name="comment"></A></SPAN><SPAN class="manage floatRight"><A href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#post" class="CP_a_fuc">[<CITE>发评论</CITE>]</A></SPAN>
+                </DIV>
+	
+	<UL id="article_comment_list" class="CP_lis"><LI class="CP_litem"><DIV class="CP_cmt_none">暂无评论。</DIV></LI></UL> 
+	<DIV id="commentPaging" class="CP_page" style="display: none; ">
+			<UL class="CP_pages">
+			</UL>
+	</DIV>
+	<A name="post"></A>	
+	<DIV class="CP_cmtt_d marginTop_d1"> 
+  <SPAN class="floatLeft"><STRONG>发评论</STRONG>&nbsp;&nbsp;&nbsp;&nbsp;<A href="http://widget.sina.com.cn/minisite/g3.html" target="_blank">玩疯狂白领赢G3笔记本</A></SPAN>
+    <SPAN class="manage floatRight"></SPAN>
+	</DIV>
+<DIV class="CP_cmt_main">
+<DIV class="CP_cmt_line1"><UL class="CP_cmt_info floatLeft" id="comment_wel" style="display:none;"><LI class="CP_cmt_nm_d" id="comment_wel2" style="display:none;">用户昵称:</LI></UL>
+<UL class="CP_cmt_int_d floatRight">
+<LI class="CP_cmt_int_img"><A class="" href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#" onclick="return false;"><IMG align="absmiddle" title="" alt="" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/CP_i.gif" class="CP_i CP_i_ins_smi"><CITE id="article_comment_insertSmile">插入表情</CITE></A></LI>
+</UL></DIV>
+<P class="CP_cmtxt_d"><TEXTAREA id="commentArea" class="commentArea"></TEXTAREA></P>
+<UL class="CP_cmtpf">
+	<LI class="CP_cmtnm">登录名：<INPUT type="text" id="login_name"></LI>
+	<LI class="CP_cmtpw">密码：<INPUT type="password" id="login_pass"></LI>
+	<LI><A href="http://login.sina.com.cn/getpass.html" target="_blank">找回密码</A></LI>
+    <LI><A href="http://login.sina.com.cn/hd/reg.php?entry=shequ" target="_blank">注册</A></LI>
+	<LI class="CP_cmtnm" style="display: none; " id="comment_anon">昵&nbsp;&nbsp;&nbsp;称：<INPUT type="text" id="comment_anonyous"></LI>
+	<LI class="CP_cmt_any"><LABEL><INPUT type="checkbox" id="anonymity">匿名评论</LABEL></LI>
+</UL>
+<P class="CP_cmtvc"><EM>验证码：</EM><INPUT type="text" maxlength="4" class="checkwd" id="login_check"><IMG id="comment_check_img" border="0" align="absmiddle" alt="看不清楚数字吗？点击这里再试试。" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/checkwd_image.php"><SPAN id="audioCheckCont"><A style="margin-left:3px;" href="javascript:Module.AudioCheck.callAudioCheck();">收听验证码</A><IMG id="play_img" name="play_img" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/blank.gif" align="absmiddle" style="margin-right:2px;" height="15"><OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="0" height="0" id="mp3_player" align="middle"><PARAM name="allowScriptAccess" value="always"><PARAM name="movie" value="http://simg.sinajs.cn/common/swf/mp3.swf"><PARAM name="quality" value="high"><PARAM name="bgcolor" value="#ffffff"><PARAM name="FlashVars" value="mp3URL=http://icp.cws.api.sina.com.cn/login/login_audio.php"><EMBED src="http://simg.sinajs.cn/common/swf/mp3.swf" flashvars="mp3URL=http://icp.cws.api.sina.com.cn/login/login_audio.php" quality="high" bgcolor="#ffffff" width="0" height="0" name="mp3_player" swliveconnect="true" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></OBJECT></SPAN></P>
+<P class="CP_cmtsub"><A class="CP_a_btn CP_a_btn14 CP_a_btnsub" href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#" onclick="return false;"><CITE id="comment_post_btn">发评论</CITE><INPUT type="submit" value=""></A></P>
+<P class="CP_cmtresv CP_txtc">以上网友发言只代表其个人观点，不代表新浪网的观点或立场。</P>
+</DIV></DIV>
+<!-- 内容结束 -->
+          </DIV></DIV>
+          <DIV class="componentBottom"></DIV>
+        </DIV>
+</DIV>
+</DIV>
+
+    
+    <DIV class="gap floatLeft"></DIV>
+    <DIV class="column_1 floatLeft">
+    
+      <DIV class="components210" id="column_1">
+      <DIV id="adps000001"></DIV>
+              <DIV class="component" id="module_903" load_style="1">
+          <DIV class="componentBar">
+          <SPAN class="title">相关博文</SPAN>
+          </DIV>
+          <DIV class="componentContent"><DIV class="recoatlis2"><UL>		<LI><P><A href="http://blog.sina.com.cn/s/blog_46e9d5da0100ashl.html~type=v5_one&label=rela_articletagpub" target="_blank" title="金牌榜？奖牌榜？">金牌榜？奖牌榜？</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1189729754" target="_blank">闾丘露薇</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_4baa667b0100blrl.html~type=v5_one&label=rela_articletagpub" target="_blank" title="历数&ldquo;08十佳劳伦斯奖&rdquo;七宗最">历数“08十佳劳伦斯奖”七宗最</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1269458555" target="_blank">莫子迹</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_598c79ea0100ar9t.html~type=v5_one&label=rela_articletagpub" target="_blank" title="誉奥运黑马&mdash;&mdash;析股票黑马">誉奥运黑马——析股票黑马</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1502378474" target="_blank">搂着熊睡的老虎</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_4c0aca450100ahyp.html~type=v5_one&label=rela_articletagpub" target="_blank" title="体育比赛&nbsp;不敢冷落了平常心态">体育比赛&nbsp;不敢冷落了平常心态</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1275775557" target="_blank">渔歌</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_4b73172f0100alem.html~type=v5_one&label=rela_articletagpub" target="_blank" title="Adam&nbsp;Sandler&nbsp;and&nbsp;Rob&nbsp;Schneid">Adam&nbsp;Sandler&nbsp;and&nbsp;Rob&nbsp;Schneid</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1265833775" target="_blank">學會用肺說話</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_4ad874cd0100ar6b.html~type=v5_one&label=rela_articletagpub" target="_blank" title="采桑子&nbsp;北京奥运&nbsp;刘子歌与焦刘">采桑子&nbsp;北京奥运&nbsp;刘子歌与焦刘</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1255699661" target="_blank">妙可言绝句</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_493067460100ape6.html~type=v5_one&label=rela_articletagpub" target="_blank" title="让我们记住这些名字">让我们记住这些名字</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1227908934" target="_blank">天下沙</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_48b945760100d4im.html~type=v5_one&label=rela_articletagpub" target="_blank" title="钓鱼趣">钓鱼趣</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1220101494" target="_blank">看看斋</A></P></LI>		<LI><P><A href="http://blog.sina.com.cn/s/blog_5ac7f9340100a7ly.html~type=v5_one&label=rela_articletagpub" target="_blank" title="香港活力龙男士内衣诚邀加盟商">香港活力龙男士内衣诚邀加盟商</A></P><P class="recoatlis_aut CP_linkb"><A href="http://blog.sina.com.cn/u/1523054900" target="_blank">活力龙男士内衣</A></P></LI></UL></DIV><DIV class="recoline"></DIV><DIV class="CP_j_linedot CP_j_linedot2"></DIV><DIV class="recopholis">
+	<UL>
+			<LI>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_47850a750100dgdf.html?tj=1" target="_blank"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/U1775P346T8D111620F4336DT20090527141519_width_80.jpg" width="80" height="58" alt="&ldquo;粽子&rdquo;女郎饱眼福" border="0"></A></P>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_47850a750100dgdf.html?tj=1" target="_blank">“粽子”女郎饱眼福</A></P>
+	</LI>
+	<LI>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_496cc9f30100db8r.html?tj=1" target="_blank"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/U3370P346T8D111617F4336DT20090527135337_width_80.jpg" width="80" height="58" alt="自然光拍摄大明星" border="0"></A></P>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_496cc9f30100db8r.html?tj=1" target="_blank">自然光拍摄大明星</A></P>
+	</LI>
+	<LI>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_5e4979b30100dt0o.html?tj=1" target="_blank"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/U1775P346T8D111614F4336DT20090527134159_width_80.jpg" width="80" height="58" alt="梨涡小美女貌比秀兰邓波儿" border="0"></A></P>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_5e4979b30100dt0o.html?tj=1" target="_blank">梨涡小美女貌比秀兰邓波儿</A></P>
+	</LI>
+	<LI>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_5d1164980100dvkw.html?tj=1" target="_blank"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/U1775P346T8D111598F4336DT20090527112259_width_80.jpg" width="80" height="58" alt="玉背红唇&hellip;&hellip;" border="0"></A></P>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_5d1164980100dvkw.html?tj=1" target="_blank">玉背红唇……</A></P>
+	</LI>
+	<LI>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_488eb3fe0100dbay.html?tj=1" target="_blank"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/U1775P346T8D111595F4336DT20090527111058_width_80.jpg" width="80" height="58" alt="巧做江南特色端午家宴" border="0"></A></P>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_488eb3fe0100dbay.html?tj=1" target="_blank">巧做江南特色端午家宴</A></P>
+	</LI>
+	<LI>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_537719ca0100d4mv.html?tj=1" target="_blank"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/U1775P346T8D111593F4336DT20090527110837_width_80.jpg" width="80" height="58" alt="依依不舍学生时代" border="0"></A></P>
+		<P><A onclick="v5SendLog(&#39;v5_one&#39;,&#39;rela_pic_117&#39;);" href="http://blog.sina.com.cn/s/blog_537719ca0100d4mv.html?tj=1" target="_blank">依依不舍学生时代</A></P>
+	</LI>
+
+	</UL>
+ </DIV>
+<DIV class="CP_j_linedot CP_j_linedot2"></DIV><DIV class="recomore"><A target="_blank" href="http://search.blog.sina.com.cn/blog/search?q=%C1%F5%D7%D3%B8%E8&tag=&s=0&t=tag">查看更多&gt;&gt;</A></DIV></DIV>
+          <DIV class="componentBottom"></DIV>
+        </DIV>	 
+		        <DIV class="component" id="module_904" load_style="1">
+          <DIV class="componentBar">
+          <SPAN class="title">推荐博文</SPAN>
+          </DIV>
+          <DIV class="componentContent"><DIV class="recoatlis2"><UL><LI><P><A href="http://blog.sina.com.cn/s/blog_5137be260100dij3.html?tj=1" target="_blank" title="虽然笨拙但是方向正确">虽然笨拙但是方向正确</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1362607654">黄健翔</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_5085d2cc0100dobi.html?tj=1" target="_blank" title="关于屈原之死的两种说法">关于屈原之死的两种说法</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1350947532">品牌中国王永</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_4ae5943b0100d6s0.html?tj=1" target="_blank" title="高考降温：&ldquo;父辈就业时代&rdquo;的沉重真相">高考降温：“父辈就业时代”的</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1256559675">王石川</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_483e45630100dkxk.html?tj=1" target="_blank" title="笑看大学校园男女博士们的雷人戏水照">笑看大学校园男女博士们的雷人</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1212040547">江小鱼</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_5b7c0c3e0100ejym.html?tj=1" target="_blank" title="谁在挑战法律，谁在挑战民意">谁在挑战法律，谁在挑战民意</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1534856254">中正述评</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_475b1d720100dvzp.html?tj=1" target="_blank" title="什刹海">什刹海</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1197153650">春日迟迟（陈彤）</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_4fb803a90100dzrm.html?tj=1" target="_blank" title="卢武铉的最后时刻">卢武铉的最后时刻</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1337459625">新世纪周刊</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_489548eb0100czd2.html?tj=1" target="_blank" title="今日感慨：用麻将建设和谐社会">今日感慨：用麻将建设和谐社会</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1217743083">袁岳</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_605b13570100d216.html?tj=1" target="_blank" title="我的父亲">我的父亲</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1616581463">筱笑</A></P></LI><LI><P><A href="http://blog.sina.com.cn/s/blog_534535970100diy1.html?tj=1" target="_blank" title="逼平德国并不重要，重要的是不断有所进步">逼平德国并不重要，重要的是不</A></P><P class="recoatlis_aut CP_linkb"><A target="_blank" href="http://blog.sina.com.cn/u/1397044631">郎效农博客</A></P></LI></UL></DIV><DIV class="recoline"></DIV><DIV class="recomore"><A href="http://blog.sina.com.cn/lm/114/117/day.html" target="_blank">查看全部</A>&gt;&gt;</DIV></DIV>
+          <DIV class="componentBottom"></DIV>
+        </DIV>	         <DIV class="component" id="module_47" load_style="1" style="display: block; ">
+          <DIV class="componentBar">
+          <SPAN class="title floatLeft">谁看过这篇博文</SPAN>
+          </DIV>
+          <DIV class="componentContent"><DIV class="nodata2">暂无访客。</DIV></DIV>
+          <DIV class="componentBottom"></DIV>
+        </DIV>	 
+      </DIV>
+      
+    </DIV>
+    <DIV class="clear"></DIV>
+</DIV>
+<SCRIPT type="text/javascript" charset="utf-8" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/sina_blog_foot.js"></SCRIPT>  <DIV class="sinaBottom">    <CENTER>      <A target="_blank" href="http://blog.sina.com.cn/admin/advice/advice_list.php">新浪BLOG意见反馈留言板</A>　<A onclick="window.open (&#39;http://control.blog.sina.com.cn/admin/advice/impeach.php?url=http%3A//blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html%7Etype%3Dv5_one%26label%3Drela_nextarticle&#39;, &#39;&#39;,&#39;height=495, width=510, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no&#39;);" href="javascript:;">不良信息反馈</A>　电话：95105670 提示音后按2键（按当地市话标准计费）　欢迎批评指正    </CENTER>    <P> <A target="_blank" href="http://corp.sina.com.cn/chn/">新浪简介</A> | <A target="_blank" href="http://corp.sina.com.cn/eng/">About Sina</A> | <A target="_blank" href="http://ads.sina.com.cn/">广告服务</A> | <A target="_blank" href="http://www.sina.com.cn/contactus.html">联系我们</A> | <A target="_blank" href="http://corp.sina.com.cn/chn/sina_job.html">招聘信息</A> | <A target="_blank" href="http://www.sina.com.cn/intro/lawfirm.shtml">网站律师</A> | <A target="_blank" href="http://english.sina.com/">SINA English</A> | <A target="_blank" href="http://members.sina.com.cn/apply/">会员注册</A> | <A target="_blank" href="http://blog.sina.com.cn/lm/help/2009/index.html">产品答疑</A> </P>    <P class="copyright"> Copyright © 1996 - 2009 SINA Corporation,  All Rights Reserved  <BR>    </P>    <DIV>新浪公司 <A target="_blank" href="http://www.sina.com.cn/intro/copyright.shtml">版权所有</A></DIV>  </DIV>
+</DIV>
+<SPAN name="pvcounter" pid="1" key="4ad0f8b4010004wu" url="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html" expara="" style="display:none"></SPAN>
+	   <SCRIPT id="PVCOUNTER_FORIE" type="text/javascript"></SCRIPT>
+	    
+
+
+<IFRAME id="webIM_Conn_Iframe" style="width:1px;height:1px;position:absolute;left:1px;top:1px;filter:alpha(opacity=0);-moz-opacity:0;"></IFRAME>
+<DIV id="webIM_Conn_Connect">
+</DIV>
+
+
+<SCRIPT>var __sayon_webim_msg_pop__ = false;</SCRIPT> 
+<SCRIPT src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/webim.compressed.js"></SCRIPT>
+<SCRIPT type="text/javascript">loadResource();</SCRIPT><SCRIPT id="" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/article.js" charset="utf-8"></SCRIPT>
+<SCRIPT type="text/javascript">renderPage();</SCRIPT>
+<SCRIPT type="text/javascript">
+<!--
+	SinaSysTray.pro_init();
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript">
+// 登陆后输出登陆者的UID
+if($UID != null){
+	webIM($UID);
+}
+</SCRIPT>
+
+<SCRIPT type="text/javascript">
+if($UID != null && $UID != scope.$uid){
+	dwScript({url:"http://footprint.cws.api.sina.com.cn/add.php?pid=1&uid=" + scope.$uid + (typeof scope.$articleid != "undefined" ? "&subid=" + scope.$articleid : "") + "&varname=addNewVisitor"}); } 
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/pvcounter.js"></SCRIPT><SCRIPT type="text/javascript" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/pvcounter"></SCRIPT>
+<SCRIPT type="text/javascript" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/680.js"></SCRIPT><DIV id="xp" style="position: absolute; z-index: 9000; overflow-x: hidden; overflow-y: hidden; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(255, 0, 0); border-right-color: rgb(255, 0, 0); border-bottom-color: rgb(255, 0, 0); border-left-color: rgb(255, 0, 0); left: 749px; top: 627px; width: 260px; height: 0px; "><DIV id="xp_content" style="position: absolute; z-index: 1; overflow-x: hidden; overflow-y: hidden; border-left-width: 0px; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; width: 260px; height: 190px; left: 0px; top: 0px; "><A id="closeButton" href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#" style="position: absolute; z-index: 2; font-size: 0px; line-height: 0px; left: 240px; top: 6px; width: 15px; height: 15px; background-image: url(http://i1.sinaimg.cn/blog/mini/08olympic/blogrecommend_hz_003.gif); "></A><A id="switchButton" href="http://blog.sina.com.cn/s/blog_4ad0f8b4010004wu.html~type=v5_one&label=rela_nextarticle#" style="position: absolute; z-index: 2; font-size: 0px; line-height: 0px; left: 220px; top: 6px; width: 15px; height: 15px; background-image: url(http://i2.sinaimg.cn/blog/mini/08olympic/blogrecommend_hz_004.gif); "></A><DIV id="ifm_div" style="height:190px;"><IFRAME id="xp_content_iframe" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/01.htm" frameborder="0" scrolling="no" width="100%" height="100%"></IFRAME></DIV></DIV></DIV>
+ 
+<!-- SUDA_CODE_START -->
+<SCRIPT type="text/javascript" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/suda_s_v851c.js"></SCRIPT><DIV style="position:absolute;top:0;left:0;width:0;height:0;z-index:1"><DIV style="position:absolute;top:0;left:0;width:1;height:1;"><IFRAME id="SUDA_FC" src="" width="1" height="1" scrolling="NO" frameborder="0"></IFRAME></DIV><DIV style="position:absolute;top:0;left:0;width:0;height:0;visibility:hidden" id="SUDA_CS_DIV"><IMG width="0" height="0" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/a.gif" border="0" alt=""></DIV></DIV>
+<SCRIPT type="text/javascript">
+//<!--
+try{
+var config_pic = config?(config.common?((config.common.head || config.common.head)?((config.common.head.usepic || config.common.bg.usepic)?((config.common.head.usepic=='1')||(config.common.bg.usepic=='1')?1:0):0):0):0):0;
+_S_pSt(_S_PID_,config.common.t,config.common.r+","+config_pic);
+}catch(e){}
+//-->
+</SCRIPT>
+<!-- SUDA_CODE_END -->
+  
+  
+<!-- START WRating v1.0 -->
+<SCRIPT type="text/javascript" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/a1.js"></SCRIPT>
+<SCRIPT type="text/javascript">
+try{
+var vjAcc="860010-0328010000"; 
+var wrUrl="http://sina.wrating.com/";
+vjTrack("");
+}catch(e){};
+</SCRIPT><DIV style="display:none"><IMG src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/a(1).gif" id="wrTagImage" width="1" height="1"></DIV>
+<NOSCRIPT></NOSCRIPT>
+<!-- END WRating v1.0 -->
+
+<!-- SSO_CODE_START -->
+<SCRIPT language="JavaScript">
+<!--
+ if($UID != null){
+  document.write("<scr" + "ipt charset='utf-8' src='http://image2.sina.com.cn/unipro/js/ssologin.js'></scr" + "ipt>"); 
+ }
+//-->
+</SCRIPT>
+<!-- SSO_CODE_END -->
+
+
+<SCRIPT id="scriptId_0.4444229332730174" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/num" charset="utf-8"></SCRIPT><SCRIPT src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/collect" id="scriptId_0.20608224254101515" charset="UTF-8"></SCRIPT><DIV id="ijax_iframes"><IFRAME id="loadingIframe_thread1063" name="loadingIframe_thread1063" class="invisible" scrolling="no" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/sort_117_2_v1.htm" allowtransparency="true" style="display:none;" frameborder="0"></IFRAME><IFRAME id="loadingIframe_thread18393" name="loadingIframe_thread18393" class="invisible" scrolling="no" src="./阴影(shadow Volume)程序注释一_荒人_新浪博客_files/sort_117_3_v1.htm" allowtransparency="true" style="display:none;" frameborder="0"></IFRAME></DIV><DIV id="ramdomVisitDiv" style="position: absolute; top: 43px; width: 100px; right: 0px; "><EMBED type="application/x-shockwave-flash" src="http://simg.sinajs.cn/common/swf/rndView.swf" width="100" height="120" style="undefined" id="map" name="map" bgcolor="#000" quality="high" scale="noscale" allowscriptaccess="always" wmode="transparent" flashvars="target=_self&amp;URL="></DIV></BODY></HTML>

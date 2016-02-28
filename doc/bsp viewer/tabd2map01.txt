@@ -1,0 +1,68 @@
+===========================================================================================
+    TABD2MAP01          Return to the Entryway          by Tabun                2009-09-06
+===========================================================================================
+
+    Title               : Return to the Entryway
+    Filename            : tabd2map01.pk3
+    Author              : Asmodai Tabun
+    Email Address       : tabun@xs4all.nl
+    Web Sites           : http://www.tabun.nl
+			  http://www.wireheadstudios.org
+    
+- Play Information -----------------------------------------------------------------------
+    Player Base :   Designed for FFA, and tourney (but see note).
+    Note	:   This is a rather strict remake of Doom II's Map01. That pretty much
+		    means that the layout.. well.. sucks, for deathmatch. The map is, and
+		    is supposed to be, mainly material for nostalgia-gaming. It is most
+		    enjoyably played with the Generations Arena mod
+		    (http://www.wireheadstudios.org), which recreates a mix of old-school
+		    id gameplay in the Quake 3 environment.
+    Versions    :
+            - TABD2MAP01        Custom item layout for normal Quake 3 Arena
+                Items: 2x RL, 2x SG, GL, PG, LG, 2x YA, RA, Haste/Regen teamed
+            - TABD2MAP01_PURE   Purist item layout for original Doom II DM
+                Items: 2x BFG, SG, RL, PG, YA -- Generations Arena-only: Chainsaw (MG) & Boomstick
+
+
+- Construction ---------------------------------------------------------------------------
+    Brushes             : ~3800
+    Average R_Speeds    : ~6000 world, w/ entities, no players
+    Worst Case R_Speeds : ~8500 world, w/ entities, no players
+    Editor(s) used      : GTKRadiant 1.5, Photoshop
+
+- Thanks ---------------------------------------------------------------------------------
+
+    Many thanks to:
+        - The authors of third party textures (see below) who allow free use of their work.
+        - The people at Wirehead Studios who helped with testing and feedback - Esp. to
+	  Phoenix, for is extensive comments an ideas.
+        - All those people who took the time to write elaborate mapping tutorials
+          (and managed to keep them online long after Q3A lost its popularity).
+
+
+- Textures used --------------------------------------------------------------------------
+
+    Third party :
+        - Lunaran's textures:
+                - nubiansky2 skybox (slightly adjusted shader)
+                - computers, tech-stuff (mksteel) (tabd2map01_lun)
+                - a few other textures from lun3dm4 (tabd2map01_lun3dm4)
+	- http://www.obsidiandawn.com (some plants)
+        - tekwall from doom high-res texture remakes
+
+    All other textures I've made myself (or composed myself from license-free materials,
+    such as from http://cgtextures.com).
+    None of _those_ textures may to be modified without my explicit permission.
+    They may however be freely used for mapping purposes (as-is).
+    Give full credit where due.
+
+- Copyright / Permissions ----------------------------------------------------------------
+
+ * You MAY: 
+- Distribute this pak file and/or its contents by any electronic means, provided you leave 
+the contents unaltered and include this text file, also unaltered.
+
+ * You MAY NOT:
+- Decompile or reproduce the BSP as a base to build additional levels.
+  Make your own damned maps. (But not necessarily your own damn text-files ;))
+- Commercially exploit these files or their contents in any way.

@@ -1,0 +1,11 @@
+// Return to the Entryway (pure version)
+// by Tabun (www.tabun.nl)
+
+{
+	map "tabd2map01_pure"
+	bots "doom phobos crash"
+	longname "Return to the Entryway (pure)"
+	fraglimit 25
+	type "ffa tourney team"
+}
+

@@ -1,0 +1,62 @@
+<-> Window Class Registered
+<-> Window Created.
+<-> DC Created
+<-> Pixel Format Found.
+<-> Pixel Format set.
+<-> GL Rendering Context Created.
+<-> GL Rendering Context Activated.
+
+<-> Window Size: (640, 480)
+<-> Color Buffer Bits (R, G, B, A): (8, 8, 8, 8)
+<-> Depth Buffer Bits: 24
+<-> Stencil Buffer Bits: 8
+
+<-> Window Created!
+
+<-> Font created successfully.
+<-> ARB_multitexture supported!
+<-> EXT_texture_env_combine supported!
+<-> EXT_draw_range_elements supported!
+<-> EXT_multi_draw_arrays supported!
+<!> textures/gothic_block/blocks15.tga does not exist
+<-> Loading textures/gothic_block/blocks15.jpg in LoadJPG()
+<-> textures/gothic_block/blocks15.jpg loaded successfully
+<!> textures/gothic_light/skulllight01.tga does not exist
+<-> Loading textures/gothic_light/skulllight01.jpg in LoadJPG()
+<-> textures/gothic_light/skulllight01.jpg loaded successfully
+<!> textures/gothic_ceiling/ceilingtechplain.tga does not exist
+<-> Loading textures/gothic_ceiling/ceilingtechplain.jpg in LoadJPG()
+<-> textures/gothic_ceiling/ceilingtechplain.jpg loaded successfully
+<!> noshader.tga does not exist
+<-> Loading noshader.jpg in LoadJPG()
+<!> noshader.jpg does not exist.
+<!> textures/gothic_floor/largerblock3b3dim.tga does not exist
+<-> Loading textures/gothic_floor/largerblock3b3dim.jpg in LoadJPG()
+<-> textures/gothic_floor/largerblock3b3dim.jpg loaded successfully
+<!> models/mapobjects/storch/storch_tall.tga does not exist
+<-> Loading models/mapobjects/storch/storch_tall.jpg in LoadJPG()
+<-> models/mapobjects/storch/storch_tall.jpg loaded successfully
+<!> textures/sfx/flame1side.tga does not exist
+<-> Loading textures/sfx/flame1side.jpg in LoadJPG()
+<!> textures/sfx/flame1side.jpg does not exist.
+<!> models/mapobjects/storch/storch.tga does not exist
+<-> Loading models/mapobjects/storch/storch.jpg in LoadJPG()
+<-> models/mapobjects/storch/storch.jpg loaded successfully
+<!> textures/sfx/flame2.tga does not exist
+<-> Loading textures/sfx/flame2.jpg in LoadJPG()
+<-> textures/sfx/flame2.jpg loaded successfully
+<!> models/mapobjects/gratelamp/gratetorch2.tga does not exist
+<-> Loading models/mapobjects/gratelamp/gratetorch2.jpg in LoadJPG()
+<-> models/mapobjects/gratelamp/gratetorch2.jpg loaded successfully
+<-> Loading models/mapobjects/gratelamp/gratetorch2b.tga in LoadUncompressedTGA()
+<-> Loaded models/mapobjects/gratelamp/gratetorch2b.tga correctly.
+<-> test1.bsp Loaded successfully
+<-> Demo Initiation Successful
+<-> OpenGL Initiation Successful
+
+<-> DC and RC released.
+<-> Rendering Context Released.
+<-> Device Context Released.
+<-> hWnd released.
+<-> Class unregistered.
+<-> Exiting...
