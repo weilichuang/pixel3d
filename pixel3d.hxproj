@@ -22,7 +22,7 @@
     <option directives="" />
     <option flashStrict="True" />
     <option noInlineOnDebug="False" />
-    <option mainClass="MD2Test" />
+    <option mainClass="MS3DStaticMeshTest" />
     <option enabledebug="True" />
     <option additional="-swf-version 10.2" />
   </build>
@@ -33,7 +33,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Vector3VSVector3DTest.hx" />
-    <compile path="src\MD2Test.hx" />
+    <compile path="src\MS3DStaticMeshTest.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

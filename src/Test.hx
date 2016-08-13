@@ -34,7 +34,7 @@ class Test extends Sprite
 
 		textureManager = new TextureManager();
 		
-		driver = new VideoDriverBasic(new Vector2i(Std.int(stage.stageWidth), Std.int(stage.stageHeight)));
+		driver = new VideoDriverBasic(new Vector2i(Std.int(Lib.current.stage.stageWidth), Std.int(Lib.current.stage.stageHeight)));
         driver.setPerspectiveCorrectDistance(1000);
         driver.setMipMapDistance(4000);
 		driver.setAmbient(0xFFF000);

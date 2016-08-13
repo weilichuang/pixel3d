@@ -111,7 +111,8 @@ class BasicTextureGouraud extends AbstractTriangleRenderer
 				tv2 = v2.v * th * z2;
 				tu3 = v3.u * tw * z3;
 				tv3 = v3.v * th * z3;
-			} else
+			} 
+			else
 			{
 				tu1 = v1.u * tw ;
 				tv1 = v1.v * th ;
@@ -370,7 +371,7 @@ class BasicTextureGouraud extends AbstractTriangleRenderer
 					{
 					    if(isPowOfTow)
 						{
-							textel = texVector[(Std.int(ui / zi)&tw) +(Std.int(vi / zi)&th) * texWidth];
+							textel = texVector[(Std.int(ui / zi) & tw) +(Std.int(vi / zi) & th) * texWidth];
 						}else
 						{
 							textel = texVector[Std.int(ui / zi) + Std.int(vi / zi) * texWidth];

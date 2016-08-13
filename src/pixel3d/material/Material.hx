@@ -62,12 +62,12 @@ class Material
 		extra = new UserData();
 	}
 	
-	private function set_alpha(value : Float) : Float
+	private inline function set_alpha(value : Float) : Float
 	{
 		_alpha = MathUtil.clamp(value, 0.0, 1.0);
 		return _alpha;
 	}
-	private function get_alpha() : Float
+	private inline function get_alpha() : Float
 	{
 		return _alpha;
 	}

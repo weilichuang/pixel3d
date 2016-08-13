@@ -32,6 +32,8 @@ class Max3DSTest extends Test
 	public function new()
 	{
 		super();
+		
+		driver.setPerspectiveCorrectDistance(2000);
 
 		light = new LightSceneNode(0xff0000, 1500., Light.SPOT);
 		light.light.radius = 1500;
@@ -67,7 +69,7 @@ class Max3DSTest extends Test
 		//mat.setTexture();
 		node2 = new MeshSceneNode(e.getMesh(), false);
 		node2.setMaterialFlag(Material.GOURAUD_SHADE, true);
-		node2.setMaterialFlag(Material.LIGHT, true);
+		node2.setMaterialFlag(Material.LIGHT, false);
 		node2.setMaterialTexture(new LoadingTexture("media/build.jpg"));
 		manager.addChild(node2);
 	}
@@ -82,7 +84,7 @@ class Max3DSTest extends Test
 		light.rotationY -= 1;
 		if(Lib.getTimer()  -  t >  4000)
 		{
-			t=Lib.getTimer();
+			t = Lib.getTimer();
 			light.light.diffuseColor.color = Std.int(Math.random() * 0xffffff);
 		}
 		
