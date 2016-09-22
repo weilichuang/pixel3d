@@ -11,9 +11,9 @@ import pixel3d.material.ITexture;
 import pixel3d.material.LoadingTexture;
 import pixel3d.material.Material;
 import pixel3d.mesh.IAnimatedMesh;
-import pixel3d.scene.AnimatedMeshSceneNode;
-import pixel3d.scene.LightSceneNode;
-import pixel3d.scene.PlaneSceneNode;
+import pixel3d.scene.AnimatedMeshNode;
+import pixel3d.scene.LightNode;
+import pixel3d.scene.PlaneNode;
 
 class MD2Test extends Test
 {
@@ -24,7 +24,7 @@ class MD2Test extends Test
 		test.startRender();
 	}
 
-	private var light:LightSceneNode;
+	private var light:LightNode;
 
 	private var texture:ITexture;
 
@@ -34,7 +34,7 @@ class MD2Test extends Test
 	{
 		super();
 
-		light = new LightSceneNode(0xff0000, 1500., 0);
+		light = new LightNode(0xff0000, 1500., 0);
 		light.light.radius = 1500;
 		light.setPosition(new Vector3D(0., 500., 300.));
 		light.light.direction = new Vector3D( -1, 0, 1);
@@ -66,7 +66,7 @@ class MD2Test extends Test
 		{
 			for (j in 0...2)
 			{
-				var node2:AnimatedMeshSceneNode = new AnimatedMeshSceneNode(mesh, false);
+				var node2:AnimatedMeshNode = new AnimatedMeshNode(mesh, false);
 				//node2.debugColor = Std.int(Math.random() * 0xFFFFFF);
 				//node2.debugAlpha = Math.random();
 				node2.setAnimationSpeed(35 + Std.int(Math.random() * 30));
@@ -94,7 +94,7 @@ class MD2Test extends Test
 			}
 		}
 
-		var node3:PlaneSceneNode = new PlaneSceneNode(800, 800, 3, 3);
+		var node3:PlaneNode = new PlaneNode(800, 800, 3, 3);
 		node3.setMaterialEmissiveColor(0x770000);
 		node3.setMaterialTexture(texture);
 		node3.rotationX = -90;

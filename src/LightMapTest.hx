@@ -2,7 +2,7 @@
 import flash.events.Event;
 import flash.Lib;
 import pixel3d.material.LoadingTexture;
-import pixel3d.scene.CubeSceneNode;
+import pixel3d.scene.CubeNode;
 
 /**
  * LightMap可以设置多种混合方式
@@ -16,11 +16,11 @@ class LightMapTest extends Test
 		test.startRender();
 	}
 
-	private var box:CubeSceneNode;
+	private var box:CubeNode;
 	public function new()
 	{
 		super();
-		box = new CubeSceneNode(250, 250, 250);
+		box = new CubeNode(250, 250, 250);
 		//box.setMaterialFlag(Material.GOURAUD_SHADE, false);
 		box.setMaterialTexture(new LoadingTexture("media/brick.jpg"), 1);
 		box.setMaterialTexture(new LoadingTexture("media/smiley.gif"), 2);

@@ -8,9 +8,9 @@ import pixel3d.material.ITexture;
 import pixel3d.material.LoadingTexture;
 import pixel3d.material.Material;
 import pixel3d.mesh.SkinnedMesh;
-import pixel3d.scene.LightSceneNode;
-import pixel3d.scene.PlaneSceneNode;
-import pixel3d.scene.SkinnedMeshSceneNode;
+import pixel3d.scene.LightNode;
+import pixel3d.scene.PlaneNode;
+import pixel3d.scene.SkinnedMeshNode;
 class MS3DFileLoaderTest extends Test
 {
 	static function main()
@@ -20,9 +20,9 @@ class MS3DFileLoaderTest extends Test
 		test.startRender();
 	}
 
-	private var light:LightSceneNode;
+	private var light:LightNode;
 
-	private var node:SkinnedMeshSceneNode;
+	private var node:SkinnedMeshNode;
 
 	private var texture:ITexture;
 
@@ -34,13 +34,13 @@ class MS3DFileLoaderTest extends Test
 
 		texture = new LoadingTexture("media/nskinbr.jpg");
 
-		light = new LightSceneNode(0x770000, 1000., 1);
+		light = new LightNode(0x770000, 1000., 1);
 		light.setPosition(new Vector3D(0., 0., 0.));
 		light.addAnimator(new AnimatorFlyCircle(Lib.getTimer(),new Vector3D(0,100,0), 10000, 0.002, new Vector3D(0.3, 1, 0.2)));
 
 		manager.addChild(light);
 
-		var node3:PlaneSceneNode = new PlaneSceneNode(400, 400, 1, 1);
+		var node3:PlaneNode = new PlaneNode(400, 400, 1, 1);
 		node3.setMaterialTexture(texture);
 		node3.rotationX = -90;
 		node3.y = -5;
@@ -60,7 +60,7 @@ class MS3DFileLoaderTest extends Test
 		var mesh:SkinnedMesh = Lib.as(e.getMesh(), SkinnedMesh);
 		mesh.updateNormalsWhenAnimating(true);
 
-		node = new SkinnedMeshSceneNode(mesh,false);
+		node = new SkinnedMeshNode(mesh,false);
 		node.setScaleXYZ(20,20,20);
 		node.setAnimationSpeed(10);
 		node.setMaterialFlag(Material.LIGHT, true);
@@ -72,7 +72,7 @@ class MS3DFileLoaderTest extends Test
 		//node.debug = true;
 		node.x = -80;
 
-		var node1:SkinnedMeshSceneNode = new SkinnedMeshSceneNode(mesh,false);
+		var node1:SkinnedMeshNode = new SkinnedMeshNode(mesh,false);
 		node1.setScaleXYZ(20,20,20);
 		node1.setAnimationSpeed(5);
 		node1.setFrameLoop(0,300);

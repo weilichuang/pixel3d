@@ -7,7 +7,7 @@ import flash.text.TextField;
 import pixel3d.animator.AnimatorCameraFPS;
 import pixel3d.material.TextureManager;
 import pixel3d.math.Vector2i;
-import pixel3d.scene.CameraSceneNode;
+import pixel3d.scene.CameraNode;
 import pixel3d.scene.SceneManager;
 import pixel3d.utils.CursorControl;
 import pixel3d.renderer.IVideoDriver;
@@ -17,7 +17,7 @@ class Test extends Sprite
 	private var manager:SceneManager;
 	private var textureManager:TextureManager;
 	private var driver:IVideoDriver;
-	private var camera:CameraSceneNode;
+	private var camera:CameraNode;
 	private var cameraFPS:AnimatorCameraFPS;
 	private var target:Sprite;
 
@@ -51,7 +51,7 @@ class Test extends Sprite
 
 		control = new CursorControl(new Vector2i(540, 480), manager.getRenderTarget());
 
-		camera = new CameraSceneNode(new Vector3D(0, 0, 0));
+		camera = new CameraNode(new Vector3D(0, 0, 0));
 		camera.setPosition(new Vector3D(0., 230., -500.));
 		camera.setFar(2000);
 		camera.setNear(1);

@@ -8,7 +8,7 @@ import pixel3d.math.Vector3DUtil;
 import pixel3d.math.Matrix4;
 import pixel3d.math.Vector2f;
 import flash.geom.Vector3D;
-import pixel3d.scene.CameraSceneNode;
+import pixel3d.scene.CameraNode;
 import pixel3d.scene.ISceneManager;
 import pixel3d.scene.SceneManager;
 import pixel3d.scene.SceneNode;
@@ -70,7 +70,7 @@ class AnimatorCameraFPS implements IAnimator
 			return;
 		}
 
-		var camera:CameraSceneNode = Lib.as(node, CameraSceneNode);
+		var camera:CameraNode = Lib.as(node, CameraNode);
 
 		var manager:ISceneManager = camera.sceneManager;
 

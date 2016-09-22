@@ -34,6 +34,16 @@
   <compileTargets>
     <compile path="src\Vector3VSVector3DTest.hx" />
     <compile path="src\MD2Test.hx" />
+    <compile path="src\IntersectionTest.hx" />
+    <compile path="src\LightMapTest.hx" />
+    <compile path="src\Matrix4vsMatrix3DTest.hx" />
+    <compile path="src\Max3DSTest.hx" />
+    <compile path="src\MS3DFileLoaderTest.hx" />
+    <compile path="src\MS3DStaticMeshTest.hx" />
+    <compile path="src\OgreLoaderTest.hx" />
+    <compile path="src\Quake3SceneNodeTest.hx" />
+    <compile path="src\ShadowVolumeTest.hx" />
+    <compile path="src\Test.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

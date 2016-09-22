@@ -19,7 +19,7 @@ import pixel3d.mesh.skin.RotationKey;
 import pixel3d.mesh.skin.ScaleKey;
 import pixel3d.mesh.skin.Weight;
 import pixel3d.scene.BoneSceneNode;
-import pixel3d.scene.SkinnedMeshSceneNode;
+import pixel3d.scene.SkinnedMeshNode;
 import pixel3d.utils.Logger;
 
 class SkinnedMesh implements ISkinnedMesh
@@ -1187,7 +1187,7 @@ class SkinnedMesh implements ISkinnedMesh
 		}
 	}
 
-	public function createJoints(jointChildSceneNodes:Vector<BoneSceneNode>, sceneNode:SkinnedMeshSceneNode):Void
+	public function createJoints(jointChildSceneNodes:Vector<BoneSceneNode>, sceneNode:SkinnedMeshNode):Void
 	{
 		//Create new joints
 		var len:Int = allJoints.length;

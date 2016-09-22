@@ -8,7 +8,7 @@ import pixel3d.material.ITexture;
 import pixel3d.material.LoadingTexture;
 import pixel3d.material.Material;
 import pixel3d.mesh.IMesh;
-import pixel3d.scene.MeshSceneNode;
+import pixel3d.scene.MeshNode;
 
 class MS3DStaticMeshTest extends Test
 {
@@ -19,7 +19,7 @@ class MS3DStaticMeshTest extends Test
 		test.startRender();
 	}
 
-	private var node:MeshSceneNode;
+	private var node:MeshNode;
 
 	private var texture:ITexture;
 
@@ -43,7 +43,7 @@ class MS3DStaticMeshTest extends Test
 	{
 		var mesh:IMesh = e.getMesh();
 
-		node = new MeshSceneNode(mesh,false);
+		node = new MeshNode(mesh,false);
 		node.setScaleXYZ(2,2,2);
 		node.setMaterialFlag(Material.GOURAUD_SHADE, true);
 		//node.setMaterialFlag(Material.TRANSPARTENT, true);

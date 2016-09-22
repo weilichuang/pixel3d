@@ -8,8 +8,8 @@ interface ISceneManager
 	function getCurrentRenderType():Int;
 	function getVideoDriver():IVideoDriver;
 	function setVideoDriver(driver:IVideoDriver):Void;
-	function getActiveCamera():CameraSceneNode;
-	function setActiveCamera(camera:CameraSceneNode):Void;
+	function getActiveCamera():CameraNode;
+	function setActiveCamera(camera:CameraNode):Void;
 	function beginScene():Void;
 	function endScene():Void;
 }

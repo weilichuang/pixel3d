@@ -9,7 +9,7 @@ import pixel3d.loader.bsp.BSPMeshLoader;
 import pixel3d.material.ITexture;
 import pixel3d.material.Material;
 import pixel3d.mesh.Q3LevelMesh;
-import pixel3d.scene.Quake3SceneNode;
+import pixel3d.scene.Quake3Node;
 
 class Quake3SceneNodeTest extends Test
 {
@@ -59,7 +59,7 @@ class Quake3SceneNodeTest extends Test
 		camera.setTarget(pos.subtract(new Vector3D(0, -60, -100)));
 		camera.updateAbsolutePosition();
 
-		var node:Quake3SceneNode = new Quake3SceneNode(q3LevelMesh);
+		var node:Quake3Node = new Quake3Node(q3LevelMesh);
 		manager.addChild(node);
 	}
 }

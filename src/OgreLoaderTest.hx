@@ -6,9 +6,9 @@ import pixel3d.loader.OgreMeshLoader;
 import pixel3d.material.ITexture;
 import pixel3d.material.LoadingTexture;
 import pixel3d.mesh.SkinnedMesh;
-import pixel3d.scene.MeshSceneNode;
+import pixel3d.scene.MeshNode;
 import pixel3d.scene.SceneNode;
-import pixel3d.scene.SkinnedMeshSceneNode;
+import pixel3d.scene.SkinnedMeshNode;
 
 class OgreLoaderTest extends Test
 {
@@ -44,12 +44,12 @@ class OgreLoaderTest extends Test
 
 		if (mesh != null)
 		{
-			node = new SkinnedMeshSceneNode(mesh, true);
-			Lib.as(node, SkinnedMeshSceneNode).gotoAndPlay(0);
+			node = new SkinnedMeshNode(mesh, true);
+			Lib.as(node, SkinnedMeshNode).gotoAndPlay(0);
 		}
 		else
 		{
-			node = new MeshSceneNode(e.getMesh(), true);
+			node = new MeshNode(e.getMesh(), true);
 
 		}
 

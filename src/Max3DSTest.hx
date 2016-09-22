@@ -9,8 +9,8 @@ import pixel3d.material.ITexture;
 import pixel3d.material.LoadingTexture;
 import pixel3d.material.Material;
 import pixel3d.mesh.MeshBuffer;
-import pixel3d.scene.LightSceneNode;
-import pixel3d.scene.MeshSceneNode;
+import pixel3d.scene.LightNode;
+import pixel3d.scene.MeshNode;
 import pixel3d.mesh.IMesh;
 class Max3DSTest extends Test
 {
@@ -21,7 +21,7 @@ class Max3DSTest extends Test
 		test.startRender();
 	}
 
-	private var light:LightSceneNode;
+	private var light:LightNode;
 
 	private var texture:ITexture;
 
@@ -33,7 +33,7 @@ class Max3DSTest extends Test
 	{
 		super();
 
-		light = new LightSceneNode(0xff0000, 1500., Light.SPOT);
+		light = new LightNode(0xff0000, 1500., Light.SPOT);
 		light.light.radius = 1500;
 		light.setPosition(new Vector3D(0., 300., 200.));
 		manager.addChild(light);
@@ -49,7 +49,7 @@ class Max3DSTest extends Test
 		loader.load("media/build.3DS");
 	}
 
-	private var node2:MeshSceneNode;
+	private var node2:MeshNode;
 	private function __loadMax3DS(e:MeshEvent):Void
 	{
 		var mesh:pixel3d.mesh.IMesh = e.getMesh();
@@ -65,7 +65,7 @@ class Max3DSTest extends Test
 		//}
 		//var mat:Material = new Material();
 		//mat.setTexture();
-		node2 = new MeshSceneNode(e.getMesh(), false);
+		node2 = new MeshNode(e.getMesh(), false);
 		node2.setMaterialFlag(Material.GOURAUD_SHADE, true);
 		node2.setMaterialFlag(Material.LIGHT, true);
 		node2.setMaterialTexture(new LoadingTexture("media/build.jpg"));

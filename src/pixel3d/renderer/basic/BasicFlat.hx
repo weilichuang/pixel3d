@@ -4,6 +4,7 @@ import flash.Vector;
 import pixel3d.math.MathUtil;
 import pixel3d.math.Vertex4D;
 import pixel3d.renderer.RenderState;
+
 class BasicFlat extends AbstractTriangleRenderer
 {
 	public function new()

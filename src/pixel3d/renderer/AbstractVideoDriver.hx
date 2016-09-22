@@ -14,7 +14,7 @@ import pixel3d.math.Quaternion;
 import pixel3d.math.Vertex;
 import pixel3d.math.Vertex4D;
 import pixel3d.mesh.MeshBuffer;
-import pixel3d.mesh.objects.CubeObject;
+import pixel3d.primitives.CubeObject;
 
 class AbstractVideoDriver implements IVideoDriver
 {

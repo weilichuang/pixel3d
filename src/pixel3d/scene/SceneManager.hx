@@ -14,9 +14,9 @@ class SceneManager extends SceneNode implements ISceneManager
 {
 	private var _driver : IVideoDriver;
 	private var _viewFrustum : ViewFrustum;
-	private var _activeCamera : CameraSceneNode;
+	private var _activeCamera : CameraNode;
 
-	private var _lightList : Array<LightSceneNode>;
+	private var _lightList : Array<LightNode>;
 	private var _solidList : Array<SceneNode>;
 	private var _transparentList : Array<SceneNode>;
 	private var _skyboxList : Array<SceneNode>;
@@ -45,7 +45,7 @@ class SceneManager extends SceneNode implements ISceneManager
 
 		_solidList = new Array<SceneNode>();
 		_transparentList = new Array<SceneNode>();
-		_lightList = new Array<LightSceneNode>();
+		_lightList = new Array<LightNode>();
 		_skyboxList = new Array<SceneNode>();
 		_shadowList = new Array<SceneNode>();
 		_lightCount = 0;
@@ -125,7 +125,7 @@ class SceneManager extends SceneNode implements ISceneManager
 				}
 			case SceneNodeType.LIGHT :
 				{
-					_lightList[_lightCount++] = Lib.as(node,LightSceneNode);
+					_lightList[_lightCount++] = Lib.as(node,LightNode);
 				}
 			case SceneNodeType.SKYBOX :
 				{
@@ -238,12 +238,12 @@ class SceneManager extends SceneNode implements ISceneManager
 		_shadowCount = 0;
 	}
 
-	public function getActiveCamera() : CameraSceneNode
+	public function getActiveCamera() : CameraNode
 	{
 		return _activeCamera;
 	}
 
-	public function setActiveCamera(camera : CameraSceneNode) : Void
+	public function setActiveCamera(camera : CameraNode) : Void
 	{
 		if (camera != null)
 		{
