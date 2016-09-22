@@ -15,13 +15,13 @@ class BSPNode
 	public var plane : Int;// The index into the planes array
 
 	public var front : Int;// The child index for the front node
-	
+
 	public var back : Int;// The child index for the back node
-	
-    public var boundingBox:AABBox;
-	
+
+	public var boundingBox:AABBox;
+
 	public static inline var sizeof : Int = 36;
-	
+
 	public function new()
 	{
 		boundingBox = new AABBox();

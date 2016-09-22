@@ -23,31 +23,31 @@ import flash.Vector;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
 
- //-------------base on MilkShape 3D Model Viewer Sample------------//
+//-------------base on MilkShape 3D Model Viewer Sample------------//
 class MS3DMeshLoader extends MeshLoader
 {
 	public function new(type:Int=2)
 	{
 		super(type);
 	}
-	
+
 	override public function loadBytes(data:ByteArray, type:Int):Void
 	{
 		var mesh:IMesh = null;
-		switch(type)
+		switch (type)
 		{
-			case 0: 
-			{
-				mesh = createStaticMesh(data);
-			}
+			case 0:
+				{
+					mesh = createStaticMesh(data);
+				}
 			case 2:
-			{
-				mesh = createSkinnedMesh(data);
-			}
+				{
+					mesh = createSkinnedMesh(data);
+				}
 		}
 		dispatchEvent(new MeshEvent(MeshEvent.COMPLETE, mesh));
 	}
-	
+
 	/**
 	 * 根据ms3d模型数据生成静态模型，生成的模型没有骨骼等数据
 	 * @param	data
@@ -55,7 +55,7 @@ class MS3DMeshLoader extends MeshLoader
 	 */
 	public function createStaticMesh(data : ByteArray) : IMesh
 	{
-		if(data == null || data.length == 0)
+		if (data == null || data.length == 0)
 		{
 			#if debug
 			Logger.log("Not a valid Milkshape3D Model File.", Logger.ERROR);
@@ -66,7 +66,7 @@ class MS3DMeshLoader extends MeshLoader
 		data.position = 0;
 		// read header
 		var id : String = data.readUTFBytes(10);
-		if(id != "MS3D000000")
+		if (id != "MS3D000000")
 		{
 			#if debug
 			Logger.log("Not a valid Milkshape3D Model File.", Logger.ERROR);
@@ -77,7 +77,7 @@ class MS3DMeshLoader extends MeshLoader
 		#if debug
 		Logger.log("MS3D File Version : " + version, Logger.INFORMATION);
 		#end
-		if(version <3 || version> 4)
+		if (version <3 || version> 4)
 		{
 			#if debug
 			Logger.log("Only Milkshape3D version 3 and 4(1.3 to 1.8) is supported.", Logger.ERROR);
@@ -87,13 +87,13 @@ class MS3DMeshLoader extends MeshLoader
 		var mesh : Mesh = new Mesh();
 		//顶点数
 		var numVertices : Int = data.readUnsignedShort();
-		
+
 		#if debug
 		Logger.log("numVertices=" + numVertices);
 		#end
-		
+
 		var ms3dVertices : Vector<MS3DVertex>= new Vector<MS3DVertex>(numVertices);
-		for(i in 0...numVertices)
+		for (i in 0...numVertices)
 		{
 			var ms3dVertex : MS3DVertex = new MS3DVertex();
 			ms3dVertex.flags = data.readUnsignedByte();
@@ -107,7 +107,7 @@ class MS3DMeshLoader extends MeshLoader
 		//triangles
 		var numTriangles : Int = data.readUnsignedShort();
 		var triangles : Vector<MS3DTriangle> = new Vector<MS3DTriangle>(numTriangles);
-		for(i in 0...numTriangles)
+		for (i in 0...numTriangles)
 		{
 			var triangle : MS3DTriangle = new MS3DTriangle();
 			triangle.flags = data.readUnsignedShort();
@@ -136,7 +136,7 @@ class MS3DMeshLoader extends MeshLoader
 		//groups
 		var numGroups : Int = data.readUnsignedShort();
 		var groups : Vector<MS3DGroup>= new Vector<MS3DGroup>(numGroups);
-		for(i in 0...numGroups)
+		for (i in 0...numGroups)
 		{
 			var group : MS3DGroup = new MS3DGroup();
 			data.position += 1;
@@ -145,32 +145,32 @@ class MS3DMeshLoader extends MeshLoader
 			var triangleCount : Int = data.readUnsignedShort();
 			// triangle indices
 			group.indices = new Vector<Int>(triangleCount);
-			for(j in 0...triangleCount)
+			for (j in 0...triangleCount)
 			{
 				group.indices[j] = data.readUnsignedShort();
 			}
 			group.materialID = data.readUnsignedByte();
 			// material index
-			if(group.materialID == 255) group.materialID = 0;
+			if (group.materialID == 255) group.materialID = 0;
 			groups[i] = group;
 		}
-		
+
 		// materials
 		var numMaterials : Int = data.readUnsignedShort();
 		var buffer : MeshBuffer;
-		if(numMaterials == 0)
+		if (numMaterials == 0)
 		{
 			// if there are no materials, add at least one buffer
 			mesh.addMeshBuffer(new MeshBuffer());
 		}
-		
-		for(i in 0...numMaterials)
+
+		for (i in 0...numMaterials)
 		{
 			buffer = new MeshBuffer();
 			mesh.addMeshBuffer(buffer);
 			var mat : Material = buffer.getMaterial();
 			mat.name = data.readUTFBytes(32);
-			
+
 			mat.ambientColor.r =(data.readFloat() * 255);
 			mat.ambientColor.g =(data.readFloat() * 255);
 			mat.ambientColor.b =(data.readFloat() * 255);
@@ -194,40 +194,40 @@ class MS3DMeshLoader extends MeshLoader
 			mat.shininess = data.readFloat();
 			mat.alpha = data.readFloat();
 
-			if(mat.alpha <1)
+			if (mat.alpha <1)
 			{
 				mat.transparenting = true;
 			}
 			data.readUnsignedByte();
 			//mode
 			var texfile : String = data.readUTFBytes(128);
-			
+
 			#if debug
-			    Logger.log("texture file=" + texfile);
+			Logger.log("texture file=" + texfile);
 			#end
-			
+
 			mat.extra.texturePath = texfile;
-			
+
 			//alphaMap
 			var alphaMap : String = data.readUTFBytes(128);
-			
+
 			#if debug
-			    Logger.log("alphaMap=" + alphaMap);
+			Logger.log("alphaMap=" + alphaMap);
 			#end
-			
+
 			mat.extra.texturePath2 = alphaMap;
 		}
 		data.position = 0;//reset data position to 0
-		
+
 		//static mesh don`t need joint and weight,so ignore it.
-		
+
 		// create vertices and indices
 		var vertex : Vertex;
 		var vertices : Vector<Vertex>;
 		var indices : Vector<Int> = new Vector<Int>();
 		var triangle : MS3DTriangle;
 		var buffers : Vector<MeshBuffer> = mesh.getMeshBuffers();
-		for(i in 0...numTriangles)
+		for (i in 0...numTriangles)
 		{
 			triangle = triangles[i];
 			var groupIndex : Int = triangle.groupIndex;
@@ -235,7 +235,7 @@ class MS3DMeshLoader extends MeshLoader
 			vertices = buffers[tmp].getVertices();
 			var group : MS3DGroup = groups[groupIndex];
 			var j : Int = 2;
-			while(j> - 1)
+			while (j> - 1)
 			{
 				vertex = new Vertex();
 				vertex.u = triangle.tUs[j];
@@ -248,15 +248,15 @@ class MS3DMeshLoader extends MeshLoader
 				vertex.z = ms3dVertices[triangle.indices[j]].z;
 				var index : Int = - 1;
 				var len : Int = vertices.length;
-				for(iv in 0...len)
+				for (iv in 0...len)
 				{
-					if(vertex.equals(vertices[iv]))
+					if (vertex.equals(vertices[iv]))
 					{
 						index = iv;
 						break;
 					}
 				}
-				if(index == - 1 )
+				if (index == - 1 )
 				{
 					index = vertices.length;
 					vertices.push(vertex);
@@ -268,33 +268,34 @@ class MS3DMeshLoader extends MeshLoader
 		//create groups
 		var iIndex : Int = - 1;
 		var len : Int = groups.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			var grp : MS3DGroup = groups[i];
-			if(grp.materialID>= mesh.getMeshBufferCount())
+			if (grp.materialID>= mesh.getMeshBufferCount())
 			{
 				grp.materialID = 0;
 			}
 			var buffer : MeshBuffer = mesh.getMeshBuffer(grp.materialID);
 			var bufferIndices : Vector<Int>= buffer.getIndices();
 			var groupIndexCount : Int = grp.indices.length;
-			for(m in 0...groupIndexCount)
+			for (m in 0...groupIndexCount)
 			{
-				for(l in 0...3)
+				for (l in 0...3)
 				{
 					bufferIndices.push(indices[++ iIndex]);
 				}
 			}
 		}
 		var i : Int = 0;
-		while(i <mesh.getMeshBufferCount())
+		while (i <mesh.getMeshBufferCount())
 		{
 			var buffer : MeshBuffer = mesh.getMeshBuffer(i);
 			//delete empty MeshBuffer
-			if(buffer.getIndexCount() == 0 || buffer.getVertexCount() == 0)
+			if (buffer.getIndexCount() == 0 || buffer.getVertexCount() == 0)
 			{
 				mesh.getMeshBuffers().splice(i, 1);
-			} else 
+			}
+			else
 			{
 				buffer.recalculateBoundingBox();
 				i ++;
@@ -307,11 +308,11 @@ class MS3DMeshLoader extends MeshLoader
 		groups = null;
 		return mesh;
 	}
-	
+
 	// loads an ms3d file and create a SkinnedMesh
 	public function createSkinnedMesh(data : ByteArray) : SkinnedMesh
 	{
-		if(data == null || data.length == 0)
+		if (data == null || data.length == 0)
 		{
 			#if debug
 			Logger.log("Not a valid Milkshape3D Model File.");
@@ -322,7 +323,7 @@ class MS3DMeshLoader extends MeshLoader
 		data.position = 0;
 		// read header
 		var id : String = data.readUTFBytes(10);
-		if(id != "MS3D000000")
+		if (id != "MS3D000000")
 		{
 			#if debug
 			Logger.log("Not a valid Milkshape3D Model File.", Logger.ERROR);
@@ -330,24 +331,24 @@ class MS3DMeshLoader extends MeshLoader
 			return null;
 		}
 		var version : Int = data.readInt();
-		
+
 		#if debug
 		Logger.log("MS3D File Version : " + version, Logger.INFORMATION);
 		#end
-		
-		if(version <3 || version> 4)
+
+		if (version <3 || version> 4)
 		{
 			#if debug
 			Logger.log("Only Milkshape3D version 3 and 4(1.3 to 1.8) is supported.", Logger.ERROR);
 			#end
-			
+
 			return null;
 		}
 		var animatedMesh : SkinnedMesh = new SkinnedMesh();
 		//顶点数
 		var numVertices : Int = data.readUnsignedShort();
 		var ms3dVertices : Vector<MS3DVertex>= new Vector<MS3DVertex>(numVertices);
-		for(i in 0...numVertices)
+		for (i in 0...numVertices)
 		{
 			var ms3dVertex : MS3DVertex = new MS3DVertex();
 			ms3dVertex.flags = data.readUnsignedByte();
@@ -361,7 +362,7 @@ class MS3DMeshLoader extends MeshLoader
 		//triangles
 		var numTriangles : Int = data.readUnsignedShort();
 		var triangles : Vector<MS3DTriangle>= new Vector<MS3DTriangle>(numTriangles);
-		for(i in 0...numTriangles)
+		for (i in 0...numTriangles)
 		{
 			var triangle : MS3DTriangle = new MS3DTriangle();
 			triangle.flags = data.readUnsignedShort();
@@ -390,7 +391,7 @@ class MS3DMeshLoader extends MeshLoader
 		//groups
 		var numGroups : Int = data.readUnsignedShort();
 		var groups : Vector<MS3DGroup>= new Vector<MS3DGroup>(numGroups);
-		for(i in 0...numGroups)
+		for (i in 0...numGroups)
 		{
 			var group : MS3DGroup = new MS3DGroup();
 			data.position += 1;
@@ -399,24 +400,24 @@ class MS3DMeshLoader extends MeshLoader
 			var triangleCount : Int = data.readUnsignedShort();
 			// triangle indices
 			group.indices = new Vector<Int>(triangleCount);
-			for(j in 0...triangleCount)
+			for (j in 0...triangleCount)
 			{
 				group.indices[j] = data.readUnsignedShort();
 			}
 			group.materialID = data.readUnsignedByte();
 			// material index
-			if(group.materialID == 255) group.materialID = 0;
+			if (group.materialID == 255) group.materialID = 0;
 			groups[i] = group;
 		}
 		// materials
 		var numMaterials : Int = data.readUnsignedShort();
 		var buffer : SkinnedMeshBuffer;
-		if(numMaterials == 0)
+		if (numMaterials == 0)
 		{
 			// if there are no materials, add at least one buffer
 			animatedMesh.addMeshBuffer();
 		}
-		for(i in 0...numMaterials)
+		for (i in 0...numMaterials)
 		{
 			buffer = animatedMesh.addMeshBuffer();
 			var mat : Material = buffer.getMaterial();
@@ -443,32 +444,32 @@ class MS3DMeshLoader extends MeshLoader
 
 			mat.shininess = Std.int(data.readFloat());//0~128
 			mat.alpha = data.readFloat();// 0~1
-			if(mat.alpha <1)
+			if (mat.alpha <1)
 			{
 				mat.transparenting = true;
 			}
 			data.readUnsignedByte();
 			//mode
 			var texturepath : String = data.readUTFBytes(128);
-			
+
 			#if debug
-			    Logger.log("texturepath=" + texturepath);
+			Logger.log("texturepath=" + texturepath);
 			#end
-			
+
 			mat.extra.texturePath = texturepath;
 
 			var alphaMap : String = data.readUTFBytes(128);
 			//alphaMap
-			
+
 			#if debug
-			    Logger.log("alphaMap=" + alphaMap);
+			Logger.log("alphaMap=" + alphaMap);
 			#end
-			
+
 			mat.extra.texturePath2 = alphaMap;
 		}
 		//animation time
 		var framesPerSecond : Float = data.readFloat();
-		if(framesPerSecond <1) framesPerSecond = 1.0;
+		if (framesPerSecond <1) framesPerSecond = 1.0;
 		var startTime : Float = data.readFloat();
 		//current time
 		//帧数
@@ -482,7 +483,7 @@ class MS3DMeshLoader extends MeshLoader
 		var tmpVec : Vector3D = new Vector3D();
 		var tmpMatrix : Matrix4 = new Matrix4();
 		var parentNames : Vector<String>= new Vector<String>();
-		for(i in 0...jointCount)
+		for (i in 0...jointCount)
 		{
 			var flags : Int = data.readUnsignedByte();
 			var jointName : String = data.readUTFBytes(32);
@@ -507,7 +508,7 @@ class MS3DMeshLoader extends MeshLoader
 			joint.localMatrix.setTranslation(translation);
 			parentNames.push(parentName);
 			//get rotation keyframes
-			for(j in 0...numRotationKeyframes)
+			for (j in 0...numRotationKeyframes)
 			{
 				var time : Float = data.readFloat();
 				tmpVec.x = data.readFloat();
@@ -526,7 +527,7 @@ class MS3DMeshLoader extends MeshLoader
 				rk.rotation.setMatrix(tmpMatrix);
 			}
 			//get translation keyframes
-			for(j in 0...numTranslationKeyframes)
+			for (j in 0...numTranslationKeyframes)
 			{
 				var time : Float = data.readFloat();
 				tmpVec.x = data.readFloat();
@@ -541,7 +542,7 @@ class MS3DMeshLoader extends MeshLoader
 		}
 		//MS3DWeight
 		var vertexWeights : Vector<MS3DWeight>= new Vector<MS3DWeight>();
-		if(version == 4 && data.bytesAvailable> 0)
+		if (version == 4 && data.bytesAvailable> 0)
 		{
 			var subVersion : Int = data.readInt();
 			// comment subVersion, always 1
@@ -554,40 +555,40 @@ class MS3DMeshLoader extends MeshLoader
 			var len : Int;
 			var comment : String;
 			//group,material,joint comment
-			for(j in 0...3) // comment groups
+			for (j in 0...3) // comment groups
 			{
 				var numComments : Int = data.readUnsignedInt();
-				for(i in 0...numComments)
+				for (i in 0...numComments)
 				{
 					index = data.readInt();//index
 					len = data.readInt();//字符串长度
 					comment = data.readUTFBytes(len);
-					
+
 					#if debug
-					    Logger.log("comment" + index + "=" + comment);
+					Logger.log("comment" + index + "=" + comment);
 					#end
 				}
 			}
 			//model comment
 			var numComment : Int = data.readInt();
-			if(numComment == 1)
+			if (numComment == 1)
 			{
 				len = data.readInt();
 				comment = data.readUTFBytes(len);
-				
+
 				#if debug
-				    Logger.log("model comment =" + comment);
+				Logger.log("model comment =" + comment);
 				#end
 			}
 			// vertex extra
-			if(data.bytesAvailable> 0)
+			if (data.bytesAvailable> 0)
 			{
 				subVersion = data.readInt();
 				// vertex subVersion, 1 or 2
 				vertexWeights.length = numVertices;
 				//subVersion==2时，有extra
 				var offset : Int =(subVersion == 1) ? 0 : 4;
-				for(i in 0...numVertices)
+				for (i in 0...numVertices)
 				{
 					var ms3dWeight : MS3DWeight = new MS3DWeight();
 					ms3dWeight.bone0 = data.readByte();
@@ -602,37 +603,39 @@ class MS3DMeshLoader extends MeshLoader
 				}
 			}
 			// joint extra
-			if(data.bytesAvailable> 0)
+			if (data.bytesAvailable> 0)
 			{
 				subVersion = data.readInt();
 				// joint subVersion, 1 or 2
-				if(subVersion == 1)
+				if (subVersion == 1)
 				{
 					var joint : Joint;
-					for(i in 0...jointCount)
+					for (i in 0...jointCount)
 					{
 						joint = animatedMesh.getAllJoints()[i];
 						joint.color.r = data.readFloat() * 255.0;
 						joint.color.g = data.readFloat() * 255.0;
 						joint.color.b = data.readFloat() * 255.0;
 					}
-				} else
+				}
+				else
 				{
 					// skip joint colors
 					data.position += 3 * 4 * jointCount;
 				}
 			}
 			// model extra
-			if(data.bytesAvailable> 0)
+			if (data.bytesAvailable> 0)
 			{
 				subVersion = data.readInt();
 				// model subVersion, 1 or 2
-				if(subVersion == 1)
+				if (subVersion == 1)
 				{
 					var jointSize : Float = data.readFloat();
 					var transparencyMode : Int = data.readInt();
 					var alphaRef : Int = data.readInt();
-				} else
+				}
+				else
 				{
 					#if debug
 					Logger.log("Unknown subversion for model extra" + subVersion, Logger.WARNING);
@@ -644,11 +647,11 @@ class MS3DMeshLoader extends MeshLoader
 		//find parent of every joint
 		var joints : Vector<Joint>= animatedMesh.getAllJoints();
 		var len : Int = joints.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
-			for(j in 0...len)
+			for (j in 0...len)
 			{
-				if(i != j && parentNames[i] == joints[j].name)
+				if (i != j && parentNames[i] == joints[j].name)
 				{
 					joints[j].children.push(joints[i]);
 					break;
@@ -663,14 +666,14 @@ class MS3DMeshLoader extends MeshLoader
 		var animatedBuffers : Vector<MeshBuffer>= animatedMesh.getMeshBuffers();
 		var allJoints : Vector<Joint>= animatedMesh.getAllJoints();
 		var jointLength : Int = allJoints.length;
-		for(i in 0...numTriangles)
+		for (i in 0...numTriangles)
 		{
 			triangle = triangles[i];
 			var groupIndex : Int = triangle.groupIndex;
 			var vertices : Vector<Vertex>= animatedBuffers[groups[groupIndex].materialID].getVertices();
 			group = groups[groupIndex];
 			var j : Int = 2;
-			while(j> - 1)
+			while (j> - 1)
 			{
 				var vertex : Vertex = new Vertex();
 				vertex.u = triangle.tUs[j];
@@ -683,35 +686,36 @@ class MS3DMeshLoader extends MeshLoader
 				vertex.z = ms3dVertices[triangle.indices[j]].z;
 				var index : Int = - 1;
 				var len:Int = vertices.length;
-				for(iv in 0...len)
+				for (iv in 0...len)
 				{
-					if(vertex.equals(vertices[iv]))
+					if (vertex.equals(vertices[iv]))
 					{
 						index = iv;
 						break;
 					}
 				}
-				if(index == - 1 )
+				if (index == - 1 )
 				{
 					index = vertices.length;
 					var vertidx : Int = triangle.indices[j];
 					var matidx : Int = groups[groupIndex].materialID;
 					var boneid : Int = ms3dVertices[vertidx].boneID;
-					if(vertexWeights.length == 0)
+					if (vertexWeights.length == 0)
 					{
-						if(boneid <jointLength)
+						if (boneid <jointLength)
 						{
 							weight = animatedMesh.addWeight(allJoints[boneid]);
 							weight.bufferID = matidx;
 							weight.strength = 1.0;
 							weight.vertexID = index;
 						}
-					} else // new weights from 1.8.x
-					
+					}
+					else   // new weights from 1.8.x
+
 					{
 						var sum : Float = 1.0;
 						var ms3dWeight : MS3DWeight = vertexWeights[vertidx];
-						if(boneid <jointLength && ms3dWeight.weight0 != 0)
+						if (boneid <jointLength && ms3dWeight.weight0 != 0)
 						{
 							weight = animatedMesh.addWeight(allJoints[boneid]);
 							weight.bufferID = matidx;
@@ -719,7 +723,7 @@ class MS3DMeshLoader extends MeshLoader
 							weight.vertexID = index;
 						}
 						boneid = ms3dWeight.bone0;
-						if(boneid > 0 && boneid < jointLength && ms3dWeight.weight1 != 0)
+						if (boneid > 0 && boneid < jointLength && ms3dWeight.weight1 != 0)
 						{
 							weight = animatedMesh.addWeight(allJoints[boneid]);
 							weight.bufferID = matidx;
@@ -727,7 +731,7 @@ class MS3DMeshLoader extends MeshLoader
 							weight.vertexID = index;
 						}
 						boneid = ms3dWeight.bone1;
-						if(boneid > 0 && boneid < jointLength && ms3dWeight.weight2 != 0)
+						if (boneid > 0 && boneid < jointLength && ms3dWeight.weight2 != 0)
 						{
 							weight = animatedMesh.addWeight(allJoints[boneid]);
 							weight.bufferID = matidx;
@@ -735,7 +739,7 @@ class MS3DMeshLoader extends MeshLoader
 							weight.vertexID = index;
 						}
 						boneid = ms3dWeight.bone2;
-						if(boneid > 0 && boneid < jointLength && sum> 0.)
+						if (boneid > 0 && boneid < jointLength && sum> 0.)
 						{
 							weight = animatedMesh.addWeight(allJoints[boneid]);
 							weight.bufferID = matidx;
@@ -744,7 +748,7 @@ class MS3DMeshLoader extends MeshLoader
 						}
 						// fallback, if no bone chosen. Seems to be an error in the specs
 						boneid = ms3dVertices[vertidx].boneID;
-						if(sum == 1.&& boneid <jointLength)
+						if (sum == 1.&& boneid <jointLength)
 						{
 							weight = animatedMesh.addWeight(allJoints[boneid]);
 							weight.bufferID = matidx;
@@ -761,18 +765,18 @@ class MS3DMeshLoader extends MeshLoader
 		//create groups
 		var iIndex : Int = - 1;
 		var groupLen : Int = groups.length;
-		for(i in 0...groupLen)
+		for (i in 0...groupLen)
 		{
 			var grp : MS3DGroup = groups[i];
-			if(grp.materialID>= animatedMesh.getMeshBufferCount())
+			if (grp.materialID>= animatedMesh.getMeshBufferCount())
 			{
 				grp.materialID = 0;
 			}
 			var bufferIndices : Vector<Int> = animatedMesh.getMeshBuffer(grp.materialID).getIndices();
 			var indiceCount:Int = grp.indices.length;
-			for(m in 0...indiceCount)
+			for (m in 0...indiceCount)
 			{
-				for(l in 0...3)
+				for (l in 0...3)
 				{
 					bufferIndices.push(indices[++ iIndex]);
 				}
@@ -780,15 +784,16 @@ class MS3DMeshLoader extends MeshLoader
 		}
 		//recalculate boundingbox,refresh and remove empty buffer
 		var i : Int = 0;
-		while(i <animatedMesh.getMeshBufferCount())
+		while (i <animatedMesh.getMeshBufferCount())
 		{
 			var buffer : MeshBuffer = animatedMesh.getMeshBuffer(i);
 			buffer.recalculateBoundingBox();
 			//删除空的MeshBuffer
-			if(buffer.getIndexCount() == 0 || buffer.getVertexCount() == 0)
+			if (buffer.getIndexCount() == 0 || buffer.getVertexCount() == 0)
 			{
 				animatedMesh.getMeshBuffers().splice(i, 1);
-			} else 
+			}
+			else
 			{
 				i ++;
 			}
@@ -834,7 +839,7 @@ class MS3DTriangle
 	{
 		indices = new Vector<Int>(3, true);
 		normals = new Vector<Vector3D>(3, true);
-		for(i in 0...3)
+		for (i in 0...3)
 		{
 			normals[i] = new Vector3D();
 		}

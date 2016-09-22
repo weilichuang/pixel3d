@@ -11,18 +11,17 @@ import pixel3d.material.Material;
 import pixel3d.mesh.Q3LevelMesh;
 import pixel3d.scene.Quake3SceneNode;
 
-
 class Quake3SceneNodeTest extends Test
 {
 	static function main()
 	{
-	   var test:Quake3SceneNodeTest = new Quake3SceneNodeTest();
-	   Lib.current.addChild(test);
-	   test.startRender();
+		var test:Quake3SceneNodeTest = new Quake3SceneNodeTest();
+		Lib.current.addChild(test);
+		test.startRender();
 	}
-	
+
 	private var texture:ITexture;
-    private var q3loader:BSPMeshLoader;
+	private var q3loader:BSPMeshLoader;
 	private var textField:TextField;
 	public function new()
 	{
@@ -45,7 +44,7 @@ class Quake3SceneNodeTest extends Test
 		textField.y =(Lib.current.height - textField.height) / 2;
 	}
 
-	private function __load3ds(e:MeshEvent):Void 
+	private function __load3ds(e:MeshEvent):Void
 	{
 		this.removeChild(textField);
 		var q3LevelMesh:Q3LevelMesh = Lib.as(e.getMesh(), Q3LevelMesh);
@@ -53,13 +52,13 @@ class Quake3SceneNodeTest extends Test
 		q3loader.removeEventListener(Event.COMPLETE, __load3ds);
 		q3loader.removeEventListener(MeshProgressEvent.PROGRESS, __progress);
 		q3loader = null;
-		
+
 		var pos:Vector3D = q3LevelMesh.getRandomPlayerPosition();
 
 		camera.setPosition(pos.add(new Vector3D(0, 60, 0)));//test
 		camera.setTarget(pos.subtract(new Vector3D(0, -60, -100)));
 		camera.updateAbsolutePosition();
-		
+
 		var node:Quake3SceneNode = new Quake3SceneNode(q3LevelMesh);
 		manager.addChild(node);
 	}

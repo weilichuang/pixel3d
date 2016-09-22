@@ -16,17 +16,17 @@ class SphereObject extends MeshBuffer
 	{
 		vertices.length = 0;
 		indices.length = 0;
-		if(polyCountX <2)
-		polyCountX = 2;
-		if(polyCountY <2)
-		polyCountY = 2;
-		if(polyCountX * polyCountY> 32767) // prevent u16 overflow
-		
+		if (polyCountX <2)
+			polyCountX = 2;
+		if (polyCountY <2)
+			polyCountY = 2;
+		if (polyCountX * polyCountY> 32767) // prevent u16 overflow
+
 		{
-			if(polyCountX> polyCountY) // prevent u16 overflow
-			polyCountX = Std.int(32767 / polyCountY) - 1;
+			if (polyCountX> polyCountY) // prevent u16 overflow
+				polyCountX = Std.int(32767 / polyCountY) - 1;
 			else
-			polyCountY = Std.int(32767 /(polyCountX + 1));
+				polyCountY = Std.int(32767 /(polyCountX + 1));
 		}
 		var polyCountXPitch : Int = polyCountX + 1;
 		// get to same vertex on next level
@@ -35,10 +35,10 @@ class SphereObject extends MeshBuffer
 		var clr : UInt = 0x445566;
 		var i : Int = 0;
 		var level : Int = 0;
-		for(p1 in 0...(polyCountY - 1))
+		for (p1 in 0...(polyCountY - 1))
 		{
 			//main quads, top to bottom
-			for(p2 in 0...(polyCountX - 1))
+			for (p2 in 0...(polyCountX - 1))
 			{
 				var curr : Int = level + p2;
 				indices[i ++] = curr + polyCountXPitch;
@@ -63,7 +63,7 @@ class SphereObject extends MeshBuffer
 		// bottom point
 		var polyCountSqM1 : Int =(polyCountY - 1) * polyCountXPitch;
 		// last row's first vertex
-		for(p2 in 0...(polyCountX - 1))
+		for (p2 in 0...(polyCountX - 1))
 		{
 			// create triangles which are at the top of the sphere
 			indices[i ++] = polyCountSq;
@@ -92,13 +92,13 @@ class SphereObject extends MeshBuffer
 		//AngleY / 2;
 		var pos : Vector3D = new Vector3D();
 		var normal : Vector3D = new Vector3D();
-		for(y in 0...polyCountY)
+		for (y in 0...polyCountY)
 		{
 			ay += angleY;
 			var sinay : Float = Math.sin(ay);
 			axz = 0;
 			// calculate the necessary vertices without the doubled one
-			for(xz in 0...polyCountX)
+			for (xz in 0...polyCountX)
 			{
 				// calculate points position
 				pos.x =(radius * Math.cos(axz) * sinay);
@@ -112,21 +112,21 @@ class SphereObject extends MeshBuffer
 				// calculate texture coordinates via sphere mapping
 				// tu is the same on each level, so only calculate once
 				var tu : Float = 0.5;
-				if(y == 0)
+				if (y == 0)
 				{
-					if(normal.y != - 1.0 && normal.y != 1.0)
-					tu = Math.acos(MathUtil.clamp(normal.x / sinay, - 1.0, 1.0)) * 0.5 / Math.PI;
-					if(normal.z <0.0)
-					tu = 1 - tu;
-				} 
+					if (normal.y != - 1.0 && normal.y != 1.0)
+						tu = Math.acos(MathUtil.clamp(normal.x / sinay, - 1.0, 1.0)) * 0.5 / Math.PI;
+					if (normal.z <0.0)
+						tu = 1 - tu;
+				}
 				else
 				{
 					tu = vertices[i - polyCountXPitch].u;
 				}
 				vertices[i ++] = new Vertex(pos.x, pos.y, pos.z,
-				normal.x, normal.y, normal.z,
-				clr, tu,
-				(ay / Math.PI));
+											normal.x, normal.y, normal.z,
+											clr, tu,
+											(ay / Math.PI));
 				axz += angleX;
 			}
 			// This is the doubled vertex on the initial position

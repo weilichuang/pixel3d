@@ -65,7 +65,7 @@ class BillboardSceneNode extends MeshSceneNode
 		var view : Vector3D = target.subtract(campos);
 		view.normalize();
 		var horizontal : Vector3D = up.crossProduct(view);
-		if(horizontal.length == 0 )
+		if (horizontal.length == 0 )
 		{
 			horizontal.x = up.x;
 			horizontal.y = up.y;
@@ -78,7 +78,7 @@ class BillboardSceneNode extends MeshSceneNode
 		vertical.scaleBy(0.5 * size.y);
 		view.scaleBy( - 1);
 		var vertex : Vertex;
-		for(i in 0...4)
+		for (i in 0...4)
 		{
 			vertex = vertices[i];
 			vertex.nx = view.x;
@@ -101,27 +101,27 @@ class BillboardSceneNode extends MeshSceneNode
 		vertex.x = pos.x - horizontal.x + vertical.x;
 		vertex.y = pos.y - horizontal.y + vertical.y;
 		vertex.z = pos.z - horizontal.z + vertical.z;
-		
+
 		_tmpMatrix.identity();
 		driver.setMaterial(material);
 		driver.setTransformWorld(_tmpMatrix);
 
 		driver.setDistance(distance);
 		driver.drawIndexedTriangleList(vertices, 4, indices, 6);
-		
-		if(debug)
+
+		if (debug)
 		{
 			driver.draw3DBox(getBoundingBox(),debugColor,debugAlpha,debugWireframe);
 		}
 	}
-	
+
 	public function setSize(size : Vector2f) : Void
 	{
-		if(size == null) return;
-		
+		if (size == null) return;
+
 		this.size = size;
 	}
-	
+
 	public function getSize() : Vector2f
 	{
 		return size;

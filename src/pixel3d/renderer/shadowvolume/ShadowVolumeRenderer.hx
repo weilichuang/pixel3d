@@ -24,34 +24,35 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 	override public function drawIndexedTriangleList(vertices : Vector<Vertex4D>, vertexCount : Int, indexList : Vector<Int>, indexCount : Int) : Void
 	{
 		var drawSubTri;
-		if(currentPass == FRONTFACE)
+		if (currentPass == FRONTFACE)
 		{
 			drawSubTri = drawSubTriFront;
-		} else 
+		}
+		else
 		{
 			drawSubTri = drawSubTriBack;
 		}
 		var dy : Float;
 		var i : Int = 0;
-		while(i <indexCount)
+		while (i <indexCount)
 		{
 			v1 = vertices[indexList[i]];
 			v2 = vertices[indexList[i + 1]];
 			v3 = vertices[indexList[i + 2]];
 			i += 3;
-			if(v2.y <v1.y)
+			if (v2.y <v1.y)
 			{
 				tmp = v1;
 				v1 = v2;
 				v2 = tmp;
 			}
-			if(v3.y <v1.y)
+			if (v3.y <v1.y)
 			{
 				tmp = v1;
 				v1 = v3;
 				v3 = tmp;
 			}
-			if(v3.y <v2.y)
+			if (v3.y <v2.y)
 			{
 				tmp = v2;
 				v2 = v3;
@@ -77,7 +78,7 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 			z2z1 = z2 - z1;
 			z3z1 = z3 - z1;
 			var denom : Float =(x3x1 * y2y1 - x2x1 * y3y1);
-			if(denom == 0) continue;
+			if (denom == 0) continue;
 			denom = 1 / denom;
 			dzdx =(z3z1 * y2y1 - z2z1 * y3y1) * denom;
 			dzdy =(z2z1 * x3x1 - z3z1 * x2x1) * denom;
@@ -85,40 +86,40 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 			dxdy2 = x3x1 / y3y1;
 			dxdy3 =(x3 - x2) /(y3 - y2);
 			side = dxdy2> dxdy1;
-			if(y1 == y2 )
+			if (y1 == y2 )
 			{
 				side = x1> x2;
 			}
-			if(y2 == y3 )
+			if (y2 == y3 )
 			{
 				side = x3> x2;
 			}
-			if( ! side )
+			if ( ! side )
 			{
 				dxdya = dxdy2;
 				dzdya = dxdya * dzdx + dzdy;
 				dy = 1 -(y1 - y1i );
 				xa = x1 + dy * dxdya;
 				za = z1 + dy * dzdya;
-				if(y1i <y2i)
+				if (y1i <y2i)
 				{
 					xb = x1 + dy * dxdy1;
 					dxdyb = dxdy1;
 					drawSubTri(y1i, y2i);
 				}
-				if(y2i <y3i)
+				if (y2i <y3i)
 				{
 					xb = x2 +(1 -(y2 - y2i)) * dxdy3;
 					dxdyb = dxdy3;
 					drawSubTri(y2i, y3i);
 				}
-			} 
+			}
 			else
 			{
 				dxdyb = dxdy2;
 				dy = 1 -(y1 - y1i);
 				xb = x1 + dy * dxdyb;
-				if(y1i <y2i )
+				if (y1i <y2i )
 				{
 					dxdya = dxdy1;
 					dzdya = dxdy1 * dzdx + dzdy;
@@ -126,7 +127,7 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 					za = z1 + dy * dzdya;
 					drawSubTri(y1i, y2i);
 				}
-				if(y2i <y3i )
+				if (y2i <y3i )
 				{
 					dxdya = dxdy3;
 					dzdya = dxdy3 * dzdx + dzdy;
@@ -140,16 +141,16 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 	}
 	private inline function drawSubTriFront(ys : Int, ye : Int ) : Void
 	{
-		while(ys <ye )
+		while (ys <ye )
 		{
 			xs = Std.int(xa);
 			xe = Std.int(xb);
 			zi = za +(1 -(xa - xs)) * dzdx;
-			while(xs <xe )
+			while (xs <xe )
 			{
 				pos = xs + ys * width;
 				//如果阴影体正面某点z坐标小于该点物体的z坐标，则代表该点穿过阴影体正面，+1
-				if(zi > buffer[pos])
+				if (zi > buffer[pos])
 				{
 					stencileBuffer[pos] += 1;
 				}
@@ -164,16 +165,16 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 	}
 	private inline function drawSubTriBack(ys : Int, ye : Int ) : Void
 	{
-		while(ys <ye )
+		while (ys <ye )
 		{
 			xs = Std.int(xa);
 			xe = Std.int(xb);
 			zi = za +(1 -(xa - xs)) * dzdx;
-			while(xs <xe )
+			while (xs <xe )
 			{
 				pos = xs + ys * width;
 				//如果阴影体背面某点z坐标小于该点物体的z坐标，则代表该点穿过阴影体背面，-1
-				if(zi>= buffer[pos])
+				if (zi>= buffer[pos])
 				{
 					stencileBuffer[pos] -= 1;
 				}
@@ -188,15 +189,15 @@ class ShadowVolumeRenderer extends AbstractTriangleRenderer
 	}
 	private inline function drawSubTriZFail(ys : Int, ye : Int ) : Void
 	{
-		while(ys <ye )
+		while (ys <ye )
 		{
 			xs = Std.int(xa);
 			xe = Std.int(xb);
 			zi = za +(1 -(xa - xs)) * dzdx;
-			while(xs <xe )
+			while (xs <xe )
 			{
 				pos = xs + ys * width;
-				if(zi <= buffer[pos])
+				if (zi <= buffer[pos])
 				{
 					stencileBuffer[pos] += 1;
 				}

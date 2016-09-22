@@ -39,7 +39,7 @@ class Joint
 	 * Skin weights
 	 */
 	public var weights : Vector<Weight>;
-	
+
 	/**
 	 * Unnecessary for loaders, will be overwritten on finalize
 	 */
@@ -49,12 +49,11 @@ class Joint
 	public var curPosition : Vector3D;
 	public var curScale : Vector3D;
 	public var curRotation : Quaternion;
-	
+
 	public var globalInversedMatrix : Matrix4;//the x format pre-calculates this
-	
 
 	public var globalSkinningSpace : Bool;
-	
+
 	public var localAnimatedMatrix_Animated:Bool;
 
 	public var positionHint : Int;
@@ -62,51 +61,51 @@ class Joint
 	public var rotationHint : Int;
 
 	public var color : Color;
-	
+
 	//public var numChildren : Int;
 	//public var numMesh : Int;
 	//public var numPostionKey : Int;
 	//public var numScaleKey : Int;
 	//public var numRotationKey : Int;
 	//public var numWeight : Int;
-	
+
 	public var useAnimationFrom:Joint;
-	
+
 	public function new()
 	{
 		name = "";
-		
+
 		localMatrix = new Matrix4();
 		globalInversedMatrix = new Matrix4();
 		globalMatrix = new Matrix4();
 		globalAnimatedMatrix = new Matrix4();
 		localAnimatedMatrix = new Matrix4();
-		
+
 		curPosition = new Vector3D();
 		curScale = new Vector3D();
 		curRotation = new Quaternion();
-		
+
 		localAnimatedMatrix_Animated = false;
 		globalSkinningSpace = false;
 
 		children = new Vector<Joint>();
-		
+
 		attachedMeshes = new Vector<Int>();
-		
+
 		positionKeys = new Vector<PositionKey>();
-		
+
 		scaleKeys = new Vector<ScaleKey>();
-		
+
 		rotationKeys = new Vector<RotationKey>();
-		
+
 		weights = new Vector<Weight>();
-		
+
 		color = new Color();
-		
+
 		positionHint = - 1;
 		scaleHint = - 1;
 		rotationHint = - 1;
-		
+
 		//numChildren = 0;
 		//numMesh = 0;
 		//numPostionKey = 0;
@@ -114,21 +113,21 @@ class Joint
 		//numRotationKey = 0;
 		//numWeight = 0;
 	}
-	
+
 	/**
 	* 更新所有数组的长度，避免每次查找长度
 	* 每次更改相关数组的长度后，都需要调用这个
 	*/
 	//public function refresh() : Void
 	//{
-		//numChildren = children.length;
-		//numMesh = attachedMeshes.length;
-		//numPostionKey = positionKeys.length;
-		//numScaleKey = scaleKeys.length;
-		//numRotationKey = rotationKeys.length;
-		//numWeight = weights.length;
+	//numChildren = children.length;
+	//numMesh = attachedMeshes.length;
+	//numPostionKey = positionKeys.length;
+	//numScaleKey = scaleKeys.length;
+	//numRotationKey = rotationKeys.length;
+	//numWeight = weights.length;
 	//}
-	
+
 	public function toString() : String
 	{
 		return name;

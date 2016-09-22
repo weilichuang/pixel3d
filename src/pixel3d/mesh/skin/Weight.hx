@@ -18,7 +18,7 @@ class Weight
 	 * Weight Strength/Percentage (0-1)
 	 */
 	public var strength : Float;
-	
+
 	public var moved : Bool;
 	public var pos : Vector3D;
 	public var normal : Vector3D;

@@ -24,14 +24,14 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 	private var shadowVolumeRender : ShadowVolumeRenderer;
 	private var depthTriangleRenderer : DepthTriangleRenderer;
 	private var shadowPerctent : Float;
-	
+
 	private var stencileBuffer : Vector<Int>;// use by shadow volume
 
 	public function new(size : Vector2i)
 	{
 		super(size);
 	}
-	
+
 	override public function initRenderers():Void
 	{
 		renderers = new Vector<ITriangleRenderer>(TriangleRendererType.COUNT, true);
@@ -42,37 +42,37 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		renderers[TriangleRendererType.TEXTURE_GOURAUD] = new ShadowVolumeTextureGouraud();
 		renderers[TriangleRendererType.TEXTURE_FLAT_NoZ] = new ShadowVolumeSkyBox();
 		renderers[TriangleRendererType.TEXTURE_LIGHTMAP] = new ShadowVolumeTextureLightMap();
-		
+
 		shadowVolumeRender = new ShadowVolumeRenderer();
 		depthTriangleRenderer = new DepthTriangleRenderer();
-		
+
 		backfaceVectors = new Vector<Vector3D>();
 		backfaceCount = 0;
 	}
-	
+
 	override public function setRenderState(state : Int) : Void
 	{
 		this.renderState = state;
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setRenderState(renderState);
 		}
 	}
-	
+
 	public function setShadowPercent(per : Float) : Void
 	{
 		shadowPerctent = MathUtil.clamp(per, 0, 1);
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setShadowPercent(per);
 		}
 	}
-	
+
 	public function getStencileBuffer() : Vector<Int>
 	{
 		return stencileBuffer;
 	}
-	
+
 	override public function beginScene() : Void
 	{
 		super.beginScene();
@@ -84,7 +84,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 
 	override public function setScreenSize(size : Vector2i) : Void
 	{
-        super.setScreenSize(size);
+		super.setScreenSize(size);
 
 		stencileBuffer = new Vector<Int>();
 		stencileBuffer.length = screenSize.width * screenSize.height;
@@ -112,9 +112,9 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		var t : Float;
 		var len : Int = triangleCount * 2;
 		var _transformLen : Int = _transformedVertexes.length;
-		if(_transformLen <len)
+		if (_transformLen <len)
 		{
-			for(i in _transformLen...len)
+			for (i in _transformLen...len)
 			{
 				_transformedVertexes[i] = new Vertex4D();
 			}
@@ -138,10 +138,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		tCount = 0;
 		iCount = 0;
 		vCount = 0;
-		if(shadowPerctent == 1)
+		if (shadowPerctent == 1)
 		{
 			var ii : Int = 0;
-			while(ii <triangleCount )
+			while (ii <triangleCount )
 			{
 				v0 = vertices[indexList[ii]];
 				v1 = vertices[indexList[ii + 1]];
@@ -157,9 +157,9 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				v2y = v2.y;
 				v2z = v2.z;
 				var t : Float =((v1y - v0y) *(v2z - v0z) -(v1z - v0z) *(v2y - v0y)) *(_invCamPos.x - v0x) +
-				((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +
-				((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z);
-				if(t <= 0)
+							   ((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +
+							   ((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z);
+				if (t <= 0)
 				{
 					continue;
 				}
@@ -182,182 +182,194 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				var inside : Bool = true;
 				var clipcount : Int = 0;
 				//far Quaternion(0.0 , 0.0 , 1.0 , -1.0 );
-				if((tv0.z - tv0.w)>= 0.0)
+				if ((tv0.z - tv0.w)>= 0.0)
 				{
-					if((tv1.z - tv1.w )>= 0.0)
+					if ((tv1.z - tv1.w )>= 0.0)
 					{
-						if((tv2.z - tv2.w)>= 0.0)
+						if ((tv2.z - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 1;
-				}else
+				}
+				else
 				{
-					if((tv1.z - tv1.w ) <0.0)
+					if ((tv1.z - tv1.w ) <0.0)
 					{
-						if((tv2.z - tv2.w )>= 0.0)
+						if ((tv2.z - tv2.w )>= 0.0)
 						{
 							clipcount += 1;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 1;
 						//(1 <<0);
-						
+
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// near Quaternion(0.0 , 0.0 , -1.0, -1.0 );
-				if(( - tv0.z - tv0.w)>= 0.0)
+				if (( - tv0.z - tv0.w)>= 0.0)
 				{
-					if(( - tv1.z - tv1.w )>= 0.0)
+					if (( - tv1.z - tv1.w )>= 0.0)
 					{
-						if(( - tv2.z - tv2.w)>= 0.0)
+						if (( - tv2.z - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 2;
-				}else
+				}
+				else
 				{
-					if(( - tv1.z - tv1.w ) <0.0)
+					if (( - tv1.z - tv1.w ) <0.0)
 					{
-						if(( - tv2.z - tv2.w)>= 0.0)
+						if (( - tv2.z - tv2.w)>= 0.0)
 						{
 							clipcount += 2;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 2;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// left Quaternion(1.0 , 0.0 , 0.0 , -1.0 )
-				if((tv0.x - tv0.w)>= 0.0)
+				if ((tv0.x - tv0.w)>= 0.0)
 				{
-					if((tv1.x - tv1.w)>= 0.0)
+					if ((tv1.x - tv1.w)>= 0.0)
 					{
-						if((tv2.x - tv2.w)>= 0.0)
+						if ((tv2.x - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 4;
-				}else
+				}
+				else
 				{
-					if((tv1.x - tv1.w) <0.0)
+					if ((tv1.x - tv1.w) <0.0)
 					{
-						if((tv2.x - tv2.w)>= 0.0)
+						if ((tv2.x - tv2.w)>= 0.0)
 						{
 							clipcount += 4;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 4;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// right Quaternion(-1.0, 0.0 , 0.0 , -1.0 )
-				if(( - tv0.x - tv0.w)>= 0.0)
+				if (( - tv0.x - tv0.w)>= 0.0)
 				{
-					if(( - tv1.x - tv1.w )>= 0.0)
+					if (( - tv1.x - tv1.w )>= 0.0)
 					{
-						if(( - tv2.x - tv2.w)>= 0.0)
+						if (( - tv2.x - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 8;
-				}else
+				}
+				else
 				{
-					if(( - tv1.x - tv1.w ) <0.0)
+					if (( - tv1.x - tv1.w ) <0.0)
 					{
-						if(( - tv2.x - tv2.w)>= 0.0)
+						if (( - tv2.x - tv2.w)>= 0.0)
 						{
 							clipcount += 8;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 8;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// bottom Quaternion(0.0 , 1.0 , 0.0 , -1.0 )
-				if((tv0.y - tv0.w)>= 0.0)
+				if ((tv0.y - tv0.w)>= 0.0)
 				{
-					if((tv1.y - tv1.w )>= 0.0)
+					if ((tv1.y - tv1.w )>= 0.0)
 					{
-						if((tv2.y - tv2.w)>= 0.0)
+						if ((tv2.y - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 16;
-				}else
+				}
+				else
 				{
-					if((tv1.y - tv1.w) <0.0)
+					if ((tv1.y - tv1.w) <0.0)
 					{
-						if((tv2.y - tv2.w)>= 0.0)
+						if ((tv2.y - tv2.w)>= 0.0)
 						{
 							clipcount += 16;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 16;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				//top Quaternion(0.0 , -1.0, 0.0 , -1.0 )
-				if(( - tv0.y - tv0.w)>= 0.0)
+				if (( - tv0.y - tv0.w)>= 0.0)
 				{
-					if(( - tv1.y - tv1.w )>= 0.0)
+					if (( - tv1.y - tv1.w )>= 0.0)
 					{
-						if(( - tv2.y - tv2.w)>= 0.0)
+						if (( - tv2.y - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 32;
-				}else
+				}
+				else
 				{
-					if(( - tv1.y - tv1.w) <0.0)
+					if (( - tv1.y - tv1.w) <0.0)
 					{
-						if(( - tv2.y - tv2.w)>= 0.0)
+						if (( - tv2.y - tv2.w)>= 0.0)
 						{
 							clipcount += 32;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 32;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
-				if(clipcount == 0) // no clipping required
+				if (clipcount == 0) // no clipping required
 				{
 					//tv0
 					tv0.z = 1 / tv0.w ;
@@ -388,23 +400,23 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				outCount = 3;
 				/********** clip in NDC Space to Frustum **********/
 				//(0.0, 0.0, -1.0, - 1.0 ) near
-				if((clipcount & 2) == 2)
+				if ((clipcount & 2) == 2)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = - b.z - b.w;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = - a.z - a.w;
 						// current point inside
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
 							// last point outside
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices4[outCount ++] = out;
@@ -413,9 +425,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							}
 							// add a to out
 							_clippedVertices4[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices4[outCount ++] = out;
@@ -427,28 +440,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						bdot = adot;
 					}
 					// check we have 3 or more vertices
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices4;
 				}
 				//(1.0, 0.0, 0.0, - 1.0 )  left
-				if((clipcount & 4) == 4)
+				if ((clipcount & 4) == 4)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = b.x - b.w ;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = a.x - a.w;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices3[outCount ++] = out;
@@ -457,9 +470,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							}
 							// add a to out
 							_clippedVertices3[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices3[outCount ++] = out;
@@ -470,28 +484,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices3;
 				}
 				//( - 1.0, 0.0, 0.0, - 1.0 )  right
-				if((clipcount & 8) == 8)
+				if ((clipcount & 8) == 8)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = - b.x - b.w;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = - a.x - a.w;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices2[outCount ++] = out;
@@ -499,9 +513,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 								out.interpolateXYZW(a, b, t);
 							}
 							_clippedVertices2[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices2[outCount ++] = out;
@@ -512,28 +527,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices2;
 				}
 				//(0.0, 1.0, 0.0, - 1.0 ) bottom
-				if((clipcount & 16) == 16)
+				if ((clipcount & 16) == 16)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = b.y - b.w ;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = a.y - a.w;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices1[outCount ++] = out;
@@ -541,9 +556,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 								out.interpolateXYZW(a, b, t);
 							}
 							_clippedVertices1[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices1[outCount ++] = out;
@@ -554,28 +570,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices1;
 				}
 				//(0.0, - 1.0, 0.0, - 1.0 ) top
-				if((clipcount & 32) == 32)
+				if ((clipcount & 32) == 32)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = - b.y - b.w;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = - a.y - a.w ;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices0[outCount ++] = out;
@@ -583,9 +599,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 								out.interpolateXYZW(a, b, t);
 							}
 							_clippedVertices0[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices0[outCount ++] = out;
@@ -596,7 +613,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
@@ -604,7 +621,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				}
 				// put back into screen space.
 				vCount2 = vCount;
-				for(g in 0...outCount)
+				for (g in 0...outCount)
 				{
 					tv0 = source[g];
 					tv0.z = 1 / tv0.w ;
@@ -614,7 +631,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					_clippedVertices[vCount ++] = tv0;
 				}
 				// re-tesselate( triangle-fan, 0-1-2,0-2-3.. )
-				for(g in 0...(outCount - 2))
+				for (g in 0...(outCount - 2))
 				{
 					_clippedIndices[iCount ++] = vCount2;
 					_clippedIndices[iCount ++] = vCount2 + g + 1;
@@ -622,12 +639,14 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				}
 			}
 			depthTriangleRenderer.drawIndexedTriangleList(_clippedVertices, vCount, _clippedIndices, iCount);
-		} else
+		}
+		else
 		{
-			if(hasTexture)
+			if (hasTexture)
 			{
 				curRender = renderers[TriangleRendererType.TEXTURE_GOURAUD];
-			} else
+			}
+			else
 			{
 				curRender = renderers[TriangleRendererType.FLAT];
 			}
@@ -639,7 +658,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			var globalG : Float =(ambientColor.g * mamb.g * MathUtil.Reciprocal255) + memi.g;
 			var globalB : Float =(ambientColor.b * mamb.b * MathUtil.Reciprocal255) + memi.b;
 			var ii : Int = 0;
-			while(ii <triangleCount )
+			while (ii <triangleCount )
 			{
 				v0 = vertices[indexList[ii]];
 				v1 = vertices[indexList[ii + 1]];
@@ -657,7 +676,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				var t : Float =((v1y - v0y) *(v2z - v0z) -(v1z - v0z) *(v2y - v0y)) *(_invCamPos.x - v0x) +
 				((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +
 				((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z);
-				if(t <= 0)
+				if (t <= 0)
 				{
 					continue;
 				}
@@ -680,177 +699,189 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				var inside : Bool = true;
 				var clipcount : Int = 0;
 				//far Quaternion(0.0 , 0.0 , 1.0 , -1.0 );
-				if((tv0.z - tv0.w)>= 0.0)
+				if ((tv0.z - tv0.w)>= 0.0)
 				{
-					if((tv1.z - tv1.w )>= 0.0)
+					if ((tv1.z - tv1.w )>= 0.0)
 					{
-						if((tv2.z - tv2.w)>= 0.0)
+						if ((tv2.z - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 1;
-				}else
+				}
+				else
 				{
-					if((tv1.z - tv1.w ) <0.0)
+					if ((tv1.z - tv1.w ) <0.0)
 					{
-						if((tv2.z - tv2.w )>= 0.0)
+						if ((tv2.z - tv2.w )>= 0.0)
 						{
 							clipcount += 1;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 1;
 						//(1 <<0);
-						
+
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// near Quaternion(0.0 , 0.0 , -1.0, -1.0 );
-				if(( - tv0.z - tv0.w)>= 0.0)
+				if (( - tv0.z - tv0.w)>= 0.0)
 				{
-					if(( - tv1.z - tv1.w )>= 0.0)
+					if (( - tv1.z - tv1.w )>= 0.0)
 					{
-						if(( - tv2.z - tv2.w)>= 0.0)
+						if (( - tv2.z - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 2;
-				}else
+				}
+				else
 				{
-					if(( - tv1.z - tv1.w ) <0.0)
+					if (( - tv1.z - tv1.w ) <0.0)
 					{
-						if(( - tv2.z - tv2.w)>= 0.0)
+						if (( - tv2.z - tv2.w)>= 0.0)
 						{
 							clipcount += 2;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 2;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// left Quaternion(1.0 , 0.0 , 0.0 , -1.0 )
-				if((tv0.x - tv0.w)>= 0.0)
+				if ((tv0.x - tv0.w)>= 0.0)
 				{
-					if((tv1.x - tv1.w)>= 0.0)
+					if ((tv1.x - tv1.w)>= 0.0)
 					{
-						if((tv2.x - tv2.w)>= 0.0)
+						if ((tv2.x - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 4;
-				}else
+				}
+				else
 				{
-					if((tv1.x - tv1.w) <0.0)
+					if ((tv1.x - tv1.w) <0.0)
 					{
-						if((tv2.x - tv2.w)>= 0.0)
+						if ((tv2.x - tv2.w)>= 0.0)
 						{
 							clipcount += 4;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 4;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// right Quaternion(-1.0, 0.0 , 0.0 , -1.0 )
-				if(( - tv0.x - tv0.w)>= 0.0)
+				if (( - tv0.x - tv0.w)>= 0.0)
 				{
-					if(( - tv1.x - tv1.w )>= 0.0)
+					if (( - tv1.x - tv1.w )>= 0.0)
 					{
-						if(( - tv2.x - tv2.w)>= 0.0)
+						if (( - tv2.x - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 8;
-				}else
+				}
+				else
 				{
-					if(( - tv1.x - tv1.w ) <0.0)
+					if (( - tv1.x - tv1.w ) <0.0)
 					{
-						if(( - tv2.x - tv2.w)>= 0.0)
+						if (( - tv2.x - tv2.w)>= 0.0)
 						{
 							clipcount += 8;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 8;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				// bottom Quaternion(0.0 , 1.0 , 0.0 , -1.0 )
-				if((tv0.y - tv0.w)>= 0.0)
+				if ((tv0.y - tv0.w)>= 0.0)
 				{
-					if((tv1.y - tv1.w )>= 0.0)
+					if ((tv1.y - tv1.w )>= 0.0)
 					{
-						if((tv2.y - tv2.w)>= 0.0)
+						if ((tv2.y - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 16;
-				}else
+				}
+				else
 				{
-					if((tv1.y - tv1.w) <0.0)
+					if ((tv1.y - tv1.w) <0.0)
 					{
-						if((tv2.y - tv2.w)>= 0.0)
+						if ((tv2.y - tv2.w)>= 0.0)
 						{
 							clipcount += 16;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 16;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
 				}
 				//top Quaternion(0.0 , -1.0, 0.0 , -1.0 )
-				if(( - tv0.y - tv0.w)>= 0.0)
+				if (( - tv0.y - tv0.w)>= 0.0)
 				{
-					if(( - tv1.y - tv1.w )>= 0.0)
+					if (( - tv1.y - tv1.w )>= 0.0)
 					{
-						if(( - tv2.y - tv2.w)>= 0.0)
+						if (( - tv2.y - tv2.w)>= 0.0)
 						{
 							inside = false;
 						}
 					}
 					clipcount += 32;
-				}else
+				}
+				else
 				{
-					if(( - tv1.y - tv1.w) <0.0)
+					if (( - tv1.y - tv1.w) <0.0)
 					{
-						if(( - tv2.y - tv2.w)>= 0.0)
+						if (( - tv2.y - tv2.w)>= 0.0)
 						{
 							clipcount += 32;
 						}
-					} else
+					}
+					else
 					{
 						clipcount += 32;
 					}
 				}
-				if( ! inside)
+				if ( ! inside)
 				{
 					tCount -= 3;
 					continue;
@@ -865,7 +896,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				tv2.g = globalG;
 				tv2.b = globalB;
 				// texture coords
-				if(hasTexture)
+				if (hasTexture)
 				{
 					tv0.u = v0.u ;
 					tv0.v = v0.v ;
@@ -874,8 +905,8 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					tv2.u = v2.u ;
 					tv2.v = v2.v ;
 				}
-				if(clipcount == 0) // no clipping required
-				
+				if (clipcount == 0) // no clipping required
+
 				{
 					//tv0
 					tv0.z = 1 / tv0.w ;
@@ -906,23 +937,23 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				outCount = 3;
 				/********** clip in NDC Space to Frustum **********/
 				//(0.0, 0.0, -1.0, - 1.0 ) near
-				if((clipcount & 2) == 2)
+				if ((clipcount & 2) == 2)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = - b.z - b.w;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = - a.z - a.w;
 						// current point inside
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
 							// last point outside
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices4[outCount ++] = out;
@@ -931,9 +962,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							}
 							// add a to out
 							_clippedVertices4[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices4[outCount ++] = out;
@@ -945,28 +977,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						bdot = adot;
 					}
 					// check we have 3 or more vertices
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices4;
 				}
 				//(1.0, 0.0, 0.0, - 1.0 )  left
-				if((clipcount & 4) == 4)
+				if ((clipcount & 4) == 4)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = b.x - b.w ;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = a.x - a.w;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices3[outCount ++] = out;
@@ -975,9 +1007,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							}
 							// add a to out
 							_clippedVertices3[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices3[outCount ++] = out;
@@ -988,28 +1021,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices3;
 				}
 				//( - 1.0, 0.0, 0.0, - 1.0 )  right
-				if((clipcount & 8) == 8)
+				if ((clipcount & 8) == 8)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = - b.x - b.w;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = - a.x - a.w;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices2[outCount ++] = out;
@@ -1017,9 +1050,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 								out.interpolate(a, b, t, hasTexture,false);
 							}
 							_clippedVertices2[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices2[outCount ++] = out;
@@ -1030,28 +1064,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices2;
 				}
 				//(0.0, 1.0, 0.0, - 1.0 ) bottom
-				if((clipcount & 16) == 16)
+				if ((clipcount & 16) == 16)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = b.y - b.w ;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = a.y - a.w;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices1[outCount ++] = out;
@@ -1059,9 +1093,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 								out.interpolate(a, b, t, hasTexture,false);
 							}
 							_clippedVertices1[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices1[outCount ++] = out;
@@ -1072,28 +1107,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
 					source = _clippedVertices1;
 				}
 				//(0.0, - 1.0, 0.0, - 1.0 ) top
-				if((clipcount & 32) == 32)
+				if ((clipcount & 32) == 32)
 				{
 					inCount = outCount;
 					outCount = 0;
 					b = source[0];
 					bdot = - b.y - b.w;
 					var i : Int = 1;
-					while(i <= inCount)
+					while (i <= inCount)
 					{
 						a = source[i % inCount];
 						i ++;
 						adot = - a.y - a.w ;
-						if(adot <= 0.0 )
+						if (adot <= 0.0 )
 						{
-							if(bdot> 0.0 )
+							if (bdot> 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices0[outCount ++] = out;
@@ -1101,9 +1136,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 								out.interpolate(a, b, t, hasTexture,false);
 							}
 							_clippedVertices0[outCount ++] = a;
-						} else
+						}
+						else
 						{
-							if(bdot <= 0.0 )
+							if (bdot <= 0.0 )
 							{
 								out = _transformedVertexes[tCount ++];
 								_clippedVertices0[outCount ++] = out;
@@ -1114,7 +1150,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						b = a;
 						bdot = adot;
 					}
-					if(outCount <3)
+					if (outCount <3)
 					{
 						continue;
 					}
@@ -1122,7 +1158,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				}
 				// put back into screen space.
 				vCount2 = vCount;
-				for(g in 0...outCount)
+				for (g in 0...outCount)
 				{
 					tv0 = source[g];
 					tv0.z = 1 / tv0.w ;
@@ -1132,7 +1168,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					_clippedVertices[vCount ++] = tv0;
 				}
 				// re-tesselate( triangle-fan, 0-1-2,0-2-3.. )
-				for(g in 0...(outCount - 2))
+				for (g in 0...(outCount - 2))
 				{
 					_clippedIndices[iCount ++] = vCount2;
 					_clippedIndices[iCount ++] = vCount2 + g + 1;
@@ -1142,7 +1178,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			curRender.drawIndexedTriangleList(_clippedVertices, vCount, _clippedIndices, iCount);
 		}
 	}
-	
+
 	private var vv0 : Vector3D;
 	private var vv1 : Vector3D;
 	private var vv2 : Vector3D;
@@ -1185,9 +1221,9 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		var triangleCount : Int = volume.count;
 		var len : Int = triangleCount * 6;
 		var _transformLen : Int = _transformedVertexes.length;
-		if(_transformLen <len)
+		if (_transformLen <len)
 		{
-			for(i in _transformLen...len)
+			for (i in _transformLen...len)
 			{
 				_transformedVertexes[i] = new Vertex4D();
 			}
@@ -1200,7 +1236,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		vCount = 0;
 		backfaceCount = 0;
 		var ii : Int = 0;
-		while(ii <triangleCount )
+		while (ii <triangleCount )
 		{
 			vv0 = vertices[ii];
 			vv1 = vertices[ii + 1];
@@ -1215,8 +1251,8 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			v2x = vv2.x;
 			v2y = vv2.y;
 			v2z = vv2.z;
-			if(((v1y - v0y) *(v2z - v0z) -(v1z - v0z) *(v2y - v0y)) *(_invCamPos.x - v0x) +((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z) <= 0) //背面剔除
-			
+			if (((v1y - v0y) *(v2z - v0z) -(v1z - v0z) *(v2y - v0y)) *(_invCamPos.x - v0x) +((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z) <= 0) //背面剔除
+
 			{
 				backfaceVectors[backfaceCount] = vv0;
 				backfaceVectors[backfaceCount + 1] = vv1;
@@ -1243,183 +1279,195 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			var inside : Bool = true;
 			var clipcount : Int = 0;
 			//far Quaternion(0.0 , 0.0 , 1.0 , -1.0 );
-			if((tv0.z - tv0.w)>= 0.0)
+			if ((tv0.z - tv0.w)>= 0.0)
 			{
-				if((tv1.z - tv1.w )>= 0.0)
+				if ((tv1.z - tv1.w )>= 0.0)
 				{
-					if((tv2.z - tv2.w)>= 0.0)
+					if ((tv2.z - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 1;
-			}else
+			}
+			else
 			{
-				if((tv1.z - tv1.w ) <0.0)
+				if ((tv1.z - tv1.w ) <0.0)
 				{
-					if((tv2.z - tv2.w )>= 0.0)
+					if ((tv2.z - tv2.w )>= 0.0)
 					{
 						clipcount += 1;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 1;
 					//(1 <<0);
-					
+
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// near Quaternion(0.0 , 0.0 , -1.0, -1.0 );
-			if(( - tv0.z - tv0.w)>= 0.0)
+			if (( - tv0.z - tv0.w)>= 0.0)
 			{
-				if(( - tv1.z - tv1.w )>= 0.0)
+				if (( - tv1.z - tv1.w )>= 0.0)
 				{
-					if(( - tv2.z - tv2.w)>= 0.0)
+					if (( - tv2.z - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 2;
-			}else
+			}
+			else
 			{
-				if(( - tv1.z - tv1.w ) <0.0)
+				if (( - tv1.z - tv1.w ) <0.0)
 				{
-					if(( - tv2.z - tv2.w)>= 0.0)
+					if (( - tv2.z - tv2.w)>= 0.0)
 					{
 						clipcount += 2;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 2;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// left Quaternion(1.0 , 0.0 , 0.0 , -1.0 )
-			if((tv0.x - tv0.w)>= 0.0)
+			if ((tv0.x - tv0.w)>= 0.0)
 			{
-				if((tv1.x - tv1.w)>= 0.0)
+				if ((tv1.x - tv1.w)>= 0.0)
 				{
-					if((tv2.x - tv2.w)>= 0.0)
+					if ((tv2.x - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 4;
-			}else
+			}
+			else
 			{
-				if((tv1.x - tv1.w) <0.0)
+				if ((tv1.x - tv1.w) <0.0)
 				{
-					if((tv2.x - tv2.w)>= 0.0)
+					if ((tv2.x - tv2.w)>= 0.0)
 					{
 						clipcount += 4;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 4;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// right Quaternion(-1.0, 0.0 , 0.0 , -1.0 )
-			if(( - tv0.x - tv0.w)>= 0.0)
+			if (( - tv0.x - tv0.w)>= 0.0)
 			{
-				if(( - tv1.x - tv1.w )>= 0.0)
+				if (( - tv1.x - tv1.w )>= 0.0)
 				{
-					if(( - tv2.x - tv2.w)>= 0.0)
+					if (( - tv2.x - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 8;
-			}else
+			}
+			else
 			{
-				if(( - tv1.x - tv1.w ) <0.0)
+				if (( - tv1.x - tv1.w ) <0.0)
 				{
-					if(( - tv2.x - tv2.w)>= 0.0)
+					if (( - tv2.x - tv2.w)>= 0.0)
 					{
 						clipcount += 8;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 8;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// bottom Quaternion(0.0 , 1.0 , 0.0 , -1.0 )
-			if((tv0.y - tv0.w)>= 0.0)
+			if ((tv0.y - tv0.w)>= 0.0)
 			{
-				if((tv1.y - tv1.w )>= 0.0)
+				if ((tv1.y - tv1.w )>= 0.0)
 				{
-					if((tv2.y - tv2.w)>= 0.0)
+					if ((tv2.y - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 16;
-			}else
+			}
+			else
 			{
-				if((tv1.y - tv1.w) <0.0)
+				if ((tv1.y - tv1.w) <0.0)
 				{
-					if((tv2.y - tv2.w)>= 0.0)
+					if ((tv2.y - tv2.w)>= 0.0)
 					{
 						clipcount += 16;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 16;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			//top Quaternion(0.0 , -1.0, 0.0 , -1.0 )
-			if(( - tv0.y - tv0.w)>= 0.0)
+			if (( - tv0.y - tv0.w)>= 0.0)
 			{
-				if(( - tv1.y - tv1.w )>= 0.0)
+				if (( - tv1.y - tv1.w )>= 0.0)
 				{
-					if(( - tv2.y - tv2.w)>= 0.0)
+					if (( - tv2.y - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 32;
-			}else
+			}
+			else
 			{
-				if(( - tv1.y - tv1.w) <0.0)
+				if (( - tv1.y - tv1.w) <0.0)
 				{
-					if(( - tv2.y - tv2.w)>= 0.0)
+					if (( - tv2.y - tv2.w)>= 0.0)
 					{
 						clipcount += 32;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 32;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
-			if(clipcount == 0) // no clipping required
-			
+			if (clipcount == 0) // no clipping required
+
 			{
 				//tv0
 				tv0.z = 1 / tv0.w ;
@@ -1450,23 +1498,23 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			outCount = 3;
 			/********** clip in NDC Space to Frustum **********/
 			//(0.0, 0.0, -1.0, - 1.0 ) near
-			if((clipcount & 2) == 2)
+			if ((clipcount & 2) == 2)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = - b.z - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = - a.z - a.w;
 					// current point inside
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
 						// last point outside
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices4[outCount ++] = out;
@@ -1475,9 +1523,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						}
 						// add a to out
 						_clippedVertices4[outCount ++] = a;
-					} else
+					}
+					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices4[outCount ++] = out;
@@ -1489,28 +1538,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					bdot = adot;
 				}
 				// check we have 3 or more vertices
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices4;
 			}
 			//(1.0, 0.0, 0.0, - 1.0 )  left
-			if((clipcount & 4) == 4)
+			if ((clipcount & 4) == 4)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = b.x - b.w ;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = a.x - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices3[outCount ++] = out;
@@ -1519,10 +1568,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						}
 						// add a to out
 						_clippedVertices3[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices3[outCount ++] = out;
@@ -1533,28 +1582,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices3;
 			}
 			//( - 1.0, 0.0, 0.0, - 1.0 )  right
-			if((clipcount & 8) == 8)
+			if ((clipcount & 8) == 8)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = - b.x - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = - a.x - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices2[outCount ++] = out;
@@ -1562,10 +1611,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							out.interpolateXYZW(a, b, t);
 						}
 						_clippedVertices2[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices2[outCount ++] = out;
@@ -1576,28 +1625,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices2;
 			}
 			//(0.0, 1.0, 0.0, - 1.0 ) bottom
-			if((clipcount & 16) == 16)
+			if ((clipcount & 16) == 16)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = b.y - b.w ;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = a.y - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices1[outCount ++] = out;
@@ -1605,10 +1654,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							out.interpolateXYZW(a, b, t);
 						}
 						_clippedVertices1[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices1[outCount ++] = out;
@@ -1619,28 +1668,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices1;
 			}
 			//(0.0, - 1.0, 0.0, - 1.0 ) top
-			if((clipcount & 32) == 32)
+			if ((clipcount & 32) == 32)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = - b.y - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = - a.y - a.w ;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices0[outCount ++] = out;
@@ -1648,10 +1697,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							out.interpolateXYZW(a, b, t);
 						}
 						_clippedVertices0[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices0[outCount ++] = out;
@@ -1662,7 +1711,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
@@ -1670,7 +1719,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			}
 			// put back into screen space.
 			vCount2 = vCount;
-			for(g in 0...outCount)
+			for (g in 0...outCount)
 			{
 				tv0 = source[g];
 				tv0.z = 1 / tv0.w ;
@@ -1680,7 +1729,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				_clippedVertices[vCount ++] = tv0;
 			}
 			// re-tesselate( triangle-fan, 0-1-2,0-2-3.. )
-			for(g in 0...(outCount - 2))
+			for (g in 0...(outCount - 2))
 			{
 				_clippedIndices[iCount ++] = vCount2;
 				_clippedIndices[iCount ++] = vCount2 + g + 1;
@@ -1694,7 +1743,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		iCount = 0;
 		vCount = 0;
 		ii = 0;
-		while(ii <backfaceCount )
+		while (ii <backfaceCount )
 		{
 			vv0 = backfaceVectors[ii];
 			vv1 = backfaceVectors[ii + 1];
@@ -1728,183 +1777,195 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			var inside : Bool = true;
 			var clipcount : Int = 0;
 			//far Quaternion(0.0 , 0.0 , 1.0 , -1.0 );
-			if((tv0.z - tv0.w)>= 0.0)
+			if ((tv0.z - tv0.w)>= 0.0)
 			{
-				if((tv1.z - tv1.w )>= 0.0)
+				if ((tv1.z - tv1.w )>= 0.0)
 				{
-					if((tv2.z - tv2.w)>= 0.0)
+					if ((tv2.z - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 1;
-			}else
+			}
+			else
 			{
-				if((tv1.z - tv1.w ) <0.0)
+				if ((tv1.z - tv1.w ) <0.0)
 				{
-					if((tv2.z - tv2.w )>= 0.0)
+					if ((tv2.z - tv2.w )>= 0.0)
 					{
 						clipcount += 1;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 1;
 					//(1 <<0);
-					
+
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// near Quaternion(0.0 , 0.0 , -1.0, -1.0 );
-			if(( - tv0.z - tv0.w)>= 0.0)
+			if (( - tv0.z - tv0.w)>= 0.0)
 			{
-				if(( - tv1.z - tv1.w )>= 0.0)
+				if (( - tv1.z - tv1.w )>= 0.0)
 				{
-					if(( - tv2.z - tv2.w)>= 0.0)
+					if (( - tv2.z - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 2;
-			}else
+			}
+			else
 			{
-				if(( - tv1.z - tv1.w ) <0.0)
+				if (( - tv1.z - tv1.w ) <0.0)
 				{
-					if(( - tv2.z - tv2.w)>= 0.0)
+					if (( - tv2.z - tv2.w)>= 0.0)
 					{
 						clipcount += 2;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 2;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// left Quaternion(1.0 , 0.0 , 0.0 , -1.0 )
-			if((tv0.x - tv0.w)>= 0.0)
+			if ((tv0.x - tv0.w)>= 0.0)
 			{
-				if((tv1.x - tv1.w)>= 0.0)
+				if ((tv1.x - tv1.w)>= 0.0)
 				{
-					if((tv2.x - tv2.w)>= 0.0)
+					if ((tv2.x - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 4;
-			}else
+			}
+			else
 			{
-				if((tv1.x - tv1.w) <0.0)
+				if ((tv1.x - tv1.w) <0.0)
 				{
-					if((tv2.x - tv2.w)>= 0.0)
+					if ((tv2.x - tv2.w)>= 0.0)
 					{
 						clipcount += 4;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 4;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// right Quaternion(-1.0, 0.0 , 0.0 , -1.0 )
-			if(( - tv0.x - tv0.w)>= 0.0)
+			if (( - tv0.x - tv0.w)>= 0.0)
 			{
-				if(( - tv1.x - tv1.w )>= 0.0)
+				if (( - tv1.x - tv1.w )>= 0.0)
 				{
-					if(( - tv2.x - tv2.w)>= 0.0)
+					if (( - tv2.x - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 8;
-			}else
+			}
+			else
 			{
-				if(( - tv1.x - tv1.w ) <0.0)
+				if (( - tv1.x - tv1.w ) <0.0)
 				{
-					if(( - tv2.x - tv2.w)>= 0.0)
+					if (( - tv2.x - tv2.w)>= 0.0)
 					{
 						clipcount += 8;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 8;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// bottom Quaternion(0.0 , 1.0 , 0.0 , -1.0 )
-			if((tv0.y - tv0.w)>= 0.0)
+			if ((tv0.y - tv0.w)>= 0.0)
 			{
-				if((tv1.y - tv1.w )>= 0.0)
+				if ((tv1.y - tv1.w )>= 0.0)
 				{
-					if((tv2.y - tv2.w)>= 0.0)
+					if ((tv2.y - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 16;
-			}else
+			}
+			else
 			{
-				if((tv1.y - tv1.w) <0.0)
+				if ((tv1.y - tv1.w) <0.0)
 				{
-					if((tv2.y - tv2.w)>= 0.0)
+					if ((tv2.y - tv2.w)>= 0.0)
 					{
 						clipcount += 16;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 16;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			//top Quaternion(0.0 , -1.0, 0.0 , -1.0 )
-			if(( - tv0.y - tv0.w)>= 0.0)
+			if (( - tv0.y - tv0.w)>= 0.0)
 			{
-				if(( - tv1.y - tv1.w )>= 0.0)
+				if (( - tv1.y - tv1.w )>= 0.0)
 				{
-					if(( - tv2.y - tv2.w)>= 0.0)
+					if (( - tv2.y - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 32;
-			}else
+			}
+			else
 			{
-				if(( - tv1.y - tv1.w) <0.0)
+				if (( - tv1.y - tv1.w) <0.0)
 				{
-					if(( - tv2.y - tv2.w)>= 0.0)
+					if (( - tv2.y - tv2.w)>= 0.0)
 					{
 						clipcount += 32;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 32;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
-			if(clipcount == 0) // no clipping required
-			
+			if (clipcount == 0) // no clipping required
+
 			{
 				//tv0
 				tv0.z = 1 / tv0.w ;
@@ -1934,23 +1995,23 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			source = _unclippedVertices;
 			outCount = 3;
 			//(0.0, 0.0, -1.0, - 1.0 ) near
-			if((clipcount & 2) == 2)
+			if ((clipcount & 2) == 2)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = - b.z - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = - a.z - a.w;
 					// current point inside
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
 						// last point outside
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices4[outCount ++] = out;
@@ -1959,9 +2020,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						}
 						// add a to out
 						_clippedVertices4[outCount ++] = a;
-					} else
+					}
+					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices4[outCount ++] = out;
@@ -1973,28 +2035,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					bdot = adot;
 				}
 				// check we have 3 or more vertices
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices4;
 			}
 			//(1.0, 0.0, 0.0, - 1.0 )  left
-			if((clipcount & 4) == 4)
+			if ((clipcount & 4) == 4)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = b.x - b.w ;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = a.x - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices3[outCount ++] = out;
@@ -2003,10 +2065,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 						}
 						// add a to out
 						_clippedVertices3[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices3[outCount ++] = out;
@@ -2017,28 +2079,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices3;
 			}
 			//( - 1.0, 0.0, 0.0, - 1.0 )  right
-			if((clipcount & 8) == 8)
+			if ((clipcount & 8) == 8)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = - b.x - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = - a.x - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices2[outCount ++] = out;
@@ -2046,10 +2108,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							out.interpolateXYZW(a, b, t);
 						}
 						_clippedVertices2[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices2[outCount ++] = out;
@@ -2060,28 +2122,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices2;
 			}
 			//(0.0, 1.0, 0.0, - 1.0 ) bottom
-			if((clipcount & 16) == 16)
+			if ((clipcount & 16) == 16)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = b.y - b.w ;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = a.y - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices1[outCount ++] = out;
@@ -2089,10 +2151,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							out.interpolateXYZW(a, b, t);
 						}
 						_clippedVertices1[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices1[outCount ++] = out;
@@ -2103,28 +2165,28 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices1;
 			}
 			//(0.0, - 1.0, 0.0, - 1.0 ) top
-			if((clipcount & 32) == 32)
+			if ((clipcount & 32) == 32)
 			{
 				inCount = outCount;
 				outCount = 0;
 				b = source[0];
 				bdot = - b.y - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					adot = - a.y - a.w ;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices0[outCount ++] = out;
@@ -2132,10 +2194,10 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 							out.interpolateXYZW(a, b, t);
 						}
 						_clippedVertices0[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices0[outCount ++] = out;
@@ -2146,7 +2208,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
@@ -2154,7 +2216,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 			}
 			// put back into screen space.
 			vCount2 = vCount;
-			for(g in 0...outCount)
+			for (g in 0...outCount)
 			{
 				tv0 = source[g];
 				tv0.z = 1 / tv0.w ;
@@ -2164,7 +2226,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 				_clippedVertices[vCount ++] = tv0;
 			}
 			// re-tesselate( triangle-fan, 0-1-2,0-2-3.. )
-			for(g in 0...(outCount - 2))
+			for (g in 0...(outCount - 2))
 			{
 				_clippedIndices[iCount ++] = vCount2;
 				_clippedIndices[iCount ++] = vCount2 + g + 1;
@@ -2174,7 +2236,7 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 		shadowVolumeRender.setCurrentPass(ShadowVolumeRenderer.BACKFACE);
 		shadowVolumeRender.drawIndexedTriangleList(_clippedVertices, vCount, _clippedIndices, iCount);
 	}
-	
+
 	override public function getDriverType() : Int
 	{
 		return VideoDriverType.SHADOWVOLUME;
@@ -2182,27 +2244,27 @@ class VideoDriverShadowVolume extends VideoDriverBasic
 
 	private function setStencileBuffer(buffer : Vector<Int>) : Void
 	{
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setStencileBuffer(buffer);
 		}
 		shadowVolumeRender.setStencileBuffer(buffer);
 	}
-	
+
 	override private function setWidth(width : Int) : Void
 	{
 		super.setWidth(width);
 		shadowVolumeRender.setWidth(width);
 		depthTriangleRenderer.setWidth(width);
 	}
-	
+
 	override private function setHeight(height : Int) : Void
 	{
 		super.setHeight(height);
 		shadowVolumeRender.setHeight(height);
 		depthTriangleRenderer.setHeight(height);
 	}
-	
+
 	override private function setVector(tv : Vector<UInt>, bv : Vector<Float>) : Void
 	{
 		super.setVector(tv, bv);

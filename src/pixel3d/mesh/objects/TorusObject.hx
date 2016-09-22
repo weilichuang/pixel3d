@@ -16,20 +16,20 @@ class TorusObject extends MeshBuffer
 		vertices.length = 0;
 		indices.length = 0;
 		var gridVertices : Vector<Vector<Vertex>>= new Vector<Vector<Vertex>>(segsR);
-		for(i in 0...segsR)
+		for (i in 0...segsR)
 		{
 			gridVertices[i] = new Vector<Vertex>(segsT);
-			for(j in 0...segsT)
+			for (j in 0...segsT)
 			{
 				var u : Float = i / segsR * 2 * Math.PI;
 				var v : Float = j / segsT * 2 * Math.PI;
-				gridVertices[i][j] = new Vertex((radius + tube * Math.cos(v)) * Math.cos(u) , -(radius + tube * Math.cos(v)) * Math.sin(u) , tube * Math.sin(v));
+				gridVertices[i][j] = new Vertex((radius + tube * Math.cos(v)) * Math.cos(u), -(radius + tube * Math.cos(v)) * Math.sin(u), tube * Math.sin(v));
 			}
 		}
 		var indexCount : Int = 0;
-		for(i in 0...segsR)
+		for (i in 0...segsR)
 		{
-			for(j in 0...segsT)
+			for (j in 0...segsT)
 			{
 				var ip : Int =(i + 1) % segsR;
 				var jp : Int =(j + 1) % segsT;

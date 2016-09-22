@@ -26,7 +26,7 @@ class AnimatorFlyStraight implements IAnimator
 	}
 	public function animateNode(node : SceneNode, timeMs : Int) : Void
 	{
-		if(node == null) return;
+		if (node == null) return;
 		var t : Int =(timeMs - startTime);
 		//var pos:Vector3D = start.clone();
 		//if(!loop && t>= timeForWay)
@@ -40,12 +40,13 @@ class AnimatorFlyStraight implements IAnimator
 		var px : Float = start.x;
 		var py : Float = start.y;
 		var pz : Float = start.z;
-		if( ! loop && t>= timeForWay)
+		if ( ! loop && t>= timeForWay)
 		{
 			px = end.x;
 			py = end.y;
 			pz = end.z;
-		} else
+		}
+		else
 		{
 			var sl : Float =(t % timeForWay) * timeFactor;
 			px += vector.x * sl;

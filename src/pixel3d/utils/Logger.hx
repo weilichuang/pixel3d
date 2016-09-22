@@ -13,7 +13,7 @@ class Logger
 	}
 	public static function setLogLevel(lev : Int) : Void
 	{
-		if(lev <0 || lev> 2)
+		if (lev <0 || lev> 2)
 		{
 			return;
 		}
@@ -21,7 +21,7 @@ class Logger
 	}
 	public static function log(message : Dynamic, lv : Int = 0) : Void
 	{
-		if(lv <level)
+		if (lv <level)
 		{
 			return;
 		}

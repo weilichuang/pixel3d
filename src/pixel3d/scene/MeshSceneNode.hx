@@ -19,7 +19,7 @@ class MeshSceneNode extends SceneNode
 	private var mesh : IMesh;
 	private var useDefaultMaterial : Bool ;
 	private var hasShadow:Bool;
-	
+
 	public function new(mesh : IMesh = null, useDefaultMaterial : Bool = true)
 	{
 		super();
@@ -34,111 +34,112 @@ class MeshSceneNode extends SceneNode
 		mesh = m;
 		setMaterials(useDefaultMaterial);
 	}
-	
+
 	public function getMesh() : IMesh
 	{
 		return mesh;
 	}
-	
+
 	private function setMaterials(value : Bool) : Void
 	{
 		materialCount = 0;
 		materials.length = 0;
-		if(mesh != null)
+		if (mesh != null)
 		{
 			var count : Int = mesh.getMeshBufferCount();
-			for(i in 0...count)
+			for (i in 0...count)
 			{
-				if(value)
+				if (value)
 				{
 					materials[i] = mesh.getMeshBuffer(i).getMaterial();
-				} else
+				}
+				else
 				{
 					materials[i] = mesh.getMeshBuffer(i).getMaterial().clone();
 				}
 			}
 			materialCount = count;
 		}
-		
+
 		updateMaterialTypes();
 	}
-	
+
 	public function setUseDefaultMaterial(value : Bool) : Void
 	{
 		useDefaultMaterial = value;
 		setMaterials(useDefaultMaterial);
 	}
-	
+
 	public function getUseDefaultMaterial() : Bool
 	{
 		return useDefaultMaterial;
 	}
-	
+
 	override public function onRegisterSceneNode() : Void
 	{
-		if(visible)
+		if (visible)
 		{
-			if(_material_transparent) sceneManager.registerNodeForRendering(this, SceneNodeType.TRANSPARENT);
-			if(_material_solid) sceneManager.registerNodeForRendering(this, SceneNodeType.SOLID);
+			if (_material_transparent) sceneManager.registerNodeForRendering(this, SceneNodeType.TRANSPARENT);
+			if (_material_solid) sceneManager.registerNodeForRendering(this, SceneNodeType.SOLID);
 			super.onRegisterSceneNode();
 		}
 	}
-	
+
 	override public function render() : Void
 	{
-		if(mesh == null) return;
-		
+		if (mesh == null) return;
+
 		var isTransparentPass : Bool =(sceneManager.getCurrentRenderType() == SceneNodeType.TRANSPARENT);
-		
+
 		var driver : IVideoDriver = sceneManager.getVideoDriver();
-		
+
 		driver.setTransformWorld(_absoluteTransformation);
 		driver.setDistance(distance);
 
 		var len : Int = mesh.getMeshBufferCount();
-		for(i in 0...len)
+		for (i in 0...len)
 		{
-			if(materials[i].transparenting == isTransparentPass)
+			if (materials[i].transparenting == isTransparentPass)
 			{
 				driver.setMaterial(materials[i]);
 				driver.drawMeshBuffer(mesh.getMeshBuffer(i));
 			}
 		}
-		if(debug)
+		if (debug)
 		{
-			driver.draw3DBox(getBoundingBox() , debugColor, debugAlpha, debugWireframe);
+			driver.draw3DBox(getBoundingBox(), debugColor, debugAlpha, debugWireframe);
 		}
 	}
-	
+
 	override public function renderAmbientLight() : Void
 	{
 		var driver : IVideoDriver = sceneManager.getVideoDriver();
-		if(mesh == null || driver == null) return;
+		if (mesh == null || driver == null) return;
 		driver.setTransformWorld(_absoluteTransformation);
 		driver.setDistance(distance);
 		var len : Int = mesh.getMeshBufferCount();
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			driver.setMaterial(materials[i]);
 			driver.drawMeshBufferAmbientLight(mesh.getMeshBuffer(i));
 		}
 	}
-	
+
 	override public function getBoundingBox() : AABBox
 	{
-		if(mesh != null)
+		if (mesh != null)
 		{
 			return mesh.getBoundingBox();
 		}
 		return super.getBoundingBox();
 	}
-	
+
 	override public function getMaterial(i : Int = 0) : Material
 	{
-		if(i <0 || i>= materialCount) return null;
+		if (i <0 || i>= materialCount) return null;
 		return materials[i];
 	}
-	
+
 	override public function getMaterialCount() : Int
 	{
 		return materialCount;

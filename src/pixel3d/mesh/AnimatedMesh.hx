@@ -17,32 +17,32 @@ class AnimatedMesh implements IAnimatedMesh
 		meshes = new Vector<IMesh>();
 		type = 0;
 	}
-	
+
 	public function getFrameCount() : Int
 	{
 		return meshes.length;
 	}
-	
+
 	public function getMesh(frame : Int, detailLevel : Int = 255, startFrameLoop : Int = - 1, endFrameLoop : Int = - 1) : IMesh
 	{
 		return meshes[frame];
 	}
-	
+
 	public function addMesh(mesh : IMesh) : Void
 	{
-		if(mesh != null)
+		if (mesh != null)
 		{
 			meshes.push(mesh);
 		}
 	}
-	
+
 	public function recalculateBoundingBox() : Void
 	{
 		var len : Int = meshes.length;
-		if(len> 0)
+		if (len> 0)
 		{
 			boundingBox.resetAABBox(meshes[0].getBoundingBox());
-			for(i in 1...len)
+			for (i in 1...len)
 			{
 				boundingBox.addInternalAABBox(meshes[i].getBoundingBox());
 			}
@@ -56,16 +56,16 @@ class AnimatedMesh implements IAnimatedMesh
 	{
 		return boundingBox;
 	}
-	
+
 	public function setMaterialFlag(flag : Int, value : Bool) : Void
 	{
 	}
-	
+
 	public function setMaterialTexture(texture : ITexture, layer : Int = 1) : Void
 	{
-		
+
 	}
-	
+
 	public function getMeshType() : Int
 	{
 		return type;

@@ -32,32 +32,32 @@ class MD2MeshLoader extends MeshLoader
 	{
 		super(type);
 	}
-	
+
 	override public function loadBytes(data:ByteArray, type:Int):Void
 	{
 		var mesh:IMesh = null;
-		switch(type)
+		switch (type)
 		{
-			//case 0: 
+			//case 0:
 			//{
-				//mesh = createAnimatedMesh(data);
+			//mesh = createAnimatedMesh(data);
 			//}
-			case 1: 
-			{
-				mesh = createAnimatedMesh(data);
-			}
+			case 1:
+				{
+					mesh = createAnimatedMesh(data);
+				}
 		}
 		dispatchEvent(new MeshEvent(MeshEvent.COMPLETE, mesh));
 	}
-	
+
 	public function createAnimatedMesh(data : ByteArray) : IAnimatedMesh
 	{
 		if (data == null) return null;
-		
+
 		var regexp : EReg = ~/([0 - 9])/g;
-		
+
 		var mesh : AnimatedMeshMD2 = new AnimatedMeshMD2();
-		
+
 		// read file header
 		data.endian = Endian.LITTLE_ENDIAN;
 		data.position = 0;
@@ -78,7 +78,7 @@ class MD2MeshLoader extends MeshLoader
 		var offsetFrames : Int = data.readInt();
 		var offsetGlCommands : Int = data.readInt();
 		var offsetEnd : Int = data.readInt();
-		if(magic != MD2_MAGIC_NUMBER || version != MD2_VERSION)
+		if (magic != MD2_MAGIC_NUMBER || version != MD2_VERSION)
 		{
 			Logger.log("This is not a md2 model", Logger.ERROR);
 			return null;
@@ -87,13 +87,13 @@ class MD2MeshLoader extends MeshLoader
 		mesh.numTriangles = numTriangles;
 		// create keyframes
 		mesh.frameTransforms = new Vector<MD2KeyFrameTransform>(numFrames);
-		for(i in 0...numFrames)
+		for (i in 0...numFrames)
 		{
 			mesh.frameTransforms[i] = new MD2KeyFrameTransform();
 		}
 		// create vertex arrays for each keyframe
 		mesh.frameList = new Vector<Vector<MD2Vertex>>(numFrames);
-		for(i in 0...numFrames)
+		for (i in 0...numFrames)
 		{
 			mesh.frameList[i] = new Vector<MD2Vertex>(numVertices);
 		}
@@ -101,13 +101,13 @@ class MD2MeshLoader extends MeshLoader
 		var count : Int = numTriangles * 3;
 		var vertices : Vector<Vertex>= new Vector<Vertex>(count);
 		var buffer : MeshBuffer = mesh.interpolateBuffer;
-		for(i in 0...count)
+		for (i in 0...count)
 		{
 			vertices[i] = new Vertex();
 		}
 		var indices : Vector<Int>= new Vector<Int>(count);
 		var i : Int = 0;
-		while(i <count)
+		while (i <count)
 		{
 			indices[i] = i++;
 			//indices[i + 1] = i + 1;
@@ -119,7 +119,7 @@ class MD2MeshLoader extends MeshLoader
 		var invWidth : Float = 1.0 / skinWidth;
 		var invHeight : Float = 1.0 / skinHeight;
 		var uvList : Vector<Vector2f>= new Vector<Vector2f>(numTexcoords);
-		for(i in 0...numTexcoords)
+		for (i in 0...numTexcoords)
 		{
 			var uv : Vector2f = new Vector2f();
 			uv.x =(data.readShort() + 0.5) * invWidth;
@@ -129,7 +129,7 @@ class MD2MeshLoader extends MeshLoader
 		// read Triangles
 		data.position = offsetTriangles;
 		var triangles : Vector<MD2Triangle>= new Vector<MD2Triangle>(numTriangles);
-		for(i in 0...numTriangles)
+		for (i in 0...numTriangles)
 		{
 			var tri : MD2Triangle = new MD2Triangle();
 			tri.v0 = data.readShort();
@@ -144,7 +144,7 @@ class MD2MeshLoader extends MeshLoader
 		// read Frames
 		data.position = offsetFrames;
 		var transforms : Vector<MD2KeyFrameTransform>= mesh.frameTransforms;
-		for(i in 0...numFrames)
+		for (i in 0...numFrames)
 		{
 			// read data into frame
 			var sx : Float = data.readFloat();
@@ -169,20 +169,21 @@ class MD2MeshLoader extends MeshLoader
 			frame.name = '';
 			// find the current frame's name
 			var sl : Int = name.length;
-			if(sl> 0)
+			if (sl> 0)
 			{
 				frame.name = regexp.replace(name, "");
-				if(mesh.keyFrameDatas.length == 0)
+				if (mesh.keyFrameDatas.length == 0)
 				{
 					mesh.keyFrameDatas.push(frame);
-				} 
+				}
 				else
 				{
 					var last : KeyFrameData = mesh.keyFrameDatas[mesh.keyFrameDatas.length - 1];
-					if(last.name == frame.name)
+					if (last.name == frame.name)
 					{
 						last.end ++;
-					} else
+					}
+					else
 					{
 						mesh.keyFrameDatas.push(frame);
 					}
@@ -190,7 +191,7 @@ class MD2MeshLoader extends MeshLoader
 			}
 			var list : flash.Vector<MD2Vertex>= new Vector<MD2Vertex>();
 			//x,y,z,normalIndex
-			for(j in 0...numVertices)
+			for (j in 0...numVertices)
 			{
 				// read vertex
 				var vex : MD2Vertex = new MD2Vertex();
@@ -202,17 +203,18 @@ class MD2MeshLoader extends MeshLoader
 			}
 			var box : AABBox = new AABBox();
 			mesh.boxList[i] = box;
-			for(j in 0...numTriangles)
+			for (j in 0...numTriangles)
 			{
 				var vex : MD2Vertex = list[triangles[j].v0];
 				mesh.frameList[i][j * 3] = vex;
 				var px : Float = vex.x * sx + tx;
 				var py : Float = vex.y * sy + ty;
 				var pz : Float = vex.z * sz + tz;
-				if(j == 0)
+				if (j == 0)
 				{
 					box.reset(px, py, pz);
-				} else
+				}
+				else
 				{
 					box.addInternalXYZ(px, py, pz);
 				}
@@ -230,7 +232,7 @@ class MD2MeshLoader extends MeshLoader
 				box.addInternalXYZ(px, py, pz);
 			}
 		}
-		for(j in 0...numTriangles)
+		for (j in 0...numTriangles)
 		{
 			vertices[j * 3].u = uvList[triangles[j].t0].x;
 			vertices[j * 3].v = uvList[triangles[j].t0].y;

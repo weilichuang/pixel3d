@@ -11,6 +11,7 @@ class AnimatorFlyCircle implements IAnimator
 	public var time : Int;
 	private var vecV : Vector3D;
 	private var vecU : Vector3D;
+
 	public function new(time : Int, center : Vector3D, radius : Float, speed : Float, direction : Vector3D)
 	{
 		this.time = time;
@@ -20,14 +21,16 @@ class AnimatorFlyCircle implements IAnimator
 		this.direction = direction;
 		init();
 	}
+
 	private function init() : Void
 	{
 		direction.normalize();
-		if(direction.y != 0)
+		if (direction.y != 0)
 		{
 			vecV = new Vector3D(1, 0, 0).crossProduct(direction);
 			vecV.normalize();
-		} else
+		}
+		else
 		{
 			vecV = new Vector3D(0, 1, 0).crossProduct(direction);
 			vecV.normalize();
@@ -35,9 +38,10 @@ class AnimatorFlyCircle implements IAnimator
 		vecU = vecV.crossProduct(direction);
 		vecU.normalize();
 	}
+
 	public function animateNode(node : SceneNode, timeMs : Int) : Void
 	{
-		if(node == null) return;
+		if (node == null) return;
 		var t : Float =(timeMs - time) * 0.01 * speed;
 		var cos : Float = Math.cos(t);
 		var sin : Float = Math.sin(t);
@@ -45,6 +49,7 @@ class AnimatorFlyCircle implements IAnimator
 		node.y = center.y + radius *(cos * vecU.y + sin * vecV.y);
 		node.z = center.z + radius *(cos * vecU.z + sin * vecV.z);
 	}
+
 	public function hasFinished() : Bool
 	{
 		return false;

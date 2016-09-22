@@ -23,13 +23,13 @@ class CylinderObject extends MeshBuffer
 		//vertices.length =(tesselation * 4 +(closeTop?2:1));
 		//indices.length  =(tesselation * 2) *(closeTop?12:9);
 		var tcx : Float = 0.;
-		
+
 		var sin = Math.sin;
 		var cos = Math.cos;
 		var i : Int = 0;
 		var vertex : Vertex;
 		var vertex1 : Vertex;
-		while(i != tesselation)
+		while (i != tesselation)
 		{
 			var angle : Float = angleStep * i;
 			vertex = new Vertex();
@@ -81,7 +81,7 @@ class CylinderObject extends MeshBuffer
 		}
 		var nonWrappedSize : Float =(tesselation * 4 ) - 2;
 		i = 0;
-		while(i != nonWrappedSize)
+		while (i != nonWrappedSize)
 		{
 			indices.push(i + 2 );
 			indices.push(i + 0 );
@@ -110,7 +110,7 @@ class CylinderObject extends MeshBuffer
 		vertices.push(vertex );
 		var index : Int = vertices.length - 1;
 		i = 0;
-		while(i != nonWrappedSize)
+		while (i != nonWrappedSize)
 		{
 			indices.push(index );
 			indices.push(i + 0 );
@@ -120,7 +120,7 @@ class CylinderObject extends MeshBuffer
 		indices.push(index );
 		indices.push(i + 0 );
 		indices.push(0 );
-		if(closeTop)
+		if (closeTop)
 		{
 			// close top
 			vertex = new Vertex();
@@ -135,7 +135,7 @@ class CylinderObject extends MeshBuffer
 			vertices.push(vertex );
 			index = vertices.length - 1;
 			i = 0;
-			while(i != nonWrappedSize)
+			while (i != nonWrappedSize)
 			{
 				indices.push(i + 1 );
 				indices.push(index );

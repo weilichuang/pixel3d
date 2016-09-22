@@ -17,7 +17,7 @@ class BSPModel
 	// The min position for the bounding box[3]:Float;
 	// The max position for the bounding box.[3]:Float;
 	public var boundingBox:AABBox;
-	
+
 	public var faceIndex : Int;
 	// The first face index in the model
 	public var numOfFaces : Int;
@@ -27,7 +27,7 @@ class BSPModel
 	public var numOfBrushes : Int;
 	// The number brushes for the model
 	public static inline var sizeof : Int = 40;
-	
+
 	public function new()
 	{
 		boundingBox = new AABBox();

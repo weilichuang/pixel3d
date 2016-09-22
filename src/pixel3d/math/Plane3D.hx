@@ -8,30 +8,29 @@ class Plane3D
 	public static inline var IS_SPANNING : Int = 3;
 	public static inline var IS_CLIPPED : Int = 4;
 
-	
 	public var normal : Vector3D;
-	
+
 	public var d : Float ;
-	
+
 	public function new(n : Vector3D = null, d : Float = 0.)
 	{
 		this.normal = (n == null) ? new Vector3D() : n;
 		this.d = d;
 	}
-	
+
 	public inline function setPlane2(point : Vector3D, n : Vector3D) : Void
 	{
 		normal = n.clone();
 		normal.normalize();
 		recalculateD(point);
 	}
-	
+
 	public inline function setPlane(normal : Vector3D, d : Float) : Void
 	{
 		this.normal = normal;
 		this.d = d;
 	}
-	
+
 	public inline function setPlane3(p1 : Vector3D, p2 : Vector3D, p3 : Vector3D) : Void
 	{
 		var sp0 : Vector3D = p2.subtract(p1);
@@ -40,8 +39,8 @@ class Plane3D
 		normal.normalize();
 		recalculateD(p1);
 	}
-	
-	/** 
+
+	/**
 	 * 直线的参数方程为p=p0+v*t;//p0(x0,y0,z0)为直线的点,v(vx,vy,vz)为直线的方向
 	 * 平面的通用方程a*x+b*y+c*z+d=0;//假设平面的法向量为normal(a,b,c)
 	 * 把直线带入平面方程中：
@@ -61,11 +60,11 @@ class Plane3D
 	{
 		var t2 : Float = normal.dotProduct(lineVect);
 		//两个向量垂直，说明直线与平面平行或者被包含
-		if(t2 == 0)
+		if (t2 == 0)
 		{
 			return false;
-		} 
-		else 
+		}
+		else
 		{
 			var t : Float = -(normal.dotProduct(linePoint) + d) / t2;
 			outIntersection.x = linePoint.x +(lineVect.x * t);
@@ -74,7 +73,7 @@ class Plane3D
 			return true;
 		}
 	}
-	
+
 	/**
 	* Returns where on a line between two points an intersection with this plane happened.
 	* @param	point1: Point1 of the line to intersect with.
@@ -88,7 +87,7 @@ class Plane3D
 		var t2 : Float = normal.dotProduct(vect);
 		return -((normal.dotProduct(point1) + d) / t2);
 	}
-	
+
 	/**
 	 * 判断平面与点的关系
 	 * @param	point
@@ -100,38 +99,38 @@ class Plane3D
 		if (t < - MathUtil.ROUNDING_ERROR)
 		{
 			return IS_BACK;
-		} 
+		}
 		else if (t > MathUtil.ROUNDING_ERROR)
 		{
 			return IS_FRONT;
-		} 
+		}
 		else
 		{
 			return IS_PLANAR;
 		}
 	}
-	
+
 	// Recalculates the distance from origin by applying
 	// a new member point to the plane.
 	public inline function recalculateD(mPoint : Vector3D) : Void
 	{
 		d = -normal.dotProduct(mPoint);
 	}
-	
+
 	public inline function getMemberPoint() : Vector3D
 	{
 		var v:Vector3D = normal.clone();
 		v.scaleBy( -d);
 		return v;
 	}
-	
+
 	// Tests if there is a intersection between this plane and another 是否与其它平面相交
 	// @return Returns true if there is a intersection.
 	public inline function existsInterSection(other : Plane3D) : Bool
 	{
 		return other.normal.crossProduct(normal).lengthSquared > MathUtil.ROUNDING_ERROR;
 	}
-	 
+
 	/**
 	 * Intersects this plane with another.
 	 * @other
@@ -148,10 +147,11 @@ class Plane3D
 		var det : Float =(fn00 * fn11) -(fn01 * fn01);
 		// check det
 		det = MathUtil.abs(det);
-		if(det <MathUtil.ROUNDING_ERROR)
+		if (det <MathUtil.ROUNDING_ERROR)
 		{
 			return false;
-		} else 
+		}
+		else
 		{
 			det = 1.0 / det;
 			var fc0 : Float =((fn11 * - d) +(fn01 * other.d)) * det;
@@ -166,27 +166,27 @@ class Plane3D
 			return true;
 		}
 	}
-	
+
 	//计算3个平面的交点.
 	private static var _linePoint : Vector3D = new Vector3D();
 	private static var _lineVect : Vector3D = new Vector3D();
 	public inline function getIntersectionWithPlanes(o1 : Plane3D, o2 : Plane3D, outPoint : Vector3D) : Bool
 	{
-		if(getIntersectionWithPlane(o1, _linePoint, _lineVect))
+		if (getIntersectionWithPlane(o1, _linePoint, _lineVect))
 		{
 			return o2.getIntersectionWithLine(_linePoint, _lineVect, outPoint);
-		} 
-		else 
+		}
+		else
 		{
 			return false;
 		}
 	}
-	
+
 	public inline function isFrontFacing(lookDirection : Vector3D) : Bool
 	{
 		return normal.dotProduct(lookDirection) <= 0.0;
 	}
-	
+
 	// Returns the distance to a point.  Note that this only
 	// works if the normal is Normalized.
 	public inline function getDistanceToPoint(point : Vector3D) : Float

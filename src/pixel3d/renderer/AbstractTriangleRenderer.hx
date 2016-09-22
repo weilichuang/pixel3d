@@ -16,17 +16,17 @@ class AbstractTriangleRenderer implements ITriangleRenderer
 	private var target : Vector<UInt>;
 	private var buffer : Vector<Float>;
 	private var material : Material;
-	
+
 	private var texture : ITexture;
 	private var texVector : Vector<UInt>;
 	private var texWidth : Int;
 	private var texHeight : Int;
-	
+
 	private var texture2 : ITexture;
 	private var texVector2D : Vector<UInt>;
 	private var texWidth2 : Int;
 	private var texHeight2 : Int;
-	
+
 	private var perspectiveCorrect : Bool;
 	private var perspectiveDistance : Float;
 	private var mipMapDistance : Float;
@@ -38,7 +38,7 @@ class AbstractTriangleRenderer implements ITriangleRenderer
 	private var width : Int;
 	private var height : Int;
 	private var distance : Float;
-	
+
 	private var dzdx : Float;
 	private var dzdy : Float;
 	private var xa : Float;
@@ -103,58 +103,58 @@ class AbstractTriangleRenderer implements ITriangleRenderer
 		shadowPerctent = MathUtil.clamp(per, 0, 1);
 		invsa = 1.0 - shadowPerctent;
 	}
-	
+
 	public function setRenderState(state : Int) : Void
 	{
 		this.renderState = state;
 	}
-	
+
 	public function setStencileBuffer(buffer : Vector<Int>) : Void
 	{
 		this.stencileBuffer = buffer;
 	}
-	
+
 	public function drawIndexedTriangleList(vertices : Vector<Vertex4D>, vertexCount : Int, indexList : Vector<Int>, indexCount : Int) : Void
 	{
 	}
-	
+
 	public function setDistance(distance : Float) : Void
 	{
 		this.distance = distance;
 	}
-	
+
 	public function setVector(target : Vector<UInt>, buffer : Vector<Float>) : Void
 	{
 		this.target = target;
 		this.buffer = buffer;
 	}
-	
+
 	public function setWidth(width : Int) : Void
 	{
 		this.width = width;
 	}
-	
+
 	public function setHeight(height : Int) : Void
 	{
 		this.height = height;
 	}
-	
+
 	public function setPerspectiveCorrectDistance(distance : Float = 400.) : Void
 	{
 		perspectiveDistance = distance;
 	}
-	
+
 	public function setMipMapDistance(distance : Float = 500.) : Void
 	{
 		mipMapDistance = distance;
 	}
-	
+
 	public function setMaterial(mat : Material) : Void
 	{
 		material = mat;
 		isPowOfTow = material.isPowOfTow;
 		transparent = material.transparenting;
-		if(transparent)
+		if (transparent)
 		{
 			alpha = material.alpha;
 			invAlpha = 1.0 - alpha;

@@ -41,25 +41,25 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 	{
 		var dy : Float;
 		var i : Int = 0;
-		while(i <indexCount)
+		while (i <indexCount)
 		{
 			v1 = vertices[indexList[i]];
 			v2 = vertices[indexList[i + 1]];
 			v3 = vertices[indexList[i + 2]];
 			i += 3;
-			if(v2.y <v1.y)
+			if (v2.y <v1.y)
 			{
 				tmp = v1;
 				v1 = v2;
 				v2 = tmp;
 			}
-			if(v3.y <v1.y)
+			if (v3.y <v1.y)
 			{
 				tmp = v1;
 				v1 = v3;
 				v3 = tmp;
 			}
-			if(v3.y <v2.y)
+			if (v3.y <v2.y)
 			{
 				tmp = v2;
 				v2 = v3;
@@ -99,7 +99,7 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 			b2b1 = b2 - b1;
 			b3b1 = b3 - b1;
 			var denom : Float =(x3x1 * y2y1 - x2x1 * y3y1);
-			if(denom == 0) continue;
+			if (denom == 0) continue;
 			denom = 1 / denom;
 			dzdx =(z3z1 * y2y1 - z2z1 * y3y1) * denom;
 			drdx =(r3r1 * y2y1 - r2r1 * y3y1) * denom;
@@ -115,16 +115,16 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 			dxdy3 =(x3 - x2) /(y3 - y2);
 			// Determine which side of the poly the longer edge is on
 			side = dxdy2> dxdy1;
-			if(y1 == y2 )
+			if (y1 == y2 )
 			{
 				side = x1> x2;
 			}
-			if(y2 == y3 )
+			if (y2 == y3 )
 			{
 				side = x3> x2;
 			}
-			if(side == false ) // Longer edge is on the left side
-			
+			if (side == false ) // Longer edge is on the left side
+
 			{
 				// Calculate slopes along left edge
 				dxdya = dxdy2;
@@ -139,50 +139,54 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 				ra = r1 + dy * drdya;
 				ga = g1 + dy * dgdya;
 				ba = b1 + dy * dbdya;
-				if(y1i <y2i) // Draw upper segment if possibly visible
-				
+				if (y1i <y2i) // Draw upper segment if possibly visible
+
 				{
 					// Set right edge X-slope and perform subpixel pre-stepping
 					xb = x1 + dy * dxdy1;
 					dxdyb = dxdy1;
-					if(transparent && alpha <1)
+					if (transparent && alpha <1)
 					{
 						drawSubTriAlpha(y1i, y2i);
-					} else if(renderState == RenderState.SHADOW)
+					}
+					else if (renderState == RenderState.SHADOW)
 					{
 						drawSubTriShadow(y1i, y2i);
-					}else
+					}
+					else
 					{
 						drawSubTri(y1i, y2i);
 					}
 				}
-				if(y2i <y3i) // Draw lower segment if possibly visible
-				
+				if (y2i <y3i) // Draw lower segment if possibly visible
+
 				{
 					// Set right edge X-slope and perform subpixel pre-stepping
 					xb = x2 +(1 -(y2 - y2i)) * dxdy3;
 					dxdyb = dxdy3;
-					if(transparent && alpha <1)
+					if (transparent && alpha <1)
 					{
 						drawSubTriAlpha(y2i, y3i);
-					} else if(renderState == RenderState.SHADOW)
+					}
+					else if (renderState == RenderState.SHADOW)
 					{
 						drawSubTriShadow(y2i, y3i);
-					}else
+					}
+					else
 					{
 						drawSubTri(y2i, y3i);
 					}
 				}
-			} 
+			}
 			else	// Longer edge is on the right side
-			
+
 			{
 				// Set right edge X-slope and perform subpixel pre-stepping
 				dxdyb = dxdy2;
 				dy = 1 -(y1 - y1i);
 				xb = x1 + dy * dxdyb;
-				if(y1i <y2i ) // Draw upper segment if possibly visible
-				
+				if (y1i <y2i ) // Draw upper segment if possibly visible
+
 				{
 					// Set slopes along left edge and perform subpixel pre-stepping
 					dxdya = dxdy1;
@@ -195,19 +199,21 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 					ra = r1 + dy * drdya;
 					ga = g1 + dy * dgdya;
 					ba = b1 + dy * dbdya;
-					if(transparent && alpha <1)
+					if (transparent && alpha <1)
 					{
 						drawSubTriAlpha(y1i, y2i);
-					} else if(renderState == RenderState.SHADOW)
+					}
+					else if (renderState == RenderState.SHADOW)
 					{
 						drawSubTriShadow(y1i, y2i);
-					}else
+					}
+					else
 					{
 						drawSubTri(y1i, y2i);
 					}
 				}
-				if(y2i <y3i ) // Draw lower segment if possibly visible
-				
+				if (y2i <y3i ) // Draw lower segment if possibly visible
+
 				{
 					// Set slopes along left edge and perform subpixel pre-stepping
 					dxdya = dxdy3;
@@ -221,13 +227,15 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 					ra = r2 + dy * drdya;
 					ga = g2 + dy * dgdya;
 					ba = b2 + dy * dbdya;
-					if(transparent && alpha <1)
+					if (transparent && alpha <1)
 					{
 						drawSubTriAlpha(y2i, y3i);
-					} else if(renderState == RenderState.SHADOW)
+					}
+					else if (renderState == RenderState.SHADOW)
 					{
 						drawSubTriShadow(y2i, y3i);
-					}else
+					}
+					else
 					{
 						drawSubTri(y2i, y3i);
 					}
@@ -235,11 +243,11 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 			}
 		}
 	}
-	
+
 	private inline function drawSubTri(ys : Int, ye : Int ) : Void
 	{
 		var dx : Float;
-		while(ys <ye )
+		while (ys <ye )
 		{
 			xs = Std.int(xa);
 			xe = Std.int(xb);
@@ -248,10 +256,10 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 			ri = ra + dx * drdx;
 			gi = ga + dx * dgdx;
 			bi = ba + dx * dbdx;
-			while(xs <xe )
+			while (xs <xe )
 			{
 				pos = xs + ys * width;
-				if(zi> buffer[pos])
+				if (zi> buffer[pos])
 				{
 					target[pos] =(0xFF000000 | Std.int(ri) <<16 | Std.int(gi) <<8 | Std.int(bi));
 					buffer[pos] = zi;
@@ -274,7 +282,7 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 	private inline function drawSubTriShadow(ys : Int, ye : Int ) : Void
 	{
 		var dx : Float;
-		while(ys <ye )
+		while (ys <ye )
 		{
 			xs = Std.int(xa);
 			xe = Std.int(xb);
@@ -283,15 +291,16 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 			ri = ra + dx * drdx;
 			gi = ga + dx * dgdx;
 			bi = ba + dx * dbdx;
-			while(xs <xe )
+			while (xs <xe )
 			{
 				pos = xs + ys * width;
-				if(stencileBuffer[pos] != 0)
+				if (stencileBuffer[pos] != 0)
 				{
-					if(invsa == 0)
+					if (invsa == 0)
 					{
 						target[pos] = 0xFF000000;
-					}else
+					}
+					else
 					{
 						var c : UInt = target[pos];
 						target[pos] =(0xFF000000 |
@@ -299,7 +308,8 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 						Std.int((c>> 8 & 0xFF) * invsa) <<8 |
 						Std.int((c & 0xFF) * invsa));
 					}
-				} else if(zi> buffer[pos])
+				}
+				else if (zi> buffer[pos])
 				{
 					target[pos] =(0xFF000000 | Std.int(ri) <<16 | Std.int(gi) <<8 | Std.int(bi));
 					buffer[pos] = zi;
@@ -322,7 +332,7 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 	private inline function drawSubTriAlpha(ys : Int, ye : Int ) : Void
 	{
 		var dx : Float;
-		while(ys <ye )
+		while (ys <ye )
 		{
 			xs = Std.int(xa);
 			xe = Std.int(xb);
@@ -331,18 +341,19 @@ class ShadowVolumeGouraud extends AbstractTriangleRenderer
 			ri = ra + dx * drdx;
 			gi = ga + dx * dgdx;
 			bi = ba + dx * dbdx;
-			while(xs <xe )
+			while (xs <xe )
 			{
 				pos = xs + ys * width;
 				bgColor = target[pos];
 				bga = bgColor>> 24 & 0xFF ;
-				if(bga <0xFF)
+				if (bga <0xFF)
 				{
 					target[pos] =(Std.int(alpha * 255 + invAlpha * bga) <<24 |
 					Std.int(alpha * ri + invAlpha *(bgColor>> 16 & 0xFF)) <<16 |
 					Std.int(alpha * gi + invAlpha *(bgColor>> 8 & 0xFF)) <<8 |
 					Std.int(alpha * bi + invAlpha *(bgColor & 0xFF)));
-				} else if(zi> buffer[pos])
+				}
+				else if (zi> buffer[pos])
 				{
 					target[pos] =(0xFF000000 |
 					Std.int(alpha * ri + invAlpha *(bgColor>> 16 & 0xFF)) <<16 |

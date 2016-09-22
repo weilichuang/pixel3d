@@ -6,15 +6,15 @@ import pixel3d.math.Quaternion;
 class RotationKey
 {
 	public var frame : Int;
-	
+
 	public var rotation : Quaternion;
-	
+
 	public function new()
 	{
 		frame = 0;
 		rotation = new Quaternion();
 	}
-	
+
 	public function clone() : RotationKey
 	{
 		var key : RotationKey = new RotationKey();

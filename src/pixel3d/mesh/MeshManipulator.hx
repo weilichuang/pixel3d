@@ -24,7 +24,7 @@ class MeshManipulator
 		var b : Int = color & 0xFF;
 		var len : Int = vertices.length;
 		var vertex : Vertex;
-		for(j in 0...len)
+		for (j in 0...len)
 		{
 			vertex = vertices[j];
 			vertex.r = r;
@@ -37,20 +37,20 @@ class MeshManipulator
 		var vertices : Vector<Vertex>= buffer.getVertices();
 		var len : Int = vertices.length;
 		var vertex : Vertex;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			vertex = vertices[i];
 			m.transformVertex(vertex, true);
 		}
 		buffer.recalculateBoundingBox();
 	}
-	
+
 	public static function recalculateBufferNormals(buffer : MeshBuffer, smooth : Bool = true, angleWeighted : Bool = true) : Void
 	{
 		var vp0 : Vector3D = new Vector3D();
-	    var vp1 : Vector3D = new Vector3D();
-	    var vp2 : Vector3D = new Vector3D();
-	    var plane : Plane3D = new Plane3D();
+		var vp1 : Vector3D = new Vector3D();
+		var vp2 : Vector3D = new Vector3D();
+		var plane : Plane3D = new Plane3D();
 		var vertices : Vector<Vertex>= buffer.getVertices();
 		var indices : Vector<Int>= buffer.getIndices();
 		var normal : Vector3D;
@@ -59,11 +59,11 @@ class MeshManipulator
 		var v2 : Vertex;
 		var vtx_count : Int = vertices.length;
 		var idx_count : Int = indices.length;
-		if( ! smooth)
+		if ( ! smooth)
 		{
 			// flat normals
 			var i : Int = 0;
-			while(i <idx_count)
+			while (i <idx_count)
 			{
 				v0 = vertices[indices[i]];
 				v1 = vertices[indices[i + 1]];
@@ -77,7 +77,7 @@ class MeshManipulator
 				vp2.x = v2.x;
 				vp2.y = v2.y;
 				vp2.z = v2.z;
-				plane.setPlane3(vp0 , vp1 , vp2);
+				plane.setPlane3(vp0, vp1, vp2);
 				normal = plane.normal;
 				v0.nx = normal.x;
 				v0.ny = normal.y;
@@ -90,10 +90,11 @@ class MeshManipulator
 				v2.nz = normal.z;
 				i += 3;
 			}
-		} else 
+		}
+		else
 		{
 			// smooth normals
-			for(i in 0...vtx_count)
+			for (i in 0...vtx_count)
 			{
 				v0 = vertices[i];
 				v0.nx = 0;
@@ -101,7 +102,7 @@ class MeshManipulator
 				v0.nz = 0;
 			}
 			var i : Int = 0;
-			while(i <idx_count)
+			while (i <idx_count)
 			{
 				v0 = vertices[indices[i]];
 				v1 = vertices[indices[i + 1]];
@@ -115,11 +116,11 @@ class MeshManipulator
 				vp2.x = v2.x;
 				vp2.y = v2.y;
 				vp2.z = v2.z;
-				plane.setPlane3(vp0 , vp1 , vp2);
+				plane.setPlane3(vp0, vp1, vp2);
 				normal = plane.normal;
-				if(angleWeighted)
+				if (angleWeighted)
 				{
-					var angle : Vector3D = Vector3DUtil.getAngleWeight(vp0 , vp1 , vp2);
+					var angle : Vector3D = Vector3DUtil.getAngleWeight(vp0, vp1, vp2);
 					normal.x *= angle.x;
 					normal.y *= angle.y;
 					normal.z *= angle.z;
@@ -135,7 +136,7 @@ class MeshManipulator
 				v2.nz = v2.nz + normal.z;
 				i += 3;
 			}
-			for(i in 0...vtx_count)
+			for (i in 0...vtx_count)
 			{
 				vertices[i].normalize();
 			}
@@ -145,7 +146,7 @@ class MeshManipulator
 	{
 		var vertices : Vector<Vertex>= buffer.getVertices();
 		var len : Int = vertices.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			vertices[i].u *= factor.x;
 			vertices[i].v *= factor.y;
@@ -159,18 +160,18 @@ class MeshManipulator
 		var vtx_cnt : Int = vertices.length;
 		var idx_cnt : Int = indices.length;
 		var j : Int = 0;
-		while(j <idx_cnt)
+		while (j <idx_cnt)
 		{
 			var v0 : Vertex = vertices[indices[j]];
 			var v1 : Vertex = vertices[indices[j + 1]];
 			var v2 : Vertex = vertices[indices[j + 2]];
-			plane.setPlane3(v0.position , v1.position , v2.position);
+			plane.setPlane3(v0.position, v1.position, v2.position);
 			var normal : Vector3D = plane.normal;
 			normal.x = MathUtil.abs(normal.x);
 			normal.y = MathUtil.abs(normal.y);
 			normal.z = MathUtil.abs(normal.z);
 			// calculate planar mapping worldspace coordinates
-			if(normal.x> normal.y && normal.x> normal.z)
+			if (normal.x> normal.y && normal.x> normal.z)
 			{
 				v0.u = v0.y * resolution;
 				v0.v = v0.z * resolution;
@@ -178,7 +179,8 @@ class MeshManipulator
 				v1.v = v1.z * resolution;
 				v2.u = v2.y * resolution;
 				v2.v = v2.z * resolution;
-			} else if(normal.y> normal.x && normal.y> normal.z)
+			}
+			else if (normal.y> normal.x && normal.y> normal.z)
 			{
 				v0.u = v0.x * resolution;
 				v0.v = v0.z * resolution;
@@ -186,7 +188,8 @@ class MeshManipulator
 				v1.v = v1.z * resolution;
 				v2.u = v2.x * resolution;
 				v2.v = v2.z * resolution;
-			} else
+			}
+			else
 			{
 				v0.u = v0.x * resolution;
 				v0.v = v0.y * resolution;
@@ -215,7 +218,7 @@ class MeshManipulator
 		var y : Float = value.y;
 		var z : Float = value.z;
 		var len : Int = vertices.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			var vertex : Vertex = vertices[i];
 			vertex.x += x;
@@ -235,7 +238,7 @@ class MeshManipulator
 		var sy : Float = value.y;
 		var sz : Float = value.z;
 		var len : Int = vertices.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			var vertex : Vertex = vertices[i];
 			vertex.x *= sx;
@@ -254,9 +257,9 @@ class MeshManipulator
 		var matrix : Matrix4 = new Matrix4();
 		matrix.setRotation(value,true);
 		var len : Int = vertices.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
-			matrix.rotateVertex(vertices[i] , true);
+			matrix.rotateVertex(vertices[i], true);
 		}
 		buffer.recalculateBoundingBox();
 	}
@@ -270,7 +273,7 @@ class MeshManipulator
 		var len : Int = indices.length;
 		var tmp : Int;
 		var i : Int = 0;
-		while(i <len)
+		while (i <len)
 		{
 			tmp = indices[i + 1];
 			indices[i + 1] = indices[i + 2];
@@ -281,33 +284,33 @@ class MeshManipulator
 	public static function scaleMesh(mesh : IMesh, value : Vector3D) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
-			scaleBuffer(mesh.getMeshBuffer(j) , value);
+			scaleBuffer(mesh.getMeshBuffer(j), value);
 		}
 		mesh.recalculateBoundingBox();
 	}
 	public static function translateMesh(mesh : IMesh, value : Vector3D) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
-			translateBuffer(mesh.getMeshBuffer(j) , value);
+			translateBuffer(mesh.getMeshBuffer(j), value);
 		}
 		mesh.recalculateBoundingBox();
 	}
 	public static function setMeshColor(mesh : IMesh, color : UInt) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(i in 0...count)
+		for (i in 0...count)
 		{
-			setBufferColor(mesh.getMeshBuffer(i) , color);
+			setBufferColor(mesh.getMeshBuffer(i), color);
 		}
 	}
 	public static function flipMeshSurfaces(mesh : IMesh) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
 			flipBufferSurfaces(mesh.getMeshBuffer(j));
 		}
@@ -315,25 +318,25 @@ class MeshManipulator
 	public static function recalculateMeshNormals(mesh : IMesh, smooth = false, angleWeighted : Bool = true) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
-			recalculateBufferNormals(mesh.getMeshBuffer(j) , smooth, angleWeighted);
+			recalculateBufferNormals(mesh.getMeshBuffer(j), smooth, angleWeighted);
 		}
 	}
 	public static function makeMeshPlanarTextureMapping(mesh : IMesh, resolution : Float = 0.01) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
-			makeBufferPlanarTextureMapping(mesh.getMeshBuffer(j) , resolution);
+			makeBufferPlanarTextureMapping(mesh.getMeshBuffer(j), resolution);
 		}
 	}
 	public static function transformMesh(mesh : IMesh, m : Matrix4) : Void
 	{
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
-			transformBuffer(mesh.getMeshBuffer(j) , m);
+			transformBuffer(mesh.getMeshBuffer(j), m);
 		}
 		mesh.recalculateBoundingBox();
 	}
@@ -341,7 +344,7 @@ class MeshManipulator
 	{
 		var newMesh : Mesh = new Mesh();
 		var count : Int = mesh.getMeshBufferCount();
-		for(j in 0...count)
+		for (j in 0...count)
 		{
 			var buffer : MeshBuffer = mesh.getMeshBuffer(j).clone();
 			newMesh.addMeshBuffer(buffer);
@@ -353,7 +356,7 @@ class MeshManipulator
 	{
 		var trianglecount : Int = 0;
 		var count : Int = mesh.getMeshBufferCount();
-		for(i in 0...count)
+		for (i in 0...count)
 		{
 			trianglecount += Std.int(mesh.getMeshBuffer(i).getIndexCount() / 3);
 		}
@@ -361,10 +364,11 @@ class MeshManipulator
 	}
 	public static function getAnimateMeshPolyCount(mesh : IAnimatedMesh) : Int
 	{
-		if(mesh != null && mesh.getFrameCount() != 0)
+		if (mesh != null && mesh.getFrameCount() != 0)
 		{
 			return getMeshPolyCount(mesh.getMesh(0));
-		} else
+		}
+		else
 		{
 			return 0;
 		}

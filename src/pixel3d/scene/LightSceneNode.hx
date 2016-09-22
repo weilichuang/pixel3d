@@ -17,22 +17,21 @@ class LightSceneNode extends SceneNode
 		autoCulling = false;
 	}
 
-	
 	public inline function setDiffuseColor(color : UInt) : Void
 	{
 		light.diffuseColor.color = color;
 	}
-	
+
 	public inline function setSpecularColor(color : UInt) : Void
 	{
 		light.specularColor.color = color;
 	}
-	
+
 	override public function onRegisterSceneNode() : Void
 	{
-		if(visible)
+		if (visible)
 		{
-			if(light.type == Light.DIRECTIONAL || light.type == Light.SPOT)
+			if (light.type == Light.DIRECTIONAL || light.type == Light.SPOT)
 			{
 				light.direction.x = 0.;
 				light.direction.y = 0.;
@@ -40,7 +39,7 @@ class LightSceneNode extends SceneNode
 				_absoluteTransformation.rotateVector(light.direction);
 				light.direction.normalize();
 			}
-			if(light.type == Light.POINT || light.type == Light.SPOT)
+			if (light.type == Light.POINT || light.type == Light.SPOT)
 			{
 				light.position.x = _absoluteTransformation.m41;
 				light.position.y = _absoluteTransformation.m42;
@@ -50,15 +49,15 @@ class LightSceneNode extends SceneNode
 			super.onRegisterSceneNode();
 		}
 	}
-	
+
 	override public function render() : Void
 	{
 		var driver : IVideoDriver = sceneManager.getVideoDriver();
 		driver.addLight(light);
 		//if(debug)
 		//{
-			//driver.setTransformWorld(_absoluteTransformation);
-			//driver.draw3DBox(getBoundingBox(), debugColor, debugAlpha, debugWireframe);
+		//driver.setTransformWorld(_absoluteTransformation);
+		//driver.draw3DBox(getBoundingBox(), debugColor, debugAlpha, debugWireframe);
 		//}
 	}
 }

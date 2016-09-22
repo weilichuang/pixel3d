@@ -14,17 +14,17 @@
 	//uv
 	public var u : Float ;
 	public var v : Float ;
-	
+
 	//可能用于光照图，环境贴图等等
 	public var u2 : Float;
 	public var v2 : Float;
 	public var z2 : Float;
-	
+
 	//phong
 	public var nx : Float;
 	public var ny : Float;
 	public var nz : Float;
-	
+
 	public var iy:Int;
 	public function new()
 	{
@@ -65,12 +65,12 @@
 		r = vx1.r +(vx0.r - vx1.r) * t ;
 		g = vx1.g +(vx0.g - vx1.g) * t ;
 		b = vx1.b +(vx0.b - vx1.b) * t ;
-		if(hasTexture1)
+		if (hasTexture1)
 		{
 			u = vx1.u +(vx0.u - vx1.u) * t ;
 			v = vx1.v +(vx0.v - vx1.v) * t ;
 		}
-		if(hasTexture2)
+		if (hasTexture2)
 		{
 			u2 = vx1.u2 +(vx0.u2 - vx1.u2) * t ;
 			v2 = vx1.v2 +(vx0.v2 - vx1.v2) * t ;

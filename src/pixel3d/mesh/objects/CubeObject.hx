@@ -26,7 +26,7 @@ class CubeObject extends MeshBuffer
 		super();
 		color = 0x0;
 		indices = Vector.ofArray([0, 2, 1, 0, 3, 2, 1, 5, 4, 1, 2, 5, 4, 6, 7, 4, 5, 6,
-		7, 3, 0, 7, 6, 3, 9, 5, 2, 9, 8, 5, 0, 11, 10, 0, 10, 7]);
+								  7, 3, 0, 7, 6, 3, 9, 5, 2, 9, 8, 5, 0, 11, 10, 0, 10, 7]);
 		vertices[0] = new Vertex(0, 0, 0, - 1, - 1, - 1, color, 0, 1);
 		vertices[1] = new Vertex(1, 0, 0, 1, - 1, - 1, color, 1, 1);
 		vertices[2] = new Vertex(1, 1, 0, 1, 1, - 1, color, 1, 0);
@@ -50,10 +50,10 @@ class CubeObject extends MeshBuffer
 		vertices[8].u2 = 0; vertices[8].v2 = 1;
 		vertices[9].u2 = 1; vertices[9].v2 = 1;
 		vertices[10].u2 = 1; vertices[10].v2 = 0;
-		vertices[11].u2 = 0;vertices[11].v2 = 0;
+		vertices[11].u2 = 0; vertices[11].v2 = 0;
 		build(width, height, depth);
 	}
-	
+
 	public function build(width : Float, height : Float, depth : Float) : Void
 	{
 		vertices[0].setXYZ(0, 0, 0);
@@ -68,7 +68,7 @@ class CubeObject extends MeshBuffer
 		vertices[9].setXYZ(0, 1, 0);
 		vertices[10].setXYZ(1, 0, 1);
 		vertices[11].setXYZ(1, 0, 0);
-		for(i in 0...12)
+		for (i in 0...12)
 		{
 			var vertex : Vertex = vertices[i];
 			vertex.x -= 0.5;
@@ -78,35 +78,35 @@ class CubeObject extends MeshBuffer
 			vertex.y *= height;
 			vertex.z *= depth;
 		}
-		
+
 		recalculateBoundingBox();
 	}
-	
+
 	/**
 	* @param	colors Vector<UInt> colors.length>=12
 	*/
 	public inline function setColors(colors : Vector<UInt>) : Void
 	{
-		if(colors.length <12) return;
-		for(i in 0...12)
+		if (colors.length <12) return;
+		for (i in 0...12)
 		{
 			vertices[i].color = colors[i];
 		}
 	}
-	
+
 	public inline function setColor(color : UInt) : Void
 	{
 		this.color = color;
-		for(i in 0...12)
+		for (i in 0...12)
 		{
 			vertices[i].color = color;
 		}
 	}
-	
+
 	public function setBox(aabb : AABBox) : Void
 	{
 		aabb.repair();
-		build(MathUtil.abs(aabb.maxX - aabb.minX) , MathUtil.abs(aabb.maxY - aabb.minY) , MathUtil.abs(aabb.maxZ - aabb.minZ));
+		build(MathUtil.abs(aabb.maxX - aabb.minX), MathUtil.abs(aabb.maxY - aabb.minY), MathUtil.abs(aabb.maxZ - aabb.minZ));
 		MeshManipulator.translateBuffer(this, aabb.getCenter());
 	}
 }

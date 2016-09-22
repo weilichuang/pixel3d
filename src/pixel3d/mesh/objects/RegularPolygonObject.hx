@@ -18,8 +18,8 @@ class RegularPolygonObject extends MeshBuffer
 	{
 		vertices.length = 0;
 		indices.length = 0;
-		if(sides <3) sides = 3;
-		if(subdivision <1 ) subdivision = 1;
+		if (sides <3) sides = 3;
+		if (subdivision <1 ) subdivision = 1;
 		var tmpPoints : Vector<Vector3D>= new Vector<Vector3D>();
 		var innerstep : Float = radius / subdivision;
 		var radstep : Float = 360 / sides;
@@ -33,7 +33,7 @@ class RegularPolygonObject extends MeshBuffer
 		var vb : Vertex;
 		var vc : Vertex;
 		var vd : Vertex;
-		for(i in 0...(subdivision + 1))
+		for (i in 0...(subdivision + 1))
 		{
 			tmpPoints.push(new Vector3D(i * innerstep, 0., 0.));
 		}
@@ -42,9 +42,9 @@ class RegularPolygonObject extends MeshBuffer
 		var indexCount : Int = 0;
 		var sin = Math.sin;
 		var cos = Math.cos;
-		for(i in 0...sides)
+		for (i in 0...sides)
 		{
-			for(j in 0...(tmpPoints.length - 1))
+			for (j in 0...(tmpPoints.length - 1))
 			{
 				uva.x =(cos( - ang_inc * MathUtil.DEGTORAD) /((subdivision * 2) / j)) +.5;
 				uva.y =(sin(ang_inc * MathUtil.DEGTORAD) /((subdivision * 2) / j)) +.5;
@@ -54,16 +54,16 @@ class RegularPolygonObject extends MeshBuffer
 				uvc.y =(sin(ang_inc * MathUtil.DEGTORAD) /((subdivision * 2) /(j + 1))) +.5;
 				uvd.x =(cos( - ang * MathUtil.DEGTORAD) /((subdivision * 2) / j)) +.5;
 				uvd.y =(sin(ang * MathUtil.DEGTORAD) /((subdivision * 2) / j)) +.5;
-				if(j == 0)
+				if (j == 0)
 				{
 					va = new Vertex(0, 0, 0);
 					va.u = va.v = 0.5;
-					vb = new Vertex(cos( - ang * MathUtil.DEGTORAD ) * tmpPoints[1].x, 
-					                 sin(ang * MathUtil.DEGTORAD) * tmpPoints[1].x, base.z);
+					vb = new Vertex(cos( - ang * MathUtil.DEGTORAD ) * tmpPoints[1].x,
+					sin(ang * MathUtil.DEGTORAD) * tmpPoints[1].x, base.z);
 					vb.u = uvb.x;
 					vb.v = uvb.y;
 					vc = new Vertex(cos( - ang_inc * MathUtil.DEGTORAD ) * tmpPoints[1].x,
-					                 sin(ang_inc * MathUtil.DEGTORAD) * tmpPoints[1].x, base.z);
+					sin(ang_inc * MathUtil.DEGTORAD) * tmpPoints[1].x, base.z);
 					vc.u = uvc.x;
 					vc.v = uvc.y;
 					vertices.push(va);
@@ -73,22 +73,23 @@ class RegularPolygonObject extends MeshBuffer
 					indices.push(indexCount + 1);
 					indices.push(indexCount + 0);
 					indexCount += 3;
-				} else
+				}
+				else
 				{
-					va = new Vertex(cos( - ang_inc * MathUtil.DEGTORAD) * tmpPoints[j].x , 
-					                 sin(ang_inc * MathUtil.DEGTORAD) * tmpPoints[j].x , base.z);
+					va = new Vertex(cos( - ang_inc * MathUtil.DEGTORAD) * tmpPoints[j].x,
+					sin(ang_inc * MathUtil.DEGTORAD) * tmpPoints[j].x, base.z);
 					va.u = uva.x;
 					va.v = uva.y;
-					vb = new Vertex(cos( - ang_inc * MathUtil.DEGTORAD) * tmpPoints[j + 1].x, 
-					                 sin(ang_inc * MathUtil.DEGTORAD) * tmpPoints[j + 1].x, base.z);
+					vb = new Vertex(cos( - ang_inc * MathUtil.DEGTORAD) * tmpPoints[j + 1].x,
+					sin(ang_inc * MathUtil.DEGTORAD) * tmpPoints[j + 1].x, base.z);
 					vb.u = uvc.x;
 					vb.v = uvc.y;
-					vc = new Vertex(cos( - ang * MathUtil.DEGTORAD) * tmpPoints[j + 1].x, 
-					                 sin(ang * MathUtil.DEGTORAD) * tmpPoints[j + 1].x, base.z);
+					vc = new Vertex(cos( - ang * MathUtil.DEGTORAD) * tmpPoints[j + 1].x,
+					sin(ang * MathUtil.DEGTORAD) * tmpPoints[j + 1].x, base.z);
 					vc.u = uvb.x;
 					vc.v = uvb.y;
-					vd = new Vertex(cos( - ang * MathUtil.DEGTORAD) * tmpPoints[j].x , 
-					                 sin(ang * MathUtil.DEGTORAD) * tmpPoints[j].x , base.z);
+					vd = new Vertex(cos( - ang * MathUtil.DEGTORAD) * tmpPoints[j].x,
+					sin(ang * MathUtil.DEGTORAD) * tmpPoints[j].x, base.z);
 					vd.u = uvd.x;
 					vd.v = uvd.y;
 					vertices.push(va);

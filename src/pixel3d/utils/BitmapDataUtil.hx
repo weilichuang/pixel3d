@@ -13,8 +13,8 @@ class BitmapDataUtil
 	{
 		var w : Int = Std.int(image.width * value);
 		var h : Int = Std.int(image.height * value);
-		if(w <1) w = 1;
-		if(h <1) h = 1;
+		if (w <1) w = 1;
+		if (h <1) h = 1;
 		var data : BitmapData = new BitmapData(w, h, transparent, backgroundColor);
 		var matrix : Matrix = new Matrix();
 		matrix.a = value;
@@ -25,18 +25,19 @@ class BitmapDataUtil
 		matrix = null;
 		return data;
 	}
-	
+
 	public static function getBitmapData(target:IBitmapDrawable, transparent:Bool=true, backgroundColor : UInt=0x0):BitmapData
 	{
-		if(target == null ) return null;
+		if (target == null ) return null;
 		var image:BitmapData = null;
-		if(Std.is(target, BitmapData))
+		if (Std.is(target, BitmapData))
 		{
 			image = Lib.as(target, BitmapData).clone();
-		} else
+		}
+		else
 		{
 			var display : DisplayObject = Lib.as(target, DisplayObject);
-			image = new BitmapData(Std.int(display.width) , Std.int(display.height) , transparent, backgroundColor);
+			image = new BitmapData(Std.int(display.width), Std.int(display.height), transparent, backgroundColor);
 			image.draw(display, null, null, null, null, true);
 			display = null;
 		}

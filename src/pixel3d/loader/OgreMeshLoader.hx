@@ -34,16 +34,15 @@ import pixel3d.mesh.SkinnedMesh;
 import pixel3d.mesh.SkinnedMeshBuffer;
 import pixel3d.utils.Logger;
 
+/** Definition of the OGRE .mesh file format
 
-/** Definition of the OGRE .mesh file format 
-
-    .mesh files are binary files (for read efficiency at runtime) and are arranged into chunks 
+    .mesh files are binary files (for read efficiency at runtime) and are arranged into chunks
     of data, very like 3D Studio's format.
     A chunk always consists of:
         unsigned short CHUNK_ID        : one of the following chunk ids identifying the chunk
         unsigned long  LENGTH          : length of the chunk in bytes, including this header
         void*          DATA            : the data, which may contain other sub-chunks (various data types)
-    
+
     A .mesh file can contain both the definition of the Mesh itself, and optionally the definitions
     of the materials is uses (although these can be omitted, if so the Mesh assumes that at runtime the
     Materials referred to by name in the Mesh are loaded/created from another source)
@@ -56,7 +55,7 @@ class OgreMeshLoader extends EventDispatcher
 	public static inline var OGRE_HEADER:Int = 0x1000;
 	public static inline var OGRE_SKELETON:Int = 0x2000;
 	public static inline var OGRE_MESH:Int = 0x3000;
-	
+
 	// sub chunks of OGRE_MESH
 	public static inline var OGRE_SUBMESH:Int = 0x4000;
 	public static inline var OGRE_GEOMETRY:Int = 0x5000;
@@ -66,14 +65,14 @@ class OgreMeshLoader extends EventDispatcher
 	public static inline var OGRE_MESH_BOUNDS:Int = 0x9000;
 	public static inline var OGRE_MESH_SUBMESH_NAME_TABLE:Int = 0xA000;
 	public static inline var OGRE_MESH_EDGE_LISTS:Int = 0xB000;
-	
+
 	// sub chunks of OGRE_SKELETON
 	public static inline var OGRE_BONE_PARENT:Int = 0x3000;
 	public static inline var OGRE_ANIMATION:Int = 0x4000;
 	public static inline var OGRE_ANIMATION_TRACK:Int = 0x4100;
 	public static inline var OGRE_ANIMATION_KEYFRAME:Int = 0x4110;
 	public static inline var OGRE_ANIMATION_LINK:Int = 0x5000;
-	
+
 	// sub chunks of OGRE_SUBMESH
 	public static inline var OGRE_SUBMESH_OPERATION:Int = 0x4010;
 	public static inline var OGRE_SUBMESH_BONE_ASSIGNMENT:Int = 0x4100;
@@ -84,13 +83,13 @@ class OgreMeshLoader extends EventDispatcher
 	public static inline var OGRE_GEOMETRY_VERTEX_ELEMENT:Int = 0x5110;
 	public static inline var OGRE_GEOMETRY_VERTEX_BUFFER:Int = 0x5200;
 	public static inline var OGRE_GEOMETRY_VERTEX_BUFFER_DATA:Int = 0x5210;
-	
+
 	private var ogreMesh:OgreMesh;
 	private var mesh:IMesh;
 	private var skeleton:OgreSkeleton;
 	private var skeletonName:String;
 	private var numUV:Int;
-	
+
 	private var meshPath:String;
 	private var materialPath:String;
 	private var skeletonPath:String;
@@ -105,7 +104,7 @@ class OgreMeshLoader extends EventDispatcher
 	private var meshBytes:ByteArray;
 	private var materialBytes:ByteArray;
 	private var skeletonBytes:ByteArray;
-	
+
 	/**
 	 * 可能会加载多个文件。
 	 * 例如Sinbad.material,Sinbad.mesh,Sinbad.skeleton还有对应的贴图
@@ -115,7 +114,7 @@ class OgreMeshLoader extends EventDispatcher
 	{
 		super();
 	}
-	
+
 	public function clear():Void
 	{
 		numUV = 0;
@@ -125,7 +124,7 @@ class OgreMeshLoader extends EventDispatcher
 		ogreMesh = null;
 		skeleton = new OgreSkeleton();
 	}
-	
+
 	/**
 	 * 加载ogre mesh文件，meshPath必须有，否则报错。后面的materialPath和skeletonPath可选
 	 * @param	meshPath
@@ -139,38 +138,38 @@ class OgreMeshLoader extends EventDispatcher
 		this.materialPath = materialPath;
 		this.skeletonPath = skeletonPath;
 		this.isStatic = isStatic;
-		
+
 		meshLoaded = false;
 		materialLoaded = false;
 		skeletonLoaded = false;
 		loadedCount = 0;
-		
+
 		//不加载骨骼文件
 		if (isStatic || skeletonPath == "")
 		{
 			loadedCount++;
 		}
-		
+
 		//不加载材质文件
 		if (materialPath == "")
 		{
 			loadedCount++;
 		}
-		
+
 		if (meshPath == "")
 		{
 			loadedCount++;
 		}
-		
+
 		if (loadedCount >= 3)
 		{
 			dispatchEvent(new MeshErrorEvent(MeshErrorEvent.ERROR, "load failed"));
 			return;
 		}
-		
+
 		loadMesh();
 	}
-	
+
 	private function loadMesh():Void
 	{
 		meshLoader = new URLLoader();
@@ -181,7 +180,7 @@ class OgreMeshLoader extends EventDispatcher
 		meshLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, __loadMeshError);
 		meshLoader.load(new URLRequest(meshPath));
 	}
-	
+
 	private function loadMaterial():Void
 	{
 		materialLoader = new URLLoader();
@@ -192,7 +191,7 @@ class OgreMeshLoader extends EventDispatcher
 		materialLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, __loadMaterialError);
 		materialLoader.load(new URLRequest(materialPath));
 	}
-	
+
 	private function loadSkeleton():Void
 	{
 		skeletonLoader = new URLLoader();
@@ -203,7 +202,7 @@ class OgreMeshLoader extends EventDispatcher
 		skeletonLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, __loadSkeletonError);
 		skeletonLoader.load(new URLRequest(skeletonPath));
 	}
-	
+
 	private function unloadMesh():Void
 	{
 		meshLoader.removeEventListener(Event.COMPLETE, __loadMeshComplete);
@@ -212,7 +211,7 @@ class OgreMeshLoader extends EventDispatcher
 		meshLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, __loadMeshError);
 		meshLoader = null;
 	}
-	
+
 	private function unloadMaterial():Void
 	{
 		materialLoader.removeEventListener(Event.COMPLETE, __loadMaterialComplete);
@@ -221,7 +220,7 @@ class OgreMeshLoader extends EventDispatcher
 		materialLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, __loadMaterialError);
 		materialLoader = null;
 	}
-	
+
 	private function unloadSkeleton():Void
 	{
 		skeletonLoader.removeEventListener(Event.COMPLETE, __loadSkeletonComplete);
@@ -230,16 +229,16 @@ class OgreMeshLoader extends EventDispatcher
 		skeletonLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, __loadSkeletonError);
 		skeletonLoader = null;
 	}
-	
+
 	private function __loadMeshComplete(e:Event):Void
 	{
-        loadedCount++;
+		loadedCount++;
 		meshLoaded = true;
-		
+
 		meshBytes = Lib.as(this.meshLoader.data, ByteArray);
-		
+
 		unloadMesh();
-		
+
 		if (loadedCount >= 3)//加载完成
 		{
 			//开始分析
@@ -254,26 +253,26 @@ class OgreMeshLoader extends EventDispatcher
 			loadSkeleton();
 		}
 	}
-	
+
 	private function __loadMeshProgress(e:Event):Void
 	{
 		dispatchEvent(new MeshProgressEvent(MeshProgressEvent.PROGRESS, "load progress"));
 	}
-	
+
 	private function __loadMeshError(e:Event):Void
 	{
 		unloadMesh();
 		dispatchEvent(new MeshErrorEvent(MeshErrorEvent.ERROR, "load failed"));
 	}
-	
+
 	private function __loadMaterialComplete(e:Event):Void
 	{
 		loadedCount++;
 		materialLoaded = true;
-		
+
 		materialBytes = Lib.as(materialLoader.data, ByteArray);
 		unloadMaterial();
-		
+
 		if (loadedCount >= 3)//加载完成
 		{
 			//开始分析
@@ -285,35 +284,35 @@ class OgreMeshLoader extends EventDispatcher
 			loadSkeleton();
 		}
 	}
-	
+
 	private function __loadMaterialProgress(e:Event):Void
 	{
 		dispatchEvent(new MeshProgressEvent(MeshProgressEvent.PROGRESS, "load progress"));
 	}
-	
+
 	private function __loadMaterialError(e:Event):Void
 	{
 		unloadMaterial();
 		dispatchEvent(new MeshErrorEvent(MeshErrorEvent.ERROR, "load failed"));
 	}
-	
+
 	private function __loadSkeletonComplete(e:Event):Void
 	{
 		loadedCount++;
 		skeletonLoaded = true;
-		
+
 		skeletonBytes = Lib.as(skeletonLoader.data, ByteArray);
 		unloadSkeleton();
 
 		//开始分析
 		parse();
 	}
-	
+
 	private function __loadSkeletonProgress(e:Event):Void
 	{
 		dispatchEvent(new MeshProgressEvent(MeshProgressEvent.PROGRESS, "load progress"));
 	}
-	
+
 	private function __loadSkeletonError(e:Event):Void
 	{
 		unloadSkeleton();
@@ -327,54 +326,54 @@ class OgreMeshLoader extends EventDispatcher
 			dispatchEvent(new MeshErrorEvent(MeshErrorEvent.ERROR, "load failed"));
 			return;
 		}
-		
+
 		meshBytes.position = 0;
 		meshBytes.endian = Endian.LITTLE_ENDIAN;
-		
+
 		var id:Int = meshBytes.readUnsignedShort();
 
 		var data:OgreChunkData = new OgreChunkData();
-		
+
 		var version:String = readString(meshBytes,data);
 
-		if (version != "[MeshSerializer_v1.30]" && 
-		    version != "[MeshSerializer_v1.40]" && 
-			version != "[MeshSerializer_v1.41]")
+		if (version != "[MeshSerializer_v1.30]" &&
+		version != "[MeshSerializer_v1.40]" &&
+		version != "[MeshSerializer_v1.41]")
 		{
 			dispatchEvent(new MeshErrorEvent(MeshErrorEvent.ERROR, "parse failed"));
 			return;
 		}
-		
+
 		clear();
 
 		var data:OgreChunkData = new OgreChunkData();
-			
+
 		readChunkData(meshBytes, data);
-			
-		switch(data.header.id)
+
+		switch (data.header.id)
 		{
 			case OGRE_MESH:
-			{
-				ogreMesh = new OgreMesh();
+				{
+					ogreMesh = new OgreMesh();
 
-				if (skeletonBytes != null)
-				{
-					readSkeleton();
+					if (skeletonBytes != null)
+					{
+						readSkeleton();
+					}
+
+					readObjectChunk(meshBytes, data, ogreMesh);
+
+					if (!isStatic && skeleton.bones.length > 0)
+					{
+						mesh = new SkinnedMesh();
+					}
+					else
+					{
+						mesh = new Mesh();
+					}
+
+					composeObject();
 				}
-					
-				readObjectChunk(meshBytes, data, ogreMesh);
-					
-				if (!isStatic && skeleton.bones.length > 0)
-				{
-					mesh = new SkinnedMesh();
-				}
-				else
-				{
-					mesh = new Mesh();
-				}
-					
-				composeObject();
-			}
 		}
 
 		if (mesh != null)
@@ -387,346 +386,346 @@ class OgreMeshLoader extends EventDispatcher
 			dispatchEvent(new MeshErrorEvent(MeshErrorEvent.ERROR, "parse failed"));
 		}
 	}
-	
+
 	public function readSkeleton():Bool
 	{
 		if (skeletonBytes == null) return false;
-		
+
 		skeletonBytes.position = 0;
 		skeletonBytes.endian = Endian.LITTLE_ENDIAN;
-		
+
 		var id:Int = skeletonBytes.readUnsignedShort();
-		
+
 		#if debug
-		    Logger.log("skeleton id = "+id);
+		Logger.log("skeleton id = "+id);
 		#end
-		
+
 		var head:OgreChunkData = new OgreChunkData();
 		var skeletonVersion:String = readString(skeletonBytes, head);
-		
+
 		if (skeletonVersion != "[Serializer_v1.10]")
 		{
 			return false;
 		}
-		
+
 		var boneID:Int = 0;
 		var animationTotal:Float = 0.0;
 		while (skeletonBytes.position < skeletonBytes.length)
 		{
 			var data:OgreChunkData = new OgreChunkData();
 			readChunkData(skeletonBytes, data);
-			
-			switch(data.header.id)
+
+			switch (data.header.id)
 			{
 				case OGRE_SKELETON:
-				{
-					var bone:OgreBone = new OgreBone();
-					skeleton.bones.push(bone);
-					bone.name = readString(skeletonBytes, data);
-					bone.handle = skeletonBytes.readUnsignedShort();
-					data.read += 2;
-					readVector3D(skeletonBytes, data, bone.position);
-					readQuaternion(skeletonBytes, data, bone.orientation);
-					
-					#if debug
-					    Logger.log("bone.name = " + bone.name);
+					{
+						var bone:OgreBone = new OgreBone();
+						skeleton.bones.push(bone);
+						bone.name = readString(skeletonBytes, data);
+						bone.handle = skeletonBytes.readUnsignedShort();
+						data.read += 2;
+						readVector3D(skeletonBytes, data, bone.position);
+						readQuaternion(skeletonBytes, data, bone.orientation);
+
+						#if debug
+						Logger.log("bone.name = " + bone.name);
 						Logger.log("bone.handle = " + bone.handle);
 						Logger.log("bone.position = " + bone.position);
 						Logger.log("bone.orientation = "+bone.orientation);
-					#end
-					
-					var len:UInt = (data.header.length - bone.name.length);
-					if (data.read < len)
-					{
-						readVector3D(skeletonBytes, data, bone.scale);
-						bone.scale.x *= -1.0;
-						
-						#if debug
-					    Logger.log("bone.scale = " + bone.scale);
-					    #end
-					}
-					else
-					{
-						bone.scale = new Vector3D(1, 1, 1);
-					}
-					bone.parent = 0xffff;
-				}
-				case OGRE_BONE_PARENT:
-				{
-					boneID = skeletonBytes.readUnsignedShort();
-					var parentID:Int = skeletonBytes.readUnsignedShort();
-					
-					data.read += 4;
-					
-					var boneLength:Int = skeleton.bones.length;
-					if (boneID < boneLength && parentID < boneLength)
-					{
-						skeleton.bones[boneID].parent = parentID;
-					}
-				}
-				case OGRE_ANIMATION:
-				{
-					var animation:OgreAnimation = new OgreAnimation();
-					skeleton.animations.push(animation);
-					
-					animation.name = readString(skeletonBytes, data);
-					animation.length = skeletonBytes.readFloat();
-					data.read += 4;
+						#end
 
-					animationTotal += animation.length;
-					
-					#if debug
-					    Logger.log("Animation name : " + animation.name);
+						var len:UInt = (data.header.length - bone.name.length);
+						if (data.read < len)
+						{
+							readVector3D(skeletonBytes, data, bone.scale);
+							bone.scale.x *= -1.0;
+
+							#if debug
+							Logger.log("bone.scale = " + bone.scale);
+							#end
+						}
+						else
+						{
+							bone.scale = new Vector3D(1, 1, 1);
+						}
+						bone.parent = 0xffff;
+					}
+				case OGRE_BONE_PARENT:
+					{
+						boneID = skeletonBytes.readUnsignedShort();
+						var parentID:Int = skeletonBytes.readUnsignedShort();
+
+						data.read += 4;
+
+						var boneLength:Int = skeleton.bones.length;
+						if (boneID < boneLength && parentID < boneLength)
+						{
+							skeleton.bones[boneID].parent = parentID;
+						}
+					}
+				case OGRE_ANIMATION:
+					{
+						var animation:OgreAnimation = new OgreAnimation();
+						skeleton.animations.push(animation);
+
+						animation.name = readString(skeletonBytes, data);
+						animation.length = skeletonBytes.readFloat();
+						data.read += 4;
+
+						animationTotal += animation.length;
+
+						#if debug
+						Logger.log("Animation name : " + animation.name);
 						Logger.log("Animation length : "+animation.length);
-					#end
-				}
+						#end
+					}
 				case OGRE_ANIMATION_TRACK:
-				{
-					boneID = skeletonBytes.readUnsignedShort(); // store current bone
-					data.read += 2;
-				}
+					{
+						boneID = skeletonBytes.readUnsignedShort(); // store current bone
+						data.read += 2;
+					}
 				case OGRE_ANIMATION_KEYFRAME:
-				{
-					var keyframe:OgreKeyframe = new OgreKeyframe();
-					skeleton.animations[skeleton.animations.length - 1].keyframes.push(keyframe);
-					
-					keyframe.time = skeletonBytes.readFloat() + animationTotal;
-					data.read += 4;
-					
-					readQuaternion(skeletonBytes, data, keyframe.orientation);
-					readVector3D(skeletonBytes, data, keyframe.position);
-					if (data.read < data.header.length)
 					{
-						readVector3D(skeletonBytes, data, keyframe.scale);
-						keyframe.scale.x *= -1.0;
+						var keyframe:OgreKeyframe = new OgreKeyframe();
+						skeleton.animations[skeleton.animations.length - 1].keyframes.push(keyframe);
+
+						keyframe.time = skeletonBytes.readFloat() + animationTotal;
+						data.read += 4;
+
+						readQuaternion(skeletonBytes, data, keyframe.orientation);
+						readVector3D(skeletonBytes, data, keyframe.position);
+						if (data.read < data.header.length)
+						{
+							readVector3D(skeletonBytes, data, keyframe.scale);
+							keyframe.scale.x *= -1.0;
+						}
+						else
+						{
+							keyframe.scale = new Vector3D(1, 1, 1);
+						}
+						keyframe.boneID = boneID;
 					}
-					else
-					{
-						keyframe.scale = new Vector3D(1, 1, 1);
-					}
-					keyframe.boneID = boneID;
-				}
 				case OGRE_ANIMATION_LINK:
-				{
-					#if debug
-					    Logger.log("Animation link");
-					#end
-				}
+					{
+						#if debug
+						Logger.log("Animation link");
+						#end
+					}
 			}
 		}
 		return true;
 	}
-	
+
 	private function readObjectChunk(file:ByteArray, parent:OgreChunkData, ogreMesh:OgreMesh):Void
 	{
 		#if debug
-		    Logger.log("Read Object Chunk");
+		Logger.log("Read Object Chunk");
 		#end
-		
+
 		ogreMesh.skeletalAnimation = readBool(file, parent);
-		
+
 		#if debug
-		    Logger.log("ogreMesh.skeletalAnimation = "+ogreMesh.skeletalAnimation);
+		Logger.log("ogreMesh.skeletalAnimation = "+ogreMesh.skeletalAnimation);
 		#end
-		
+
 		while (parent.read < parent.header.length && file.position < file.length)
 		{
 			var data:OgreChunkData = new OgreChunkData();
 			readChunkData(file, data);
-			
-			switch(data.header.id)
+
+			switch (data.header.id)
 			{
 				case OGRE_GEOMETRY:
-				{
-					readGeometry(file, data, ogreMesh.geometry);
-				}
+					{
+						readGeometry(file, data, ogreMesh.geometry);
+					}
 				case OGRE_SUBMESH:
-				{
-					var m:OgreSubMesh = new OgreSubMesh();
-					ogreMesh.subMeshes.push(m);
-					readSubMesh(file, data, m);
-				}
+					{
+						var m:OgreSubMesh = new OgreSubMesh();
+						ogreMesh.subMeshes.push(m);
+						readSubMesh(file, data, m);
+					}
 				case OGRE_MESH_BOUNDS:
-				{
-					#if debug
-		    		Logger.log("Read Mesh Bounds");
-					#end
-					
-					readVector3D(file, data, ogreMesh.boxMinEdge);
-					readVector3D(file, data, ogreMesh.boxMaxEdge);
-					ogreMesh.boxRadius = file.readFloat();
-					data.read += 4;
-				}
+					{
+						#if debug
+						Logger.log("Read Mesh Bounds");
+						#end
+
+						readVector3D(file, data, ogreMesh.boxMinEdge);
+						readVector3D(file, data, ogreMesh.boxMaxEdge);
+						ogreMesh.boxRadius = file.readFloat();
+						data.read += 4;
+					}
 				case OGRE_SKELETON_LINK:
-				{
-					#if debug
-		    		Logger.log("Read Skeleton link");
-					#end
-					
-					skeletonName = readString(file, data);
-					
-					#if debug
-		    		Logger.log("skeletonName = " + skeletonName);
-					#end
-				}
+					{
+						#if debug
+						Logger.log("Read Skeleton link");
+						#end
+
+						skeletonName = readString(file, data);
+
+						#if debug
+						Logger.log("skeletonName = " + skeletonName);
+						#end
+					}
 				case OGRE_BONE_ASSIGNMENT:
-				{
-					var assignment:OgreBoneAssignment = new OgreBoneAssignment();
-					ogreMesh.boneAssignments.push(assignment);
-					assignment.vertexID = file.readInt();
-					assignment.boneID = file.readUnsignedShort();
-					assignment.weight = file.readFloat();
-					data.read += 10;
-				}
+					{
+						var assignment:OgreBoneAssignment = new OgreBoneAssignment();
+						ogreMesh.boneAssignments.push(assignment);
+						assignment.vertexID = file.readInt();
+						assignment.boneID = file.readUnsignedShort();
+						assignment.weight = file.readFloat();
+						data.read += 10;
+					}
 				case OGRE_MESH_LOD, OGRE_MESH_SUBMESH_NAME_TABLE, OGRE_MESH_EDGE_LISTS:
-				{
-					// ignore chunk
-					file.position += data.header.length - data.read;
-					data.read = data.header.length;
-				}
+					{
+						// ignore chunk
+						file.position += data.header.length - data.read;
+						data.read = data.header.length;
+					}
 				default:
-				{
-					//ignore chunk
-					file.position += data.header.length - data.read;
-					data.read = data.header.length;
-				}
+					{
+						//ignore chunk
+						file.position += data.header.length - data.read;
+						data.read = data.header.length;
+					}
 			}
 			parent.read += data.read;
 		}
 	}
-	
+
 	private function readGeometry(file:ByteArray, parent:OgreChunkData, geometry:OgreGeometry):Void
 	{
 		#if debug
-		    Logger.log("Read Geometry");
+		Logger.log("Read Geometry");
 		#end
-		
+
 		geometry.numVertex = file.readInt();
 		parent.read += 4;
-		
+
 		#if debug
-		    Logger.log("geometry.numVertex ="+geometry.numVertex);
+		Logger.log("geometry.numVertex ="+geometry.numVertex);
 		#end
-		
+
 		while (parent.read < parent.header.length)
 		{
 			var data:OgreChunkData = new OgreChunkData();
 			readChunkData(file, data);
-			
-			switch(data.header.id)
+
+			switch (data.header.id)
 			{
 				case OGRE_GEOMETRY_VERTEX_DECLARATION:
-				{
-					readVertexDeclaration(file, data, geometry);
-				}
+					{
+						readVertexDeclaration(file, data, geometry);
+					}
 				case OGRE_GEOMETRY_VERTEX_BUFFER:
-				{
-					readVertexBuffer(file, data, geometry);
-				}
+					{
+						readVertexBuffer(file, data, geometry);
+					}
 				default:
-				    // ignore chunk
+					// ignore chunk
 					file.position += data.header.length - data.read;
 					data.read = data.header.length;
 			}
 			parent.read += data.read;
 		}
 	}
-	
+
 	private function readVertexDeclaration(file:ByteArray, parent:OgreChunkData, geometry:OgreGeometry):Void
 	{
 		#if debug
-		    Logger.log("Read Vertex Declaration");
+		Logger.log("Read Vertex Declaration");
 		#end
-		
+
 		numUV = 0;
-		
+
 		while (parent.read < parent.header.length)
 		{
 			var data:OgreChunkData = new OgreChunkData();
 			readChunkData(file, data);
-			
-			switch(data.header.id)
+
+			switch (data.header.id)
 			{
 				case OGRE_GEOMETRY_VERTEX_ELEMENT:
-				{
-					var element:OgreVertexElement = new OgreVertexElement();
-					geometry.elements.push(element);
-					element.source = file.readUnsignedShort();
-					element.type = file.readUnsignedShort();
-					element.semantic = file.readUnsignedShort();
-
-					if (element.semantic == 7) //tex coords
 					{
-						++numUV;
+						var element:OgreVertexElement = new OgreVertexElement();
+						geometry.elements.push(element);
+						element.source = file.readUnsignedShort();
+						element.type = file.readUnsignedShort();
+						element.semantic = file.readUnsignedShort();
+
+						if (element.semantic == 7) //tex coords
+						{
+							++numUV;
+						}
+
+						element.offset = file.readUnsignedShort();
+						element.offset = Std.int(element.offset/4);
+						element.index = file.readUnsignedShort();
+
+						data.read += 2 * 5;
 					}
-					
-					element.offset = file.readUnsignedShort();
-					element.offset = Std.int(element.offset/4);
-					element.index = file.readUnsignedShort();
-					
-					data.read += 2 * 5;
-				}
 				default:
-				    //ignore chunk
+					//ignore chunk
 					file.position += data.header.length - data.read;
 					data.read = data.header.length;
 			}
-			
+
 			parent.read += data.read;
 		}
 	}
-	
+
 	private function readVertexBuffer(file:ByteArray, parent:OgreChunkData, geometry:OgreGeometry):Void
 	{
 		#if debug
-		    Logger.log("Read Vertex Buffer");
+		Logger.log("Read Vertex Buffer");
 		#end
-		
+
 		var buf:OgreVertexBuffer = new OgreVertexBuffer();
 		buf.bindIndex = file.readUnsignedShort();
 		buf.vertexSize = file.readUnsignedShort();
 		buf.vertexSize = Std.int(buf.vertexSize/4);
-		
+
 		parent.read += 2 * 2;
-		
+
 		var data:OgreChunkData = new OgreChunkData();
 		readChunkData(file, data);
-		
+
 		if (data.header.id == OGRE_GEOMETRY_VERTEX_BUFFER_DATA)
 		{
 			buf.data = new Vector<Float>(geometry.numVertex * buf.vertexSize);
 			readFloats(file, data, buf.data, geometry.numVertex * buf.vertexSize);
 		}
-		
+
 		geometry.buffers.push(buf);
 		parent.read += data.read;
 	}
-	
+
 	private function readSubMesh(file:ByteArray, parent:OgreChunkData, subMesh:OgreSubMesh):Bool
 	{
 		#if debug
-		    Logger.log("Read Submesh");
+		Logger.log("Read Submesh");
 		#end
-		
+
 		subMesh.material = readString(file, parent);
-		
+
 		#if debug
-		    Logger.log("subMesh.material ="+subMesh.material);
+		Logger.log("subMesh.material ="+subMesh.material);
 		#end
-		
+
 		subMesh.sharedVertices = readBool(file, parent);
-		
+
 		#if debug
-		    Logger.log("subMesh.sharedVertices ="+subMesh.sharedVertices);
+		Logger.log("subMesh.sharedVertices ="+subMesh.sharedVertices);
 		#end
-		
+
 		var numIndices:Int = file.readInt();
 		parent.read += 4;
-		
+
 		subMesh.indices = new Vector<Int>(numIndices);
-		
+
 		subMesh.indices32Bit = readBool(file, parent);
-		
+
 		if (subMesh.indices32Bit)
 		{
 			readInts(file, parent, subMesh.indices, numIndices);
@@ -735,44 +734,44 @@ class OgreMeshLoader extends EventDispatcher
 		{
 			readShorts(file, parent, subMesh.indices, numIndices);
 		}
-		
+
 		while (parent.read < parent.header.length)
 		{
 			var data:OgreChunkData = new OgreChunkData();
 			readChunkData(file, data);
-			
-			switch(data.header.id)
+
+			switch (data.header.id)
 			{
 				case OGRE_GEOMETRY:
-				
-				    readGeometry(file, data, subMesh.geometry);
-					
+
+					readGeometry(file, data, subMesh.geometry);
+
 				case OGRE_SUBMESH_OPERATION:
-				    subMesh.operation = file.readUnsignedShort();
+					subMesh.operation = file.readUnsignedShort();
 					data.read += 2;
 					if (subMesh.operation != 4)
 					{
 						Logger.log("Primitive type != trilist not yet implemented");
 					}
-					
+
 				case OGRE_SUBMESH_TEXTURE_ALIAS:
-				    #if debug
-		    	    Logger.log("Read Submesh Texture Alias");
-			        #end
+					#if debug
+					Logger.log("Read Submesh Texture Alias");
+					#end
 
 					var texture:String = readString(file, data);
 					var alias:String = readString(file, data);
 					subMesh.textureAliases.push(new OgreTextureAlias(texture, alias));
-					
+
 				case OGRE_SUBMESH_BONE_ASSIGNMENT:
-				
-				    var boneAssign:OgreBoneAssignment = new OgreBoneAssignment();
+
+					var boneAssign:OgreBoneAssignment = new OgreBoneAssignment();
 					subMesh.boneAssignments.push(boneAssign);
 					boneAssign.vertexID = file.readInt();
 					boneAssign.boneID = file.readUnsignedShort();
 					boneAssign.weight = file.readFloat();
 					data.read += 4 + 2 + 4;
-					
+
 				default:
 					parent.read = parent.header.length;
 					file.position -= 6;
@@ -782,23 +781,23 @@ class OgreMeshLoader extends EventDispatcher
 		}
 		return true;
 	}
-	
+
 	private function composeMeshBuffer(indices:Vector<Int>, geom:OgreGeometry):MeshBuffer
 	{
 		#if debug
-		    Logger.log("composeMeshBuffer");
+		Logger.log("composeMeshBuffer");
 		#end
-		
+
 		var mb:MeshBuffer = new MeshBuffer();
-		
+
 		mb.indices = indices.concat();
-		
+
 		mb.vertices = new Vector<Vertex>(geom.numVertex);
 		for (i in 0...geom.numVertex)
 		{
 			mb.vertices[i] = new Vertex();
 		}
-		
+
 		var elementLength:Int = geom.elements.length;
 		for (i in 0...elementLength)
 		{
@@ -869,14 +868,14 @@ class OgreMeshLoader extends EventDispatcher
 				}
 			}
 		}
-		
+
 		return mb;
 	}
-	
+
 	private function composeSkinnedMeshBuffer(mesh:SkinnedMesh,indices:Vector<Int>, geom:OgreGeometry):SkinnedMeshBuffer
 	{
 		var mb:SkinnedMeshBuffer = mesh.addMeshBuffer();
-		
+
 		mb.indices = new Vector<Int>(indices.length);
 		var i:UInt = 0;
 		var indicesLength:UInt = indices.length;
@@ -885,16 +884,16 @@ class OgreMeshLoader extends EventDispatcher
 			mb.indices[i] = indices[i + 2];
 			mb.indices[i + 1] = indices[i + 1];
 			mb.indices[i + 2] = indices[i];
-			
+
 			i += 3;
 		}
-		
+
 		mb.vertices = new Vector<Vertex>(geom.numVertex);
 		for (i in 0...geom.numVertex)
 		{
 			mb.vertices[i] = new Vertex();
 		}
-		
+
 		var elementCount:Int = geom.elements.length;
 		for (i in 0...elementCount)
 		{
@@ -964,14 +963,14 @@ class OgreMeshLoader extends EventDispatcher
 				}
 			}
 		}
-		
+
 		return mb;
 	}
 
 	private function composeObject():Void
 	{
 		isStatic = isStatic || skeleton.bones.length == 0;
-        
+
 		var subMeshLength:Int = ogreMesh.subMeshes.length;
 		for (j in 0...subMeshLength)
 		{
@@ -983,7 +982,7 @@ class OgreMeshLoader extends EventDispatcher
 				{
 					mb = composeSkinnedMeshBuffer(Lib.as(mesh,SkinnedMesh), subMesh.indices, ogreMesh.geometry);
 				}
-				else 
+				else
 				{
 					mb = composeMeshBuffer(subMesh.indices, ogreMesh.geometry);
 				}
@@ -994,12 +993,12 @@ class OgreMeshLoader extends EventDispatcher
 				{
 					mb = composeSkinnedMeshBuffer(Lib.as(mesh,SkinnedMesh), subMesh.indices, subMesh.geometry);
 				}
-				else 
+				else
 				{
 					mb = composeMeshBuffer(subMesh.indices, subMesh.geometry);
 				}
 			}
-				
+
 			if (mb != null)
 			{
 				//composeMeshBufferMaterial(mb, ogreMesh.subMeshes[j].material);
@@ -1009,12 +1008,12 @@ class OgreMeshLoader extends EventDispatcher
 				}
 			}
 		}
-		
+
 		if (!isStatic)
 		{
 			var skinnedMesh:SkinnedMesh = Lib.as(mesh, SkinnedMesh);
 			var joints:Vector<Joint> = skinnedMesh.getAllJoints();
-			
+
 			var bones:Vector<OgreBone> = skeleton.bones;
 			var scaleMatrix:Matrix4 = new Matrix4();
 			//create Joints
@@ -1024,7 +1023,7 @@ class OgreMeshLoader extends EventDispatcher
 				var bone:OgreBone = bones[i];
 				var jt:Joint = skinnedMesh.addJoint();
 				jt.name = bone.name;
-				
+
 				jt.localMatrix = bone.orientation.getMatrix();
 				if (bone.scale.x != 1 || bone.scale.y != 1 || bone.scale.z != 1)
 				{
@@ -1034,7 +1033,7 @@ class OgreMeshLoader extends EventDispatcher
 				}
 				jt.localMatrix.setTranslation(bone.position);
 			}
-			
+
 			//Joints hierarchy
 			var boneLength:Int = bones.length;
 			for (i in 0...boneLength)
@@ -1044,7 +1043,7 @@ class OgreMeshLoader extends EventDispatcher
 					joints[bones[i].parent].children.push(joints[bones[i].handle]);
 				}
 			}
-			
+
 			//Weights
 			var bufCount:Int = 0;
 			var subMeshLength:Int = ogreMesh.subMeshes.length;
@@ -1065,7 +1064,7 @@ class OgreMeshLoader extends EventDispatcher
 				}
 				++bufCount;
 			}
-			
+
 			var animations:Vector<OgreAnimation> = skeleton.animations;
 			var animationCount:Int = animations.length;
 			for (i in 0...animationCount)
@@ -1079,32 +1078,32 @@ class OgreMeshLoader extends EventDispatcher
 					var posKey:PositionKey = skinnedMesh.addPositionKey(keyJoint);
 					posKey.frame = Std.int(frame.time * 25);
 					posKey.position = keyJoint.localMatrix.getTranslation().add(frame.position);
-					
+
 					var rotKey:RotationKey = skinnedMesh.addRotationKey(keyJoint);
 					rotKey.frame = Std.int(frame.time * 25);
 					//rotKey.rotation = new Quaternion();
 					rotKey.rotation.setMatrix(keyJoint.localMatrix);
 					rotKey.rotation.multiplyBy(frame.orientation);
-					
+
 					var scaleKey:ScaleKey = skinnedMesh.addScaleKey(keyJoint);
 					scaleKey.frame = Std.int(frame.time * 25);
 					scaleKey.scale = frame.scale.clone();
 				}
 			}
 			skinnedMesh.finalize();
-			
+
 			ogreMesh = null;
 		}
 	}
-	
+
 	private inline function readChunkData(file:ByteArray, data:OgreChunkData):Void
 	{
 		data.header.id = file.readUnsignedShort();
 		data.header.length = file.readUnsignedInt();
-		
+
 		data.read += 6;
 	}
-	
+
 	private function readInts(file:ByteArray, data:OgreChunkData,out:Vector<Int>,num:Int):Void
 	{
 		for (i in 0...num)
@@ -1113,7 +1112,7 @@ class OgreMeshLoader extends EventDispatcher
 		}
 		data.read += num * 4;
 	}
-	
+
 	private inline function readFloats(file:ByteArray, data:OgreChunkData,out:Vector<Float>,num:Int):Void
 	{
 		for (i in 0...num)
@@ -1122,26 +1121,26 @@ class OgreMeshLoader extends EventDispatcher
 		}
 		data.read += num * 4;
 	}
-	
+
 	private inline function readVector3D(file:ByteArray, data:OgreChunkData, out:Vector3D):Void
 	{
 		out.x = -file.readFloat();
 		out.y = file.readFloat();
 		out.z = file.readFloat();
-		
+
 		data.read += 4 * 3;
 	}
-	
+
 	private inline function readQuaternion(file:ByteArray, data:OgreChunkData, out:Quaternion):Void
 	{
 		out.x = -file.readFloat();
 		out.y = file.readFloat();
 		out.z = file.readFloat();
 		out.w = file.readFloat();
-		
+
 		data.read += 4 * 4;
 	}
-	
+
 	private inline function readShorts(file:ByteArray, data:OgreChunkData, out:Vector<Int>, num:Int):Void
 	{
 		for (i in 0...num)
@@ -1150,17 +1149,17 @@ class OgreMeshLoader extends EventDispatcher
 		}
 		data.read += num * 2;
 	}
-	
+
 	private inline function readBool(file:ByteArray, data:OgreChunkData):Bool
 	{
 		data.read++;
 		return (file.readByte() != 0);
 	}
-	
+
 	private inline function readString(file:ByteArray,data:OgreChunkData):String
 	{
 		var out:String = "";
-		
+
 		var str:String = "";
 		while (str != "\n")
 		{
@@ -1171,17 +1170,17 @@ class OgreMeshLoader extends EventDispatcher
 				out += str;
 			}
 		}
-		
+
 		return out;
 	}
-	
+
 }
 
 class OgreChunkHeader
 {
 	public var id:Int;
 	public var length:UInt;
-	
+
 	public function new()
 	{
 		id = 0;
@@ -1193,7 +1192,7 @@ class OgreChunkData
 {
 	public var header:OgreChunkHeader;
 	public var read:UInt;
-	
+
 	public function new()
 	{
 		header = new OgreChunkHeader();
@@ -1221,7 +1220,7 @@ class OgrePass
 		specularTokenColor = false;
 		emissiveTokenColor = false;
 		pointSprites = false;
-		
+
 		maxLights = 8;
 		pointSize = 1.0;
 		pointSizeMax = 0;
@@ -1266,7 +1265,7 @@ class OgreTexture
 	public var alpha:String;
 	public function new()
 	{
-		
+
 	}
 }
 
@@ -1301,10 +1300,10 @@ class OgreVertexElement
 	public var semantic:Int;
 	public var offset:Int;
 	public var index:Int;
-	
+
 	public function new()
 	{
-		
+
 	}
 }
 
@@ -1335,7 +1334,7 @@ class OgreBoneAssignment
 	public var weight:Float;
 	public function new()
 	{
-		
+
 	}
 }
 
@@ -1349,7 +1348,7 @@ class OgreSubMesh
 	public var textureAliases:Vector<OgreTextureAlias>;
 	public var boneAssignments:Vector<OgreBoneAssignment>;
 	public var indices32Bit:Bool;
-	
+
 	public function new()
 	{
 		geometry = new OgreGeometry();
@@ -1368,7 +1367,7 @@ class OgreMesh
 	public var boxMinEdge:Vector3D;
 	public var boxMaxEdge:Vector3D;
 	public var boxRadius:Float;
-	
+
 	public function new()
 	{
 		skeletalAnimation = false;
@@ -1389,7 +1388,7 @@ class OgreBone
 	public var scale:Vector3D;
 	public var handle:Int;
 	public var parent:Int;
-	
+
 	public function new()
 	{
 		position = new Vector3D();
@@ -1405,7 +1404,7 @@ class OgreKeyframe
 	public var position:Vector3D;
 	public var orientation:Quaternion;
 	public var scale:Vector3D;
-	
+
 	public function new()
 	{
 		position = new Vector3D();
@@ -1419,7 +1418,7 @@ class OgreAnimation
 	public var name:String;
 	public var length:Float;
 	public var keyframes:Vector<OgreKeyframe>;
-	
+
 	public function new()
 	{
 		keyframes = new Vector<OgreKeyframe>();

@@ -16,32 +16,32 @@ class ShadowVolumeTest extends Test
 {
 	static function main()
 	{
-	   var test:ShadowVolumeTest = new ShadowVolumeTest();
-	   Lib.current.addChild(test);
-	   test.startRender();
+		var test:ShadowVolumeTest = new ShadowVolumeTest();
+		Lib.current.addChild(test);
+		test.startRender();
 	}
-	
+
 	private var light:LightSceneNode;
 	private var texture:ITexture;
 
 	public function new()
 	{
 		super();
-		
+
 		//driver.setShadowPercent(0.5);
-		
+
 		light = new LightSceneNode(0xffff00, 1000., Light.POINT);
 		light.light.radius = 500;
 		light.light.castShadows = true;
 		light.setPosition(new Vector3D(100.,300., 150.));
 		manager.addChild(light);
-		
+
 		texture = new LoadingTexture("media/yellow.jpg");
 
 		initSceneNode();
 	}
-	
-	private function initSceneNode():Void 
+
+	private function initSceneNode():Void
 	{
 
 		var box1:CubeSceneNode = new CubeSceneNode(100, 200, 100);
@@ -59,13 +59,12 @@ class ShadowVolumeTest extends Test
 		box2.y = 100;
 		box2.setMaterialFlag(Material.GOURAUD_SHADE, true);
 		manager.addChild(box2);
-		
-		
+
 		var node3:PlaneSceneNode = new PlaneSceneNode(600, 600, 1, 1);
 		node3.setMaterialEmissiveColor(0x770000);
 		node3.rotationX = -90;
 		manager.addChild(node3);
-		
+
 		var node4:PlaneSceneNode = new PlaneSceneNode(600, 400, 1, 1);
 		node4.setMaterialEmissiveColor(0x007700);
 		node4.setMaterialFlag(Material.BACKFACE, true);
@@ -74,7 +73,7 @@ class ShadowVolumeTest extends Test
 		node4.z = -300;
 		node4.y = 200;
 		manager.addChild(node4);
-		
+
 		var node5:PlaneSceneNode = new PlaneSceneNode(600, 400, 1, 1);
 		node5.setMaterialEmissiveColor(0x000077);
 		node5.setMaterialFlag(Material.BACKFACE, true);
@@ -84,7 +83,7 @@ class ShadowVolumeTest extends Test
 		node5.x = 300;
 		node5.y = 200;
 		manager.addChild(node5);
-		
+
 		var node6:PlaneSceneNode = new PlaneSceneNode(600, 400, 1, 1);
 		node6.setMaterialEmissiveColor(0x004477);
 		node6.setMaterialFlag(Material.BACKFACE, true);
@@ -93,7 +92,7 @@ class ShadowVolumeTest extends Test
 		node6.x = -300;
 		node6.y = 200;
 		manager.addChild(node6);
-		
+
 		var node7:PlaneSceneNode = new PlaneSceneNode(600, 400, 1, 1);
 		node7.setMaterialEmissiveColor(0x777700);
 		node7.setMaterialFlag(Material.BACKFACE, true);

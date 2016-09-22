@@ -9,9 +9,9 @@ class BSPBrushSide
 {
 	public var plane : Int;// The plane index
 	public var textureID : Int;// The texture index
-	
+
 	public static inline var sizeof : Int = 8;
-	
+
 	public function new()
 	{
 	}

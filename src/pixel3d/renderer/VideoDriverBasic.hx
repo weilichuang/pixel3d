@@ -25,21 +25,21 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 	private var renderers : Vector<ITriangleRenderer>;
 
 	private var target : Bitmap;
-	
+
 	private var targetVector : Vector<UInt>;
 	private var depthBuffer : Vector<Float>;
 
 	public function new(size : Vector2i)
 	{
 		super();
-		
+
 		target = new Bitmap();
-		
+
 		initRenderers();
-		
+
 		setScreenSize(size);
 	}
-	
+
 	override public function initRenderers():Void
 	{
 		renderers = new Vector<ITriangleRenderer>(TriangleRendererType.COUNT, true);
@@ -51,11 +51,11 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		renderers[TriangleRendererType.TEXTURE_FLAT_NoZ] = new BasicSkyBox();
 		renderers[TriangleRendererType.TEXTURE_LIGHTMAP] = new BasicTextureLightMap();
 	}
-	
+
 	override public function setRenderState(state : Int) : Void
 	{
 		this.renderState = state;
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setRenderState(renderState);
 		}
@@ -68,25 +68,25 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		depthBuffer.length = screenSize.width * screenSize.height;
 		depthBuffer.fixed = true;
 	}
-	
+
 	override public function checkCurrentRender() : Void
 	{
 		var index:Int = 0;
-		if(material.wireframe)
+		if (material.wireframe)
 		{
 			index = TriangleRendererType.WIREFRAME;
-		} 
-		else if(hasTexture)
+		}
+		else if (hasTexture)
 		{
-			if(hasLightmap)
+			if (hasLightmap)
 			{
 				index = TriangleRendererType.TEXTURE_LIGHTMAP;
-			} 
-			else if(lighting || gouraudShading)
+			}
+			else if (lighting || gouraudShading)
 			{
 				index = TriangleRendererType.TEXTURE_GOURAUD;
-			} 
-			else if(material.zBuffer)
+			}
+			else if (material.zBuffer)
 			{
 				index = TriangleRendererType.TEXTURE_FLAT;
 			}
@@ -94,13 +94,13 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 			{
 				index = TriangleRendererType.TEXTURE_FLAT_NoZ;
 			}
-		} 
+		}
 		else
 		{
-			if(gouraudShading)
+			if (gouraudShading)
 			{
 				index = TriangleRendererType.GOURAUD;
-			} 
+			}
 			else
 			{
 				index = TriangleRendererType.FLAT;
@@ -113,7 +113,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 	override public function beginScene() : Void
 	{
 		trianglesDrawn = 0;
-		
+
 		targetVector.fixed = false;
 		depthBuffer.fixed = false;
 		targetVector.length = 0;
@@ -124,30 +124,30 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		targetVector.fixed = true;
 		depthBuffer.fixed = true;
 	}
-	
+
 	override public function endScene() : Void
 	{
 		target.bitmapData.lock();
 		target.bitmapData.setVector(screenRect, targetVector);
 		target.bitmapData.unlock();
 	}
-	
+
 	override public function getBitmap() : Bitmap
 	{
 		return target;
 	}
-	
+
 	override public function setScreenSize(size : Vector2i) : Void
 	{
-        super.setScreenSize(size);
-		
+		super.setScreenSize(size);
+
 		if (target.bitmapData != null)
 		{
 			target.bitmapData.dispose();
-		} 
+		}
 
 		target.bitmapData = new BitmapData(screenSize.width, screenSize.height, true, 0);
-		
+
 		targetVector = new Vector<UInt>();
 		depthBuffer = new Vector<Float>();
 		var len : Int = screenSize.width * screenSize.height;
@@ -155,14 +155,12 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		depthBuffer.length = len;
 		targetVector.fixed = true;
 		depthBuffer.fixed = true;
-		
+
 		setVector(targetVector, depthBuffer);
 		setWidth(screenSize.width);
 		setHeight(screenSize.height);
 	}
-	
-	
-	
+
 	private var v0x : Float;
 	private var v0y : Float;
 	private var v0z : Float;
@@ -224,10 +222,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		var lightLen : Int = getLightCount();
 		var len : Int = triangleCount * 2;
 		var _transformLen : Int = _transformedVertexes.length;
-		if(_transformLen <len)
+		if (_transformLen <len)
 		{
 			_transformedVertexes.fixed = false;
-			for(i in _transformLen...len)
+			for (i in _transformLen...len)
 			{
 				_transformedVertexes[i] = new Vertex4D();
 			}
@@ -236,16 +234,16 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		tCount = 0;
 		iCount = 0;
 		vCount = 0;
-		if(lighting)
+		if (lighting)
 		{
 			// transfrom lights into object's world space
-			for(i in 0...lightLen)
+			for (i in 0...lightLen)
 			{
 				dir = _lightsDir[i];
 				pos = _lightsPos[i];
 				light = lights[i];
 				var type : Int = light.type;
-				if((type == Light.SPOT) ||(type == Light.DIRECTIONAL))
+				if ((type == Light.SPOT) ||(type == Light.DIRECTIONAL))
 				{
 					var x : Float = light.direction.x;
 					var y : Float = light.direction.y;
@@ -255,7 +253,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					dir.z = x * _world_inv.m13 + y * _world_inv.m23 + z * _world_inv.m33;
 					dir.normalize();
 				}
-				if((type == Light.SPOT) ||(type == Light.POINT))
+				if ((type == Light.SPOT) ||(type == Light.POINT))
 				{
 					var x : Float = light.position.x;
 					var y : Float = light.position.y;
@@ -266,41 +264,41 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				}
 			}
 		}
-		
-		m11  = _current.m11;m21  = _current.m21;m31  = _current.m31;m41  = _current.m41;
-		m12  = _current.m12;m22  = _current.m22;m32  = _current.m32;m42  = _current.m42;
-		m13  = _current.m13;m23  = _current.m23;m33  = _current.m33;m43  = _current.m43;
-		m14  = _current.m14;m24  = _current.m24;m34  = _current.m34;m44  = _current.m44;
+
+		m11  = _current.m11; m21  = _current.m21; m31  = _current.m31; m41  = _current.m41;
+		m12  = _current.m12; m22  = _current.m22; m32  = _current.m32; m42  = _current.m42;
+		m13  = _current.m13; m23  = _current.m23; m33  = _current.m33; m43  = _current.m43;
+		m14  = _current.m14; m24  = _current.m24; m34  = _current.m34; m44  = _current.m44;
 		memi  = material.emissiveColor;
 		mamb  = material.ambientColor;
 		mdif  = material.diffuseColor;
 		globalR  =(ambientColor.r * mamb.r * MathUtil.Reciprocal255) + memi.r;
 		globalG  =(ambientColor.g * mamb.g * MathUtil.Reciprocal255) + memi.g;
 		globalB  =(ambientColor.b * mamb.b * MathUtil.Reciprocal255) + memi.b;
-		 
+
 		var ii : Int = 0;
-		while(ii <triangleCount )
+		while (ii <triangleCount )
 		{
 			v0 = vertices[indexList[ii]];
 			v1 = vertices[indexList[ii + 1]];
 			v2 = vertices[indexList[ii + 2]];
 			ii += 3;
-			
-			v0x = v0.x;v0y = v0.y;v0z = v0.z;
-			v1x = v1.x;v1y = v1.y;v1z = v1.z;
+
+			v0x = v0.x; v0y = v0.y; v0z = v0.z;
+			v1x = v1.x; v1y = v1.y; v1z = v1.z;
 			v2x = v2.x; v2y = v2.y; v2z = v2.z;
-			
-			if(backfaceCulling || frontfaceCulling)
+
+			if (backfaceCulling || frontfaceCulling)
 			{
 				var t : Float =((v1y - v0y) *(v2z - v0z) -(v1z - v0z) *(v2y - v0y)) *(_invCamPos.x - v0x) +
-				((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +
-				((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z);
-				if((backfaceCulling && t <= 0) ||(frontfaceCulling && t> 0))
+							   ((v1z - v0z) *(v2x - v0x) -(v1x - v0x) *(v2z - v0z)) *(_invCamPos.y - v0y) +
+							   ((v1x - v0x) *(v2y - v0y) -(v1y - v0y) *(v2x - v0x)) *(_invCamPos.z - v0z);
+				if ((backfaceCulling && t <= 0) ||(frontfaceCulling && t> 0))
 				{
 					continue;
 				}
 			}
-			
+
 			tv0 = _transformedVertexes[tCount++];
 			tv1 = _transformedVertexes[tCount++];
 			tv2 = _transformedVertexes[tCount++];
@@ -320,182 +318,194 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 			var inside : Bool = true;
 			var clipcount : Int = 0;
 			//far Quaternion(0.0 , 0.0 , 1.0 , -1.0 );
-			if((tv0.z - tv0.w)>= 0.0)
+			if ((tv0.z - tv0.w)>= 0.0)
 			{
-				if((tv1.z - tv1.w )>= 0.0)
+				if ((tv1.z - tv1.w )>= 0.0)
 				{
-					if((tv2.z - tv2.w)>= 0.0)
+					if ((tv2.z - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 1;
-			}else
+			}
+			else
 			{
-				if((tv1.z - tv1.w ) <0.0)
+				if ((tv1.z - tv1.w ) <0.0)
 				{
-					if((tv2.z - tv2.w )>= 0.0)
+					if ((tv2.z - tv2.w )>= 0.0)
 					{
 						clipcount += 1;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 1;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// near Quaternion(0.0 , 0.0 , -1.0, -1.0 );
-			if(( - tv0.z - tv0.w)>= 0.0)
+			if (( - tv0.z - tv0.w)>= 0.0)
 			{
-				if(( - tv1.z - tv1.w )>= 0.0)
+				if (( - tv1.z - tv1.w )>= 0.0)
 				{
-					if(( - tv2.z - tv2.w)>= 0.0)
+					if (( - tv2.z - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 2;
-			}else
+			}
+			else
 			{
-				if(( - tv1.z - tv1.w ) <0.0)
+				if (( - tv1.z - tv1.w ) <0.0)
 				{
-					if(( - tv2.z - tv2.w)>= 0.0)
+					if (( - tv2.z - tv2.w)>= 0.0)
 					{
 						clipcount += 2;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 2;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// left Quaternion(1.0 , 0.0 , 0.0 , -1.0 )
-			if((tv0.x - tv0.w)>= 0.0)
+			if ((tv0.x - tv0.w)>= 0.0)
 			{
-				if((tv1.x - tv1.w)>= 0.0)
+				if ((tv1.x - tv1.w)>= 0.0)
 				{
-					if((tv2.x - tv2.w)>= 0.0)
+					if ((tv2.x - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 4;
-			}else
+			}
+			else
 			{
-				if((tv1.x - tv1.w) <0.0)
+				if ((tv1.x - tv1.w) <0.0)
 				{
-					if((tv2.x - tv2.w)>= 0.0)
+					if ((tv2.x - tv2.w)>= 0.0)
 					{
 						clipcount += 4;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 4;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// right Quaternion(-1.0, 0.0 , 0.0 , -1.0 )
-			if(( - tv0.x - tv0.w)>= 0.0)
+			if (( - tv0.x - tv0.w)>= 0.0)
 			{
-				if(( - tv1.x - tv1.w )>= 0.0)
+				if (( - tv1.x - tv1.w )>= 0.0)
 				{
-					if(( - tv2.x - tv2.w)>= 0.0)
+					if (( - tv2.x - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 8;
-			}else
+			}
+			else
 			{
-				if(( - tv1.x - tv1.w ) <0.0)
+				if (( - tv1.x - tv1.w ) <0.0)
 				{
-					if(( - tv2.x - tv2.w)>= 0.0)
+					if (( - tv2.x - tv2.w)>= 0.0)
 					{
 						clipcount += 8;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 8;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			// bottom Quaternion(0.0 , 1.0 , 0.0 , -1.0 )
-			if((tv0.y - tv0.w)>= 0.0)
+			if ((tv0.y - tv0.w)>= 0.0)
 			{
-				if((tv1.y - tv1.w )>= 0.0)
+				if ((tv1.y - tv1.w )>= 0.0)
 				{
-					if((tv2.y - tv2.w)>= 0.0)
+					if ((tv2.y - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 16;
-			}else
+			}
+			else
 			{
-				if((tv1.y - tv1.w) <0.0)
+				if ((tv1.y - tv1.w) <0.0)
 				{
-					if((tv2.y - tv2.w)>= 0.0)
+					if ((tv2.y - tv2.w)>= 0.0)
 					{
 						clipcount += 16;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 16;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 			//top Quaternion(0.0 , -1.0, 0.0 , -1.0 )
-			if(( - tv0.y - tv0.w)>= 0.0)
+			if (( - tv0.y - tv0.w)>= 0.0)
 			{
-				if(( - tv1.y - tv1.w )>= 0.0)
+				if (( - tv1.y - tv1.w )>= 0.0)
 				{
-					if(( - tv2.y - tv2.w)>= 0.0)
+					if (( - tv2.y - tv2.w)>= 0.0)
 					{
 						inside = false;
 					}
 				}
 				clipcount += 32;
-			}else
+			}
+			else
 			{
-				if(( - tv1.y - tv1.w) <0.0)
+				if (( - tv1.y - tv1.w) <0.0)
 				{
-					if(( - tv2.y - tv2.w)>= 0.0)
+					if (( - tv2.y - tv2.w)>= 0.0)
 					{
 						clipcount += 32;
 					}
-				} else
+				}
+				else
 				{
 					clipcount += 32;
 				}
 			}
-			if( ! inside)
+			if ( ! inside)
 			{
 				tCount -= 3;
 				continue;
 			}
 
 			//lighting 在物体自身坐标计算
-			if(lighting)
+			if (lighting)
 			{
 				//初始化总体反射光照颜色
 				var dif_r_sum0 : Float = 0.;
@@ -508,9 +518,9 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				var dp : Float;
 				var radius : Float;
 				var k : Float;
-				if( ! gouraudShading) //flat Light
+				if ( ! gouraudShading) //flat Light
 				{
-					for(j in 0...lightLen)
+					for (j in 0...lightLen)
 					{
 						light = lights[j];
 						diffuse = light.diffuseColor;
@@ -529,17 +539,18 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 						_light_N.z = _light_L.x * _light_V.y - _light_L.y * _light_V.x;
 						//法线长度
 						var nlenSquared : Float = _light_N.lengthSquared;
-						if(light.type == 0) //DIRECTIONAL
+						if (light.type == 0) //DIRECTIONAL
 						{
 							dir = _lightsDir[j];
 							dp =(_light_N.x * dir.x + _light_N.y * dir.y + _light_N.z * dir.z) * MathUtil.invSqrt(nlenSquared);
-							if(dp> 0)
+							if (dp> 0)
 							{
 								dif_r_sum0 += diffuse.r * dp;
 								dif_g_sum0 += diffuse.g * dp;
 								dif_b_sum0 += diffuse.b * dp;
 							}
-						} else if(light.type == 1) //POINT
+						}
+						else if (light.type == 1)  //POINT
 						{
 							pos = _lightsPos[j];
 							_light_L.x = pos.x - v0x;
@@ -548,7 +559,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(_light_N.x * _light_L.x + _light_N.y * _light_L.y + _light_N.z * _light_L.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <light.radius)
+							if (dp> 0 && dist <light.radius)
 							{
 								k = dp * MathUtil.invSqrt(nlenSquared) /((light.kc + light.kl * dist + light.kq * dist2) * dist);
 								dif_r_sum0 += diffuse.r * k;
@@ -566,10 +577,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp = _light_N.dotProduct(dir);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <light.radius)
+							if (dp> 0 && dist <light.radius)
 							{
 								dpsl = _light_L.dotProduct(dir) / dist;
-								if(dpsl> 0 )
+								if (dpsl> 0 )
 								{
 									k = dp * Math.pow(dpsl, light.powerFactor) * MathUtil.invSqrt(nlenSquared) /(light.kc + light.kl * dist + light.kq * dist2);
 									dif_r_sum0 += diffuse.r * k;
@@ -588,7 +599,8 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					tv2.r = tv0.r;
 					tv2.g = tv0.g;
 					tv2.b = tv0.b;
-				} else
+				}
+				else
 				{
 					var dif_r_sum1 : Float = 0.;
 					var dif_g_sum1 : Float = 0.;
@@ -596,17 +608,17 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					var dif_r_sum2 : Float = 0.;
 					var dif_g_sum2 : Float = 0.;
 					var dif_b_sum2 : Float = 0.;
-					for(j in 0...lightLen)
+					for (j in 0...lightLen)
 					{
 						light = lights[j];
 						diffuse = light.diffuseColor;
 						radius = light.radius;
-						if(light.type == 0) //DIRECTIONAL
+						if (light.type == 0) //DIRECTIONAL
 						{
 							dir = _lightsDir[j];
 							//tv0
 							dp =(v0.nx * dir.x + v0.ny * dir.y + v0.nz * dir.z);
-							if(dp> 0)
+							if (dp> 0)
 							{
 								dif_r_sum0 += diffuse.r * dp;
 								dif_g_sum0 += diffuse.g * dp;
@@ -614,7 +626,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							}
 							//tv1
 							dp =(v1.nx * dir.x + v1.ny * dir.y + v1.nz * dir.z);
-							if(dp> 0)
+							if (dp> 0)
 							{
 								dif_r_sum1 += diffuse.r * dp;
 								dif_g_sum1 += diffuse.g * dp;
@@ -622,14 +634,14 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							}
 							//tv2
 							dp =(v2.nx * dir.x + v2.ny * dir.y + v2.nz * dir.z);
-							if(dp> 0)
+							if (dp> 0)
 							{
 								dif_r_sum2 += diffuse.r * dp;
 								dif_g_sum2 += diffuse.g * dp;
 								dif_b_sum2 += diffuse.b * dp;
 							}
-						} 
-						else if(light.type == 1) //POINT
+						}
+						else if (light.type == 1) //POINT
 						{
 							var kc : Float = light.kc;
 							var kl : Float = light.kl;
@@ -647,7 +659,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(v0.nx * _light_L.x + v0.ny * _light_L.y + v0.nz * _light_L.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <radius)
+							if (dp> 0 && dist <radius)
 							{
 								k = dp /(dist *(kc + kl * dist + kq * dist2));
 								dif_r_sum0 += diffuse.r * k;
@@ -661,7 +673,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(v1.nx * _light_L.x + v1.ny * _light_L.y + v1.nz * _light_L.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <radius)
+							if (dp> 0 && dist <radius)
 							{
 								k = dp /(dist *(kc + kl * dist + kq * dist2));
 								dif_r_sum1 += diffuse.r * k;
@@ -675,7 +687,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(v2.nx * _light_L.x + v2.ny * _light_L.y + v2.nz * _light_L.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <radius)
+							if (dp> 0 && dist <radius)
 							{
 								k = dp /(dist *(kc + kl * dist + kq * dist2));
 								dif_r_sum2 += diffuse.r * k;
@@ -702,10 +714,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(v0.nx * dir.x + v0.ny * dir.y + v0.nz * dir.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <radius)
+							if (dp> 0 && dist <radius)
 							{
 								dpsl =(_light_L.x * dir.x + _light_L.y * dir.y + _light_L.z * dir.z) / dist;
-								if(dpsl> 0 )
+								if (dpsl> 0 )
 								{
 									k = dp * Math.pow(dpsl, pf) /(kc + kl * dist + kq * dist2);
 									dif_r_sum0 += diffuse.r * k;
@@ -720,10 +732,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(v1.nx * dir.x + v1.ny * dir.y + v1.nz * dir.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <radius)
+							if (dp> 0 && dist <radius)
 							{
 								dpsl =(_light_L.x * dir.x + _light_L.y * dir.y + _light_L.z * dir.z) / dist;
-								if(dpsl> 0 )
+								if (dpsl> 0 )
 								{
 									k = dp * Math.pow(dpsl, pf) /(kc + kl * dist + kq * dist2);
 									dif_r_sum1 += diffuse.r * k;
@@ -738,10 +750,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							dp =(v2.nx * dir.x + v2.ny * dir.y + v2.nz * dir.z);
 							dist2 = _light_L.lengthSquared;
 							dist = MathUtil.sqrt(dist2);
-							if(dp> 0 && dist <radius)
+							if (dp> 0 && dist <radius)
 							{
 								dpsl =(_light_L.x * dir.x + _light_L.y * dir.y + _light_L.z * dir.z) / dist;
-								if(dpsl> 0 )
+								if (dpsl> 0 )
 								{
 									k = dp * Math.pow(dpsl, pf) /(kc + kl * dist + kq * dist2);
 									dif_r_sum2 += diffuse.r * k;
@@ -761,17 +773,17 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					tv2.g = globalG +(dif_g_sum2 * mdif.g * MathUtil.Reciprocal255);
 					tv2.b = globalB +(dif_b_sum2 * mdif.b * MathUtil.Reciprocal255);
 				}
-				if(tv0.r> 255) tv0.r = 255;
-				if(tv0.g> 255) tv0.g = 255;
-				if(tv0.b> 255) tv0.b = 255;
-				if(tv1.r> 255) tv1.r = 255;
-				if(tv1.g> 255) tv1.g = 255;
-				if(tv1.b> 255) tv1.b = 255;
-				if(tv2.r> 255) tv2.r = 255;
-				if(tv2.g> 255) tv2.g = 255;
-				if(tv2.b> 255) tv2.b = 255;
-			} 
-			else if(this.gouraudShading || !hasTexture)//no lighting
+				if (tv0.r> 255) tv0.r = 255;
+				if (tv0.g> 255) tv0.g = 255;
+				if (tv0.b> 255) tv0.b = 255;
+				if (tv1.r> 255) tv1.r = 255;
+				if (tv1.g> 255) tv1.g = 255;
+				if (tv1.b> 255) tv1.b = 255;
+				if (tv2.r> 255) tv2.r = 255;
+				if (tv2.g> 255) tv2.g = 255;
+				if (tv2.b> 255) tv2.b = 255;
+			}
+			else if (this.gouraudShading || !hasTexture) //no lighting
 			{
 				tv0.r = v0.r + memi.r;
 				tv0.g = v0.g + memi.g;
@@ -782,19 +794,19 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				tv2.r = v2.r + memi.r;
 				tv2.g = v2.g + memi.g;
 				tv2.b = v2.b + memi.b;
-				if(tv0.r> 255) tv0.r = 255;
-				if(tv0.g> 255) tv0.g = 255;
-				if(tv0.b> 255) tv0.b = 255;
-				if(tv1.r> 255) tv1.r = 255;
-				if(tv1.g> 255) tv1.g = 255;
-				if(tv1.b> 255) tv1.b = 255;
-				if(tv2.r> 255) tv2.r = 255;
-				if(tv2.g> 255) tv2.g = 255;
-				if(tv2.b> 255) tv2.b = 255;
+				if (tv0.r> 255) tv0.r = 255;
+				if (tv0.g> 255) tv0.g = 255;
+				if (tv0.b> 255) tv0.b = 255;
+				if (tv1.r> 255) tv1.r = 255;
+				if (tv1.g> 255) tv1.g = 255;
+				if (tv1.b> 255) tv1.b = 255;
+				if (tv2.r> 255) tv2.r = 255;
+				if (tv2.g> 255) tv2.g = 255;
+				if (tv2.b> 255) tv2.b = 255;
 			}
-			
+
 			// texture coords
-			if(hasTexture)
+			if (hasTexture)
 			{
 				tv0.u = v0.u ;
 				tv0.v = v0.v ;
@@ -802,7 +814,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				tv1.v = v1.v ;
 				tv2.u = v2.u ;
 				tv2.v = v2.v ;
-				if(hasLightmap)//lightmap
+				if (hasLightmap) //lightmap
 				{
 					tv0.u2 = v0.u2 ;
 					tv0.v2 = v0.v2 ;
@@ -812,8 +824,8 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					tv2.v2 = v2.v2 ;
 				}
 			}
-			
-			if(clipcount == 0) // no clipping required
+
+			if (clipcount == 0) // no clipping required
 			{
 				//tv0
 				var tmp:Float = 1 / tv0.w;
@@ -851,7 +863,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 			outCount = 3;
 			/********** clip in NDC Space to Frustum **********/
 			//(0.0, 0.0, -1.0, - 1.0 ) near
-			if((clipcount & 2) == 2)
+			if ((clipcount & 2) == 2)
 			{
 				inCount = outCount;
 				outCount = 0;
@@ -860,17 +872,17 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				//bdot = b.z * plane.z + b.w * plane.w;
 				bdot = - b.z - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					//adot = a.z * plane.z + a.w * plane.w;
 					adot = - a.z - a.w;
 					// current point inside
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
 						// last point outside
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices4[outCount ++] = out;
@@ -880,10 +892,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 						}
 						// add a to out
 						_clippedVertices4[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices4[outCount ++] = out;
@@ -896,14 +908,14 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					bdot = adot;
 				}
 				// check we have 3 or more vertices
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices4;
 			}
 			//(1.0, 0.0, 0.0, - 1.0 )  left
-			if((clipcount & 4) == 4)
+			if ((clipcount & 4) == 4)
 			{
 				inCount = outCount;
 				outCount = 0;
@@ -912,15 +924,15 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				//bdot = b.x * plane.x + b.w * plane.w;
 				bdot = b.x - b.w ;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					//adot = a.x * plane.x + a.w * plane.w;
 					adot = a.x - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices3[outCount ++] = out;
@@ -930,10 +942,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 						}
 						// add a to out
 						_clippedVertices3[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices3[outCount ++] = out;
@@ -945,14 +957,14 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices3;
 			}
 			//( - 1.0, 0.0, 0.0, - 1.0 )  right
-			if((clipcount & 8) == 8)
+			if ((clipcount & 8) == 8)
 			{
 				inCount = outCount;
 				outCount = 0;
@@ -961,15 +973,15 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				//bdot = b.x * plane.x + b.w * plane.w;
 				bdot = - b.x - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					//adot = a.x * plane.x + a.w * plane.w;
 					adot = - a.x - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices2[outCount ++] = out;
@@ -978,10 +990,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							out.interpolate(a, b, t, hasTexture,hasLightmap);
 						}
 						_clippedVertices2[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices2[outCount ++] = out;
@@ -993,14 +1005,14 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices2;
 			}
 			//(0.0, 1.0, 0.0, - 1.0 ) bottom
-			if((clipcount & 16) == 16)
+			if ((clipcount & 16) == 16)
 			{
 				inCount = outCount;
 				outCount = 0;
@@ -1009,15 +1021,15 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				//bdot = b.y * plane.y + b.w * plane.w;
 				bdot = b.y - b.w ;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					//adot = a.y * plane.y + a.w * plane.w;
 					adot = a.y - a.w;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices1[outCount ++] = out;
@@ -1026,10 +1038,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							out.interpolate(a, b, t, hasTexture,hasLightmap);
 						}
 						_clippedVertices1[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices1[outCount ++] = out;
@@ -1041,14 +1053,14 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
 				source = _clippedVertices1;
 			}
 			//(0.0, - 1.0, 0.0, - 1.0 ) top
-			if((clipcount & 32) == 32)
+			if ((clipcount & 32) == 32)
 			{
 				inCount = outCount;
 				outCount = 0;
@@ -1057,15 +1069,15 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 				//bdot = b.y * plane.y + b.w * plane.w;
 				bdot = - b.y - b.w;
 				var i : Int = 1;
-				while(i <= inCount)
+				while (i <= inCount)
 				{
 					a = source[i % inCount];
 					i ++;
 					//adot = a.y * plane.y + a.w * plane.w;
 					adot = - a.y - a.w ;
-					if(adot <= 0.0 )
+					if (adot <= 0.0 )
 					{
-						if(bdot> 0.0 )
+						if (bdot> 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices0[outCount ++] = out;
@@ -1074,10 +1086,10 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 							out.interpolate(a, b, t, hasTexture,hasLightmap);
 						}
 						_clippedVertices0[outCount ++] = a;
-					} 
+					}
 					else
 					{
-						if(bdot <= 0.0 )
+						if (bdot <= 0.0 )
 						{
 							out = _transformedVertexes[tCount ++];
 							_clippedVertices0[outCount ++] = out;
@@ -1089,7 +1101,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 					b = a;
 					bdot = adot;
 				}
-				if(outCount <3)
+				if (outCount <3)
 				{
 					continue;
 				}
@@ -1097,7 +1109,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 			}
 			// put back into screen space.
 			vCount2 = vCount;
-			for(g in 0...outCount)
+			for (g in 0...outCount)
 			{
 				tv0 = source[g];
 				var tmp:Float = 1 / tv0.w;
@@ -1108,7 +1120,7 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 			}
 			// re-tesselate( triangle-fan, 0-1-2,0-2-3.. )
 			var c:Int =(outCount - 2);
-			for(g in 0... c)
+			for (g in 0... c)
 			{
 				_clippedIndices[iCount++] = vCount2;
 				_clippedIndices[iCount++] = vCount2 + g + 1;
@@ -1119,30 +1131,29 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 		curRender.drawIndexedTriangleList(_clippedVertices, vCount, _clippedIndices, iCount);
 	}
 
-
 	override public function getDriverType() : Int
 	{
 		return VideoDriverType.BASIC;
 	}
-	
+
 	override public function createScreenShot() : BitmapData
 	{
 		return getBitmap().bitmapData.clone();
 	}
-	
+
 	override public function setPerspectiveCorrectDistance(distance : Float = 400.) : Void
 	{
 		persDistance = (distance < 10) ? 10 : distance;
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setPerspectiveCorrectDistance(distance);
 		}
 	}
-	
+
 	override public function setMipMapDistance(distance : Float = 500.) : Void
 	{
 		mipMapDistance =(distance <10) ? 10 : distance;
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setMipMapDistance(distance);
 		}
@@ -1150,31 +1161,31 @@ class VideoDriverBasic extends AbstractVideoDriver implements IVideoDriver
 
 	private function setWidth(width : Int) : Void
 	{
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setWidth(width);
 		}
 	}
-	
+
 	private function setHeight(height : Int) : Void
 	{
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setHeight(height);
 		}
 	}
-	
+
 	private function setVector(tv : Vector<UInt>, bv : Vector<Float>) : Void
 	{
-		for(i in 0...TriangleRendererType.COUNT)
+		for (i in 0...TriangleRendererType.COUNT)
 		{
 			renderers[i].setVector(tv, bv);
 		}
 	}
-	
+
 	override public function setDistance(distance : Float) : Void
 	{
-		if(curRender != null) curRender.setDistance(distance);
+		if (curRender != null) curRender.setDistance(distance);
 	}
 
 	override public function canShadow() : Bool

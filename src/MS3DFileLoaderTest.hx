@@ -15,15 +15,15 @@ class MS3DFileLoaderTest extends Test
 {
 	static function main()
 	{
-	   var test:MS3DFileLoaderTest = new MS3DFileLoaderTest();
-	   Lib.current.addChild(test);
-	   test.startRender();
+		var test:MS3DFileLoaderTest = new MS3DFileLoaderTest();
+		Lib.current.addChild(test);
+		test.startRender();
 	}
-	
+
 	private var light:LightSceneNode;
-	
+
 	private var node:SkinnedMeshSceneNode;
-	
+
 	private var texture:ITexture;
 
 	private var maxloader:MS3DMeshLoader;
@@ -39,14 +39,14 @@ class MS3DFileLoaderTest extends Test
 		light.addAnimator(new AnimatorFlyCircle(Lib.getTimer(),new Vector3D(0,100,0), 10000, 0.002, new Vector3D(0.3, 1, 0.2)));
 
 		manager.addChild(light);
-		
+
 		var node3:PlaneSceneNode = new PlaneSceneNode(400, 400, 1, 1);
 		node3.setMaterialTexture(texture);
 		node3.rotationX = -90;
 		node3.y = -5;
 
 		manager.addChild(node3);
-		
+
 		camera.z = 300;
 		camera.y = 200;
 
@@ -54,9 +54,8 @@ class MS3DFileLoaderTest extends Test
 		maxloader.addEventListener(MeshEvent.COMPLETE, __load3ds);
 		maxloader.load("media/ninja.ms3d");
 	}
-	
-	
-	private function __load3ds(e:MeshEvent):Void 
+
+	private function __load3ds(e:MeshEvent):Void
 	{
 		var mesh:SkinnedMesh = Lib.as(e.getMesh(), SkinnedMesh);
 		mesh.updateNormalsWhenAnimating(true);
@@ -72,7 +71,7 @@ class MS3DFileLoaderTest extends Test
 		//node.mouseEnabled = true;
 		//node.debug = true;
 		node.x = -80;
-		
+
 		var node1:SkinnedMeshSceneNode = new SkinnedMeshSceneNode(mesh,false);
 		node1.setScaleXYZ(20,20,20);
 		node1.setAnimationSpeed(5);

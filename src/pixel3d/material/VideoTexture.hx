@@ -33,7 +33,7 @@ class VideoTexture implements ITexture
 	}
 	public function setVideo(video : Video) : Void
 	{
-		if(video == null)
+		if (video == null)
 		{
 			vectorCount = 0;
 			return;
@@ -42,7 +42,7 @@ class VideoTexture implements ITexture
 		dimension.width = Std.int(video.width);
 		dimension.height = Std.int(video.height);
 		name = video.name;
-		if(bitmapData != null) bitmapData.dispose();
+		if (bitmapData != null) bitmapData.dispose();
 		bitmapData = new BitmapData(dimension.width, dimension.height, true, 0x0);
 		update();
 	}
@@ -58,17 +58,18 @@ class VideoTexture implements ITexture
 			bitmapData.draw(video, null, null, null, null, true);
 			vector = bitmapData.getVector(bitmapData.rect);
 			vectorCount = 1;
-		}catch(e : Error)
+		}
+		catch (e : Error)
 		{
 			vectorCount = 0;
 		}
 	}
-	
+
 	public function getBitmapData():BitmapData
 	{
 		return bitmapData;
 	}
-	
+
 	public inline function getVector() : Vector<UInt>
 	{
 		return vector;
@@ -93,21 +94,21 @@ class VideoTexture implements ITexture
 	{
 		return vectorCount> 0;
 	}
-	
+
 	public function clear() : Void
 	{
 	}
-	
+
 	public function toString() : String
 	{
 		return name;
 	}
-	
+
 	public function getName():String
 	{
 		return name;
 	}
-	
+
 	public function setName(name:String):Void
 	{
 		this.name = name;

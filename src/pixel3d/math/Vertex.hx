@@ -18,23 +18,23 @@ import flash.geom.Vector3D;
 	//uv
 	public var u : Float;
 	public var v : Float;
-	
+
 	//uv 2(maybe lightMap or others)
 	public var u2 : Float;
 	public var v2 : Float;
 	public var z2 : Float;
-	
+
 	//public var tangent:Vector3D;
 	//public var binormal:Vector3D;
-	
+
 	public var color(get, set) : UInt;
 	public var position(get, set) : Vector3D;
 	public var normal(get, set) : Vector3D;
 	public var uv(get, set) : Vector2f;
-	
-	public function new(x : Float = 0, y : Float = 0, z : Float = 0, 
-	                     nx : Float = 0, ny : Float = 0, nz : Float = 0, 
-	                     c : UInt = 0x555555, u : Float = 0, v : Float = 0)
+
+	public function new(x : Float = 0, y : Float = 0, z : Float = 0,
+						nx : Float = 0, ny : Float = 0, nz : Float = 0,
+						c : UInt = 0x555555, u : Float = 0, v : Float = 0)
 	{
 		this.x = x;
 		this.y = y;
@@ -46,19 +46,19 @@ import flash.geom.Vector3D;
 		this.v = v;
 		this.color = c;
 	}
-	
+
 	public inline function setXYZ(x : Float, y : Float, z : Float) : Void
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	private inline function get_position() : Vector3D
 	{
 		return new Vector3D(x, y, z);
 	}
-	
+
 	private inline function set_position(v : Vector3D) : Vector3D
 	{
 		x = v.x;
@@ -66,12 +66,12 @@ import flash.geom.Vector3D;
 		z = v.z;
 		return v;
 	}
-	
+
 	private inline function get_normal() : Vector3D
 	{
 		return new Vector3D(nx, ny, nz);
 	}
-	
+
 	private inline function set_normal(v : Vector3D) : Vector3D
 	{
 		nx = v.x;
@@ -79,24 +79,24 @@ import flash.geom.Vector3D;
 		nz = v.z;
 		return v;
 	}
-	
+
 	private inline function get_uv() : Vector2f
 	{
 		return new Vector2f(u, v);
 	}
-	
+
 	private inline function set_uv(tc : Vector2f) : Vector2f
 	{
 		u = tc.x;
 		v = tc.y;
 		return tc;
 	}
-	
+
 	private inline function get_color() : UInt
 	{
-		return(Std.int(a) <<24 | Std.int(r) <<16 | Std.int(g) <<8 | Std.int(b));
+		return (Std.int(a) <<24 | Std.int(r) <<16 | Std.int(g) <<8 | Std.int(b));
 	}
-	
+
 	private inline function set_color(c : UInt) : UInt
 	{
 		a =(c>> 24) & 0xFF;
@@ -105,16 +105,16 @@ import flash.geom.Vector3D;
 		b = c & 0xFF;
 		return c;
 	}
-	
+
 	public inline function normalize() : Void
 	{
 		var sq : Float = nx * nx + ny * ny + nz * nz;
-		if(sq <MathUtil.ROUNDING_ERROR ) sq = 0 else sq = MathUtil.invSqrt(sq);
+		if (sq <MathUtil.ROUNDING_ERROR ) sq = 0 else sq = MathUtil.invSqrt(sq);
 		nx *= sq;
 		ny *= sq;
 		nz *= sq;
 	}
-	
+
 	public inline function getQuadraticInterpolated(v2 : Vertex, v3 : Vertex, d : Float) : Vertex
 	{
 		// this*(1-d)*(1-d) + 2 * v2 *(1-d) + v3 * d * d;
@@ -122,7 +122,7 @@ import flash.geom.Vector3D;
 		var mul0 : Float = inv * inv;
 		var mul1 : Float = 2.0 * d * inv;
 		var mul2 : Float = d * d;
-		
+
 		var vertex:Vertex = new Vertex();
 		vertex.x = this.x * mul0 + v2.x * mul1 + v3.x * mul2;
 		vertex.y = this.y * mul0 + v2.y * mul1 + v3.y * mul2;
@@ -140,7 +140,7 @@ import flash.geom.Vector3D;
 		vertex.v2 = this.v2 * mul0 + v2.v2 * mul1 + v3.v2 * mul2;
 		return vertex;
 	}
-	
+
 	public inline function copy(c : Vertex) : Void
 	{
 		x = c.x;
@@ -159,25 +159,25 @@ import flash.geom.Vector3D;
 		v2 = c.v2;
 		z2 = c.z2;
 	}
-	
+
 	public inline function clone() : Vertex
 	{
 		var vertex : Vertex = new Vertex();
 		vertex.copy(this);
 		return vertex;
 	}
-	
+
 	public function toString() : String
 	{
 		return "Vertex(" + x + ',' + y + ',' + z + ',r=' + r + ',g=' + g + ',b=' + b + ',u=' + u + ',v=' + v + ')';
 	}
-	
+
 	public inline function equals(other : Vertex) : Bool
 	{
-		return MathUtil.equals(x, other.x) && 
-		       MathUtil.equals(y, other.y) && 
-			   MathUtil.equals(z, other.z) && 
-			   MathUtil.equals(u, other.u) && 
-			   MathUtil.equals(v, other.v);
+		return MathUtil.equals(x, other.x) &&
+		MathUtil.equals(y, other.y) &&
+		MathUtil.equals(z, other.z) &&
+		MathUtil.equals(u, other.u) &&
+		MathUtil.equals(v, other.v);
 	}
 }

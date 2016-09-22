@@ -6,7 +6,7 @@ import flash.geom.Vector3D;
 	public var y : Float;
 	public var z : Float;
 	public var w : Float;
-	
+
 	public function new(x : Float = 0., y : Float = 0., z : Float = 0., w : Float = 1.)
 	{
 		this.x = x;
@@ -14,7 +14,7 @@ import flash.geom.Vector3D;
 		this.z = z;
 		this.w = w;
 	}
-	
+
 	public inline function makeIdentity() : Void
 	{
 		w = 1.;
@@ -22,7 +22,7 @@ import flash.geom.Vector3D;
 		y = 0.;
 		z = 0.;
 	}
-	
+
 	public inline function add(other : Quaternion) : Quaternion
 	{
 		var tmp : Quaternion = new Quaternion();
@@ -32,7 +32,7 @@ import flash.geom.Vector3D;
 		tmp.w = w + other.w;
 		return tmp;
 	}
-	
+
 	public inline function copy(other : Quaternion) : Void
 	{
 		x = other.x;
@@ -40,12 +40,12 @@ import flash.geom.Vector3D;
 		z = other.z;
 		w = other.w;
 	}
-	
+
 	public inline function clone() : Quaternion
 	{
 		return new Quaternion(x, y, z, w);
 	}
-	
+
 	public inline function incrementBy(other : Quaternion) : Void
 	{
 		x += other.x;
@@ -53,7 +53,7 @@ import flash.geom.Vector3D;
 		z += other.z;
 		w += other.w;
 	}
-	
+
 	public inline function scale(s : Float) : Quaternion
 	{
 		var tmp : Quaternion = new Quaternion();
@@ -63,7 +63,7 @@ import flash.geom.Vector3D;
 		tmp.w = w * s;
 		return tmp;
 	}
-	
+
 	public inline function scaleBy(s : Float) : Void
 	{
 		x *= s;
@@ -71,7 +71,7 @@ import flash.geom.Vector3D;
 		z *= s;
 		w *= s;
 	}
-	
+
 	public inline function multiply(other : Quaternion) : Quaternion
 	{
 		var tmp : Quaternion = new Quaternion();
@@ -81,7 +81,7 @@ import flash.geom.Vector3D;
 		tmp.z =(other.w * z) +(other.z * w) +(other.x * y) -(other.y * x);
 		return tmp;
 	}
-	
+
 	public inline function multiplyBy(other : Quaternion) : Void
 	{
 		var tw : Float =(other.w * w) -(other.x * x) -(other.y * y) -(other.z * z);
@@ -93,11 +93,11 @@ import flash.geom.Vector3D;
 		z = tz;
 		w = tw;
 	}
-	
+
 	public inline function setMatrix(m : Matrix4) : Void
 	{
 		var diag = m.m11 + m.m22 + m.m33 + 1;
-		if(diag> 0.0 )
+		if (diag> 0.0 )
 		{
 			var invScale : Float = MathUtil.invSqrt(diag) * 0.5;
 			// get invScale from diagonal
@@ -105,7 +105,7 @@ import flash.geom.Vector3D;
 			y =(m.m13 - m.m31) * invScale;
 			z =(m.m21 - m.m12) * invScale;
 			w = 0.25 / invScale;
-		} 
+		}
 		else
 		{
 			if (m.m11 > m.m22 && m.m11 > m.m33)
@@ -117,8 +117,8 @@ import flash.geom.Vector3D;
 				y =(m.m12 + m.m21) * invScale;
 				z =(m.m31 + m.m13) * invScale;
 				w =(m.m32 - m.m23) * invScale;
-			} 
-			else if(m.m22 > m.m33)
+			}
+			else if (m.m22 > m.m33)
 			{
 				// 2nd element of diag is greatest value
 				// find scale according to 2nd element, and double it
@@ -127,7 +127,7 @@ import flash.geom.Vector3D;
 				y = 0.25 / invScale;
 				z =(m.m23 + m.m32) * invScale;
 				w =(m.m13 - m.m31) * invScale;
-			} 
+			}
 			else
 			{
 				// 3rd element of diag is greatest value
@@ -141,43 +141,43 @@ import flash.geom.Vector3D;
 		}
 		normalize();
 	}
-	
+
 	public inline function getMatrix(matrix : Matrix4 = null) : Matrix4
 	{
-		if(matrix == null)
+		if (matrix == null)
 		{
 			matrix = new Matrix4();
 		}
-		
+
 		matrix.m11 = 1.0 - 2.0 * y * y - 2.0 * z * z;
 		matrix.m12 = 2.0 * x * y - 2.0 * z * w;
 		matrix.m13 = 2.0 * x * z + 2.0 * y * w;
 		matrix.m14 = 0.0;
-		
+
 		matrix.m21 = 2.0 * x * y + 2.0 * z * w;
 		matrix.m22 = 1.0 - 2.0 * x * x - 2.0 * z * z;
 		matrix.m23 = 2.0 * z * y - 2.0 * x * w;
 		matrix.m24 = 0.0;
-		
+
 		matrix.m31 = 2.0 * x * z - 2.0 * y * w;
 		matrix.m32 = 2.0 * z * y + 2.0 * x * w;
 		matrix.m33 = 1.0 - 2.0 * x * x - 2.0 * y * y;
 		matrix.m34 = 0.0;
-		
+
 		matrix.m41 = 0.;
 		matrix.m42 = 0.;
 		matrix.m43 = 0.;
 		matrix.m44 = 1.;
 		return matrix;
 	}
-	
+
 	public inline function inverse() : Void
 	{
 		x = - x;
 		y = - y;
 		z = - z;
 	}
-	
+
 	public inline function setAngle(vec : Vector3D) : Void
 	{
 		var sin = Math.sin;
@@ -202,7 +202,7 @@ import flash.geom.Vector3D;
 		w =(cr * cpcy + sr * spsy);
 		normalize();
 	}
-	
+
 	public inline function normalize() : Void
 	{
 		var n : Float = x * x + y * y + z * z + w * w;
@@ -212,7 +212,7 @@ import flash.geom.Vector3D;
 		z *= inv;
 		w *= inv;
 	}
-	
+
 	public inline function set(x : Float, y : Float, z : Float, w : Float) : Void
 	{
 		this.x = x;
@@ -220,7 +220,7 @@ import flash.geom.Vector3D;
 		this.z = z;
 		this.w = w;
 	}
-	
+
 	// set this quaternion to the result of the interpolation between two quaternions
 	public inline function slerp(q1 : Quaternion, q2 : Quaternion, time : Float) : Void
 	{
@@ -233,33 +233,35 @@ import flash.geom.Vector3D;
 		var q2z : Float;
 		var q2w : Float;
 		var angle : Float = q1.dotProduct(q2);
-		if(angle <0.0)
+		if (angle <0.0)
 		{
 			q1x = - q1.x;
 			q1y = - q1.y;
 			q1z = - q1.z;
 			q1w = - q1.w;
 			angle = - angle;
-		} else
+		}
+		else
 		{
 			q1x = q1.x;
 			q1y = q1.y;
 			q1z = q1.z;
 			q1w = q1.w;
 		}
-		
+
 		var scale : Float;
 		var invscale : Float;
 
-		if((angle + 1.0)> 0.05)
+		if ((angle + 1.0)> 0.05)
 		{
-			if((1.0 - angle)>= 0.05) // spherical interpolation
+			if ((1.0 - angle)>= 0.05) // spherical interpolation
 			{
 				var theta : Float = Math.acos(angle);
 				var invsintheta : Float = 1 / Math.sin(theta);
 				scale = Math.sin(theta *(1.0 - time)) * invsintheta;
 				invscale = Math.sin(theta * time) * invsintheta;
-			} else // linear interploation
+			}
+			else   // linear interploation
 			{
 				scale = 1.0 - time;
 				invscale = time;
@@ -268,7 +270,8 @@ import flash.geom.Vector3D;
 			q2y = q2.y;
 			q2z = q2.z;
 			q2w = q2.w;
-		} else
+		}
+		else
 		{
 			q2x = - q1y;
 			q2y = q1x;
@@ -282,7 +285,7 @@ import flash.geom.Vector3D;
 		z = q1z * scale + q2z * invscale;
 		w = q1w * scale + q2w * invscale;
 	}
-	
+
 	// axis must be unit length
 	// angle in radians
 	public inline function fromAngleAxis(angle : Float, axis : Vector3D) : Void
@@ -294,17 +297,17 @@ import flash.geom.Vector3D;
 		y = fSin * axis.y;
 		z = fSin * axis.z;
 	}
-	
+
 	public inline function toAngleAxis(angle : Float, axis : Vector3D) : Void
 	{
 		var scale : Float = Math.sqrt(x * x + y * y + z * z);
-		if(scale <MathUtil.ROUNDING_ERROR || w> 1.0 || w <- 1.0)
+		if (scale <MathUtil.ROUNDING_ERROR || w> 1.0 || w <- 1.0)
 		{
 			angle = 0.0;
 			axis.x = 0.0;
 			axis.y = 1.0;
 			axis.z = 0.0;
-		} 
+		}
 		else
 		{
 			var invscale : Float = 1 / scale;
@@ -314,7 +317,7 @@ import flash.geom.Vector3D;
 			axis.z = z * invscale;
 		}
 	}
-	
+
 	public inline function toEuler(euler : Vector3D) : Void
 	{
 		var sqw : Float = w * w;
@@ -322,18 +325,18 @@ import flash.geom.Vector3D;
 		var sqy : Float = y * y;
 		var sqz : Float = z * z;
 		// heading = rotation about z-axis
-		euler.z =(Math.atan2(2.0 *(x * y + z * w) ,(sqx - sqy - sqz + sqw)));
+		euler.z =(Math.atan2(2.0 *(x * y + z * w),(sqx - sqy - sqz + sqw)));
 		// bank = rotation about x-axis
-		euler.x =(Math.atan2(2.0 *(y * z + x * w) ,( - sqx - sqy + sqz + sqw)));
+		euler.x =(Math.atan2(2.0 *(y * z + x * w),( - sqx - sqy + sqz + sqw)));
 		// attitude = rotation about y-axis
-		euler.y = Math.sin(MathUtil.clamp( - 2.0 *(x * z - y * w) , - 1.0, 1.0));
+		euler.y = Math.sin(MathUtil.clamp( - 2.0 *(x * z - y * w), - 1.0, 1.0));
 	}
-	
+
 	public inline function dotProduct(v2 : Quaternion) : Float
 	{
-		return(x * v2.x + y * v2.y + z * v2.z + w * v2.w);
+		return (x * v2.x + y * v2.y + z * v2.z + w * v2.w);
 	}
-	
+
 	public inline function rotationFromTo(from : Vector3D, to : Vector3D) : Quaternion
 	{
 		// Based on Stan Melax's article in Game Programming Gems
@@ -343,14 +346,15 @@ import flash.geom.Vector3D;
 		v0.normalize();
 		v1.normalize();
 		var d : Float = v0.dotProduct(v1);
-		if(d>= 1.0) // If dot == 1, vectors are the same
-		
+		if (d>= 1.0) // If dot == 1, vectors are the same
+
 		{
 			makeIdentity();
 			v0 = null;
 			v1 = null;
 			return this;
-		} else
+		}
+		else
 		{
 			var invs : Float = MathUtil.invSqrt((1 + d) * 2);
 			var c : Vector3D = v0.crossProduct(v1);
@@ -365,12 +369,12 @@ import flash.geom.Vector3D;
 			return this;
 		}
 	}
-	
+
 	public inline function equals(other : Quaternion) : Bool
 	{
 		return MathUtil.equals(x, other.x) && MathUtil.equals(y, other.y) && MathUtil.equals(z, other.z) && MathUtil.equals(w, other.w);
 	}
-	
+
 	public function toString() : String
 	{
 		return "[Quaternion(" + Std.int(x*1000)/1000 + "," + Std.int(y*1000)/1000 + "," + Std.int(z*1000)/1000 + "," + Std.int(w*1000)/1000 +")]";

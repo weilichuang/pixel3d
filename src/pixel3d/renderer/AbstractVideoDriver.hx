@@ -27,14 +27,14 @@ class AbstractVideoDriver implements IVideoDriver
 	private var mipMapDistance : Float;
 
 	private var debugCube : CubeObject;
-	
+
 	private var material : Material;
 	private var hasTexture : Bool;
 	private var hasLightmap:Bool;
-	
+
 	private var _lightsDir : Vector<Vector3D>;
 	private var _lightsPos : Vector<Vector3D>;
-	
+
 	//matrix vars
 	private var _view : Matrix4;
 	private var _world : Matrix4;
@@ -44,28 +44,28 @@ class AbstractVideoDriver implements IVideoDriver
 	private var _view_project : Matrix4;
 	private var _world_inv : Matrix4;
 	private var _scaleMatrix : Matrix4;
-	
+
 	private var screenRect : Rectangle;
-	
+
 	private var _invCamPos : Vector3D;
 	private var _cam_pos : Vector3D;
-	
+
 	//lighting
 	private var _light_L : Vector3D ;
 	private var _light_N : Vector3D ;
 	private var _light_V : Vector3D ;
-	
+
 	private var lighting : Bool;
 	private var backfaceCulling : Bool;
 	private var frontfaceCulling : Bool;
 	private var gouraudShading : Bool;
-	
+
 	private var _scale_m11 : Float ;
 	private var _scale_m22 : Float ;
 	private var _scale_m41 : Float ;
 	private var _scale_m42 : Float ;
 	private var renderState : Int;
-	
+
 	private var _clipPlanes : Vector<Quaternion>;
 	private var _transformedVertexes : Vector<Vertex4D>;
 	private var _unclippedVertices : Vector<Vertex4D>;
@@ -78,7 +78,7 @@ class AbstractVideoDriver implements IVideoDriver
 	private var _clippedVertices4 : Vector<Vertex4D>;
 
 	private var _tmpVertex : Vertex4D;
-	
+
 	public function new()
 	{
 		trianglesDrawn = 0;
@@ -88,12 +88,11 @@ class AbstractVideoDriver implements IVideoDriver
 		persDistance = 400.;
 		mipMapDistance = 500.;
 		ambientColor = new Color(0, 0, 0);
-		
+
 		debugCube = new CubeObject(10, 10, 10);
 		debugCube.getMaterial().transparenting = false;
 		debugCube.getMaterial().lighting = false;
-		
-		
+
 		//matrix4
 		_scaleMatrix = new Matrix4();
 		_current = new Matrix4();
@@ -105,21 +104,20 @@ class AbstractVideoDriver implements IVideoDriver
 		var count : Int = getMaxLightAmount();
 		_lightsDir = new Vector<Vector3D>(count, true);
 		_lightsPos = new Vector<Vector3D>(count, true);
-		for(i in 0...count)
+		for (i in 0...count)
 		{
 			_lightsDir[i] = new Vector3D();
 			_lightsPos[i] = new Vector3D();
 		}
 		_invCamPos = new Vector3D();
-		
+
 		_light_L = new Vector3D();
 		_light_N = new Vector3D();
 		_light_V = new Vector3D();
-		
-		
+
 		//预存一些点
 		_transformedVertexes = new Vector<Vertex4D>(2000);
-		for(i in 0...2000)
+		for (i in 0...2000)
 		{
 			_transformedVertexes[i] = new Vertex4D();
 		}
@@ -130,18 +128,18 @@ class AbstractVideoDriver implements IVideoDriver
 		can be rewritten with compares e.q near plane, a.z <-a.w and b.z <-b.w
 		*/
 		_clipPlanes = new Vector<Quaternion>(6, true);
-		_clipPlanes[0] = new Quaternion(0.0 , 0.0 , 1.0 , - 1.0 );// far
-		_clipPlanes[1] = new Quaternion(0.0 , 0.0 , - 1.0, - 1.0 );// near
-		_clipPlanes[2] = new Quaternion(1.0 , 0.0 , 0.0 , - 1.0 );// left
-		_clipPlanes[3] = new Quaternion( - 1.0, 0.0 , 0.0 , - 1.0 );// right
-		_clipPlanes[4] = new Quaternion(0.0 , 1.0 , 0.0 , - 1.0 );// bottom
-		_clipPlanes[5] = new Quaternion(0.0 , - 1.0, 0.0 , - 1.0 );// top
-		
+		_clipPlanes[0] = new Quaternion(0.0, 0.0, 1.0, - 1.0 );   // far
+		_clipPlanes[1] = new Quaternion(0.0, 0.0, - 1.0, - 1.0 );  // near
+		_clipPlanes[2] = new Quaternion(1.0, 0.0, 0.0, - 1.0 );   // left
+		_clipPlanes[3] = new Quaternion( - 1.0, 0.0, 0.0, - 1.0 );  // right
+		_clipPlanes[4] = new Quaternion(0.0, 1.0, 0.0, - 1.0 );   // bottom
+		_clipPlanes[5] = new Quaternion(0.0, - 1.0, 0.0, - 1.0 );  // top
+
 		// arrays for storing clipped vertices & indices
 		_clippedIndices = new Vector<Int>();
 		_clippedVertices = new Vector<Vertex4D>();
 		_unclippedVertices = new Vector<Vertex4D>(3,true);
-		for(i in 0...3)
+		for (i in 0...3)
 		{
 			_unclippedVertices[i] = new Vertex4D();
 		}
@@ -150,40 +148,40 @@ class AbstractVideoDriver implements IVideoDriver
 		_clippedVertices2 = new Vector<Vertex4D>();
 		_clippedVertices3 = new Vector<Vertex4D>();
 		_clippedVertices4 = new Vector<Vertex4D>();
-		
+
 		_tmpVertex = new Vertex4D();
 	}
-	
-	public function beginScene():Void 
-    {
-		
-	}
-	
-	public function endScene():Void 
+
+	public function beginScene():Void
 	{
-		
+
 	}
-	
+
+	public function endScene():Void
+	{
+
+	}
+
 	public function initRenderers():Void
 	{
-		
+
 	}
-	
+
 	public function getBitmap():Bitmap
 	{
 		return null;
 	}
-	
+
 	public function clearZBuffer():Void
 	{
-		
+
 	}
-	
+
 	public function setRenderState(state:Int):Void
 	{
-		
+
 	}
-	
+
 	public function setTransformViewProjection(mat : Matrix4) : Void
 	{
 		_view_project = mat;
@@ -208,7 +206,7 @@ class AbstractVideoDriver implements IVideoDriver
 		_view = mat;
 		_projection.prepend2(_view, _view_project);
 	}
-	
+
 	public function setMaterial(mat : Material) : Void
 	{
 		this.material = mat;
@@ -220,19 +218,19 @@ class AbstractVideoDriver implements IVideoDriver
 		gouraudShading = material.gouraudShading;
 		checkCurrentRender();
 	}
-	
+
 	public function checkCurrentRender():Void
 	{
 	}
-	
-	public function setDistance(distance : Float) : Void 
+
+	public function setDistance(distance : Float) : Void
 	{
-		
+
 	}
-	
+
 	public function setScreenSize(size : Vector2i) : Void
 	{
-		if(size == null) return;
+		if (size == null) return;
 		screenSize = size;
 		screenRect = screenSize.toRect();
 		_scaleMatrix.buildNDCToDCMatrix(screenSize, 1);
@@ -241,36 +239,36 @@ class AbstractVideoDriver implements IVideoDriver
 		_scale_m22 = _scaleMatrix.m22;
 		_scale_m42 = _scaleMatrix.m42;
 	}
-	
+
 	//根据物体的深度来判断是否使用MipMap和PerspectiveCorrect
 	public function setPerspectiveCorrectDistance(distance : Float = 400.) : Void
 	{
-		
+
 	}
 
 	public function setMipMapDistance(distance : Float = 500.) : Void
 	{
-		
+
 	}
-	
+
 	public function drawIndexedTriangleList(vertices : Vector<Vertex>, vertexCount : Int, indexList : Vector<Int>, indexCount : Int) : Void
 	{
-		
+
 	}
-	
+
 	public function drawMeshBuffer(mesh : MeshBuffer) : Void
 	{
-		drawIndexedTriangleList(mesh.getVertices() , mesh.getVertexCount() , mesh.getIndices() , mesh.getIndexCount());
+		drawIndexedTriangleList(mesh.getVertices(), mesh.getVertexCount(), mesh.getIndices(), mesh.getIndexCount());
 	}
-	
+
 	public function drawIndexedTriangleListAmbientLight(vertices : Vector<Vertex>, vertexCount : Int, indexList : Vector<Int>, indexCount : Int) : Void
 	{
-		
+
 	}
-	
+
 	public function drawMeshBufferAmbientLight(mesh : MeshBuffer) : Void
 	{
-		drawIndexedTriangleListAmbientLight(mesh.getVertices() , mesh.getVertexCount() , mesh.getIndices() , mesh.getIndexCount());
+		drawIndexedTriangleListAmbientLight(mesh.getVertices(), mesh.getVertexCount(), mesh.getIndices(), mesh.getIndexCount());
 	}
 
 	public function getDriverType() : Int
@@ -284,13 +282,13 @@ class AbstractVideoDriver implements IVideoDriver
 	// debug
 	public function draw3DLine(vs : Vector3D, ve : Vector3D, color : UInt) : Void
 	{
-		
+
 	}
 	public function draw3DTriangle(v0 : Vertex, v1 : Vertex, v2 : Vertex, color : UInt) : Void
 	{
-		
+
 	}
-	
+
 	public function draw3DBox(box : AABBox, color : UInt, alpha : Float, wireframe : Bool = false) : Void
 	{
 		debugCube.getMaterial().alpha = alpha;
@@ -300,7 +298,7 @@ class AbstractVideoDriver implements IVideoDriver
 		setMaterial(debugCube.getMaterial());
 		drawMeshBuffer(debugCube);
 	}
-	
+
 	public function canShadow() : Bool
 	{
 		return false;
@@ -330,23 +328,24 @@ class AbstractVideoDriver implements IVideoDriver
 	{
 		return trianglesDrawn;
 	}
-	
+
 	//--------------------------------light--------------------------------//
 	public function removeAllLights() : Void
 	{
 		lightCount = 0;
 	}
-	
+
 	/**
 	* 如果灯光数量大于最大数量，则新加入的会替换最后一个
 	*/
 	public function addLight(light : Light) : Void
 	{
-		if(light == null) return;
-		if(lightCount>= getMaxLightAmount())
+		if (light == null) return;
+		if (lightCount>= getMaxLightAmount())
 		{
 			lights[getMaxLightAmount() - 1] = light;
-		} else
+		}
+		else
 		{
 			lights[lightCount] = light;
 			lightCount ++;
@@ -362,7 +361,7 @@ class AbstractVideoDriver implements IVideoDriver
 	}
 	public function getLight(index : Int) : Light
 	{
-		if(index <0 || index>= getLightCount()) return null;
+		if (index <0 || index>= getLightCount()) return null;
 		return lights[index];
 	}
 
@@ -370,7 +369,7 @@ class AbstractVideoDriver implements IVideoDriver
 	{
 		return mipMapDistance;
 	}
-	
+
 	public function getPerspectiveCorrectDistance() : Float
 	{
 		return persDistance;

@@ -1,7 +1,7 @@
 package pixel3d.math;
 import flash.geom.Vector3D;
 
-class Vector3DUtil 
+class Vector3DUtil
 {
 	/**
 	*  Calculate this triangle's weight for each of its three vertices
@@ -20,11 +20,11 @@ class Vector3DUtil
 		var csqrt : Float = Vector3D.distance(v1, v2);
 		var c : Float = csqrt * csqrt;
 		// use them to find the angle at each vertex
-		return new Vector3D(Math.cos((b + c - a) /(2. * bsqrt * csqrt)) ,
-		                    Math.cos(( - b + c + a) /(2. * asqrt * csqrt)) ,
-		                    Math.cos((b - c + a) /(2. * bsqrt * asqrt)));
+		return new Vector3D(Math.cos((b + c - a) /(2. * bsqrt * csqrt)),
+		Math.cos(( - b + c + a) /(2. * asqrt * csqrt)),
+		Math.cos((b - c + a) /(2. * bsqrt * asqrt)));
 	}
-	
+
 	/**
 	* Returns if this vector interpreted as a point is on a line between two other points.
 	* It is assumed that the point is on the line.
@@ -37,7 +37,7 @@ class Vector3DUtil
 		var f : Float = Vector3D.distance(begin, end);
 		return Vector3D.distance(value, begin) <= f && Vector3D.distance(value, end) <= f;
 	}
-	
+
 	/**
 	* Get the rotations that would make a(0,0,1) direction vector point in the same direction as this direction vector.
 	* Thanks to Arras on the Irrlicht forums for this method.  This utility method is very useful for
@@ -56,20 +56,20 @@ class Vector3DUtil
 	public static inline function getHorizontalAngle(value:Vector3D) : Vector3D
 	{
 		var angle : Vector3D = new Vector3D();
-		
+
 		angle.y = Math.atan2(value.x, value.z) * MathUtil.RADTODEG;
-		
+
 		if (angle.y < 0.0) angle.y += 360.;
 		if (angle.y >= 360.) angle.y -= 360.;
-		
+
 		var z1 : Float = Math.sqrt(value.x * value.x + value.z * value.z);
 		angle.x = Math.atan2(z1, value.y) * MathUtil.RADTODEG - 90.0;
-		
+
 		if (angle.x < 0.0) angle.x += 360;
 		if (angle.x >= 360) angle.x -= 360;
 		return angle;
 	}
-	
+
 	/**
 	*  Creates an interpolated vector between this vector and another vector.
 	* @param other The other vector to interpolate with.
@@ -80,9 +80,9 @@ class Vector3DUtil
 	public static inline function getInterpolated(v1 : Vector3D,v2 : Vector3D, d : Float) : Vector3D
 	{
 		var inv : Float = 1.0 - d;
-		return new Vector3D((v2.x * inv + v1.x * d) , (v2.y * inv + v1.y * d) , (v2.z * inv + v1.z * d));
+		return new Vector3D((v2.x * inv + v1.x * d), (v2.y * inv + v1.y * d), (v2.z * inv + v1.z * d));
 	}
-	
+
 	/**
 	* Creates a quadratically interpolated vector between this and two other vectors.
 	* @param v2 Second vector to interpolate with.
@@ -99,10 +99,10 @@ class Vector3DUtil
 		var mul1 : Float = 2.0 * d * inv;
 		var mul2 : Float = d * d;
 		return new Vector3D((v1.x * mul0 + v2.x * mul1 + v3.x * mul2),
-		                    (v1.y * mul0 + v2.y * mul1 + v3.y * mul2) ,
-		                    (v1.z * mul0 + v2.z * mul1 + v3.z * mul2));
+		(v1.y * mul0 + v2.y * mul1 + v3.y * mul2),
+		(v1.z * mul0 + v2.z * mul1 + v3.z * mul2));
 	}
-	
+
 	/**
 	* Sets this vector to the linearly interpolated vector between a and b.
 	* @param a first vector to interpolate with, maximum at 1.0f
@@ -116,7 +116,7 @@ class Vector3DUtil
 		out.y = (b.y + (a.y - b.y ) * d );
 		out.z = (b.z + (a.z - b.z ) * d );
 	}
-	
+
 	/**
 	* Builds a direction vector from(this) rotation vector.
 	* This vector is assumed to be a rotation vector composed of 3 Euler angle rotations, in degrees.
@@ -128,9 +128,9 @@ class Vector3DUtil
 	*/
 	public static inline function rotationToDirection(forwards : Vector3D = null) : Vector3D
 	{
-		if(forwards == null)
+		if (forwards == null)
 		{
-			forwards = new Vector3D(0, 0, 1); 
+			forwards = new Vector3D(0, 0, 1);
 		}
 		var sin = Math.sin;
 		var cos = Math.cos;
@@ -142,8 +142,8 @@ class Vector3DUtil
 		var sy : Float = sin(MathUtil.DEGTORAD * forwards.z );
 		var srsp : Float = sr * sp;
 		var crsp : Float = cr * sp;
-		return new Vector3D((forwards.x *(cp * cy) + forwards.y *(srsp * cy - cr * sy) + forwards.z *(crsp * cy + sr * sy)) ,
-		                    (forwards.x *(cp * sy) + forwards.y *(srsp * sy + cr * cy) + forwards.z *(crsp * sy - sr * cy)) ,
-		                    (forwards.x *( - sp) + forwards.y *(sr * cp) + forwards.z *(cr * cp))); 
+		return new Vector3D((forwards.x *(cp * cy) + forwards.y *(srsp * cy - cr * sy) + forwards.z *(crsp * cy + sr * sy)),
+		(forwards.x *(cp * sy) + forwards.y *(srsp * sy + cr * cy) + forwards.z *(crsp * sy - sr * cy)),
+		(forwards.x *( - sp) + forwards.y *(sr * cp) + forwards.z *(cr * cp)));
 	}
 }

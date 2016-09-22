@@ -36,7 +36,7 @@ class MovieClipTexture implements ITexture
 	}
 	public function setMovieClip(mc : MovieClip) : Void
 	{
-		if(mc == null)
+		if (mc == null)
 		{
 			vectorCount = 0;
 			return;
@@ -46,7 +46,7 @@ class MovieClipTexture implements ITexture
 		dimension.height = Std.int(mc.height);
 		name = mc.name;
 		vectorCount = 1;
-		if(bitmapData != null) bitmapData.dispose();
+		if (bitmapData != null) bitmapData.dispose();
 		bitmapData = new BitmapData(dimension.width, dimension.height, true, 0x0);
 		update();
 	}
@@ -56,7 +56,7 @@ class MovieClipTexture implements ITexture
 		dimension.width = Std.int(mc.width);
 		dimension.height = Std.int(mc.height);
 		name = mc.name;
-		if(bitmapData != null) bitmapData.dispose();
+		if (bitmapData != null) bitmapData.dispose();
 		bitmapData = new BitmapData(dimension.width, dimension.height, true, 0x0);
 		update();
 	}
@@ -104,12 +104,12 @@ class MovieClipTexture implements ITexture
 	{
 		return name;
 	}
-	
+
 	public function getName():String
 	{
 		return name;
 	}
-	
+
 	public function setName(name:String):Void
 	{
 		this.name = name;

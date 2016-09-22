@@ -11,7 +11,7 @@ class BSPVisData
 	public var numClusters : Int;// The Number of clusters
 	public var bytesPerCluster : Int;// Bytes(8 bits) in the cluster's bitset
 	public var bitsets : Array<Int>;// Array of bytes holding the cluster vis. c8
-	
+
 	public function new()
 	{
 	}

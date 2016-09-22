@@ -14,13 +14,13 @@ class OgreLoaderTest extends Test
 {
 	static function main()
 	{
-	   var test:OgreLoaderTest = new OgreLoaderTest();
-	   Lib.current.addChild(test);
-	   test.startRender();
+		var test:OgreLoaderTest = new OgreLoaderTest();
+		Lib.current.addChild(test);
+		test.startRender();
 	}
 
 	private var node:SceneNode;
-	
+
 	private var texture:ITexture;
 
 	private var loader:OgreMeshLoader;
@@ -28,7 +28,7 @@ class OgreLoaderTest extends Test
 	public function new()
 	{
 		super();
-		
+
 		camera.z = 500;
 
 		texture = new LoadingTexture("ogre/textures/penguin.jpg");
@@ -37,12 +37,11 @@ class OgreLoaderTest extends Test
 		loader.addEventListener(MeshEvent.COMPLETE, __load3ds);
 		loader.load("ogre/models/penguin.mesh",false,"","ogre/models/penguin.skeleton");
 	}
-	
-	
-	private function __load3ds(e:MeshEvent):Void 
+
+	private function __load3ds(e:MeshEvent):Void
 	{
 		var mesh:SkinnedMesh = Lib.as(e.getMesh(), SkinnedMesh);
-		
+
 		if (mesh != null)
 		{
 			node = new SkinnedMeshSceneNode(mesh, true);
@@ -51,16 +50,16 @@ class OgreLoaderTest extends Test
 		else
 		{
 			node = new MeshSceneNode(e.getMesh(), true);
-			
+
 		}
-		
+
 		//node.setMaterialFlag(Material.WIREFRAME, true);
 		node.setMaterialTexture(texture);
 		node.setScaleXYZ(10, 10, 10);
 		node.x = 50;
 		manager.addChild(node);
 	}
-	
+
 	override private function _onEnterFrame(?e:Event=null):Void
 	{
 		if (node!=null)

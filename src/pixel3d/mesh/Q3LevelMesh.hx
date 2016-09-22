@@ -25,47 +25,47 @@ class Q3LevelMesh extends Mesh
 {
 	public var planes : Vector<Plane3D>;
 	public var numPlanes : Int;
-	
+
 	public var nodes : Vector<BSPNode>;
 	public var numNodes : Int;
-	
+
 	public var leafs : Vector<BSPLeaf>;
 	public var numLeafs : Int;
-	
+
 	public var leafFaces : Vector<Int>;
 	public var numLeafFaces : Int;
-	
+
 	public var faces : Vector<BSPFace>;
 	public var numFaces : Int;
-	
+
 	public var entities : Vector<BSPEntity>;
 	public var numEntities : Int;
-	
+
 	//private var leafBrushes : Vector<Int>;
 	//private var numLeafBrushes : Int;
-	
+
 	//private var brushes : Vector<BSPBrush>;
 	//private var numBrushes : Int;
-	
+
 	//private var brusheSides : Vector<BSPBrushSide>;
 	//private var numBrusheSides : Int;
 
 	//private var models : Vector<BSPModel>;
 	//private var numModels : Int;
-	
+
 	public var defalutPositions:Vector<Vector3D>;
-	
+
 	public var visData : BSPVisData;
-	
+
 	public var facesToDraw:BitSet;
 
 	public function new()
 	{
 		super();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return get a random camera position
 	 */
 	public function getRandomPlayerPosition():Vector3D
@@ -91,15 +91,15 @@ class Q3LevelMesh extends Mesh
 		if (index > -1 && index < numLeafs)
 		{
 			leaf = leafs[index];
-			if(leaf.cluster == - 1)
+			if (leaf.cluster == - 1)
 			{
 				return null;
 			}
 		}
 		return leaf;
 	}
-	
-	/** 
+
+	/**
 	 * Used to find which leaf a camera or other object is in.
 	 *
 	 * @param position position to use when finding leaf
@@ -112,15 +112,15 @@ class Q3LevelMesh extends Mesh
 		while (index >= 0)
 		{
 			var node : BSPNode = nodes[index];
-			
+
 			var plane : Plane3D = planes[node.plane];
-			
+
 			// Distance from point to a plane
 			if ((plane.normal.dotProduct(position) - plane.d) < 0)
 			{
 				index = node.back;
-			} 
-			else 
+			}
+			else
 			{
 				index = node.front;
 			}
@@ -128,15 +128,15 @@ class Q3LevelMesh extends Mesh
 		//return -index - 1;
 		return ~index;
 	}
-	
-	/** 
+
+	/**
 	 * gets all the entity info for this map
 	 */
 	public function getEntities() : Vector<BSPEntity>
 	{
 		return entities;
 	}
-	
+
 	/**
 	 * 判断某个leaf是否可见
 	 * @param	visCluster  通常是相机所在的leaf.cluster
@@ -148,7 +148,7 @@ class Q3LevelMesh extends Mesh
 		var i:Int = (visCluster * visData.bytesPerCluster) + (testCluster >> 3);
 		return (visData.bitsets[i] & (1 << (testCluster & 7))) != 0;
 	}
-	
+
 	/**
 	 * 根据当前相机位置和视椎体包围盒找出可见的BSPFace
 	 * @param	cameraPosition 相机位置（已转为本地坐标）
@@ -159,9 +159,9 @@ class Q3LevelMesh extends Mesh
 	{
 		//Clear the list of faces drawn
 		facesToDraw.clear();
-		
+
 		var cameraLeaf:BSPLeaf = getLeafByIndex(findCurrentLeaf(cameraPosition));
-		
+
 		if (cameraLeaf == null)
 		{
 			cameraLeaf = last_camera_leaf;
@@ -170,11 +170,11 @@ class Q3LevelMesh extends Mesh
 		{
 			last_camera_leaf = cameraLeaf;
 		}
-		
+
 		if (cameraLeaf != null)
 		{
 			var cameraCluster:Int = cameraLeaf.cluster;
-			
+
 			//loop through the leaves
 			for (i in 0...numLeafs)
 			{
@@ -185,13 +185,13 @@ class Q3LevelMesh extends Mesh
 				{
 					continue;
 				}
-				
+
 				//if this leaf does not lie in the frustum, continue
 				if (!currentLeaf.boundingBox.intersectsWithBox(frustumAABB))
 				{
 					continue;
 				}
-				
+
 				//loop through faces in this leaf and mark them to be drawn
 				for (j in 0...currentLeaf.numFaces)
 				{
@@ -202,20 +202,19 @@ class Q3LevelMesh extends Mesh
 	}
 }
 
-
 class BitSet
 {
 	private var bits:Vector<Int>;
 	private var numBytes:Int;
-	
+
 	public function new(numberOfBits:Int)
 	{
 		//Calculate size
 		this.numBytes = (numberOfBits >> 3) + 1;
-		
+
 		bits = new Vector<Int>(numBytes, true);
 	}
-	
+
 	public function clear():Void
 	{
 		bits.fixed = false;
@@ -223,17 +222,17 @@ class BitSet
 		bits.length = numBytes;
 		bits.fixed = true;
 	}
-	
+
 	public inline function set(bitNumber:Int):Void
 	{
 		bits[bitNumber >> 3] |= 1 << (bitNumber & 7);
 	}
-	
+
 	public inline function remove(bitNumber:Int):Void
 	{
 		bits[bitNumber >> 3] &= ~(1 << (bitNumber & 7));
 	}
-	
+
 	public inline function isSet(bitNumber:Int):Bool
 	{
 		return bits[bitNumber >> 3] & 1 << (bitNumber & 7) != 0;

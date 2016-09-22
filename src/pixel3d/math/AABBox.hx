@@ -11,7 +11,7 @@ class AABBox
 	public var maxZ : Float;
 	public function new(min : Vector3D = null, max : Vector3D = null)
 	{
-		if(min == null || max == null)
+		if (min == null || max == null)
 		{
 			minX = 0.;
 			minY = 0.;
@@ -19,7 +19,7 @@ class AABBox
 			maxX = 0.;
 			maxY = 0.;
 			maxZ = 0.;
-		} 
+		}
 		else
 		{
 			minX = min.x;
@@ -86,60 +86,60 @@ class AABBox
 	}
 	public inline function equals(other : AABBox) : Bool
 	{
-		return(minX == other.minX && minY == other.minY && minZ == other.minZ &&
+		return (minX == other.minX && minY == other.minY && minZ == other.minZ &&
 		maxX == other.maxX && maxY == other.maxY && maxZ == other.maxZ);
 	}
-	
+
 	public inline function addInternalVector(point : Vector3D) : Void
 	{
 		addInternalXYZ(point.x, point.y, point.z);
 	}
-	
+
 	public inline function addInternalVertex(point : Vertex) : Void
 	{
 		addInternalXYZ(point.x, point.y, point.z);
 	}
-	
+
 	public inline function addInternalXYZ(x : Float, y : Float, z : Float) : Void
 	{
-		if(x> maxX) maxX = x;
-		if(y> maxY) maxY = y;
-		if(z> maxZ) maxZ = z;
-		if(x <minX) minX = x;
-		if(y <minY) minY = y;
-		if(z <minZ) minZ = z;
+		if (x> maxX) maxX = x;
+		if (y> maxY) maxY = y;
+		if (z> maxZ) maxZ = z;
+		if (x <minX) minX = x;
+		if (y <minY) minY = y;
+		if (z <minZ) minZ = z;
 	}
-	
+
 	public inline function addInternalAABBox(box : AABBox) : Void
 	{
 		addInternalXYZ(box.maxX, box.maxY, box.maxZ);
 		addInternalXYZ(box.minX, box.minY, box.minZ);
 	}
-	
+
 	public inline function isPointInside(point : Vector3D) : Bool
 	{
-		return(point.x>= minX && point.x <= maxX && point.y>= minY &&
+		return (point.x>= minX && point.x <= maxX && point.y>= minY &&
 		point.y <= maxY && point.z>= minZ && point.z <= maxZ);
 	}
-	
+
 	public inline function isPointTotalInside(point : Vector3D) : Bool
 	{
-		return(point.x> minX && point.x <maxX && point.y> minY &&
+		return (point.x> minX && point.x <maxX && point.y> minY &&
 		point.y <maxY && point.z> minZ && point.z <maxZ);
 	}
-	
+
 	public inline function isVertexInside(point : Vertex) : Bool
 	{
-		return(point.x>= minX && point.x <= maxX && point.y>= minY &&
+		return (point.x>= minX && point.x <= maxX && point.y>= minY &&
 		point.y <= maxY && point.z>= minZ && point.z <= maxZ);
 	}
-	
+
 	public inline function isVertexTotalInside(point : Vertex) : Bool
 	{
-		return(point.x> minX && point.x <maxX && point.y> minY &&
+		return (point.x> minX && point.x <maxX && point.y> minY &&
 		point.y <maxY && point.z> minZ && point.z <maxZ);
 	}
-	
+
 	/**
 	* Tests if the box intersects with a line
 	* @param linemiddle Center of the line.
@@ -152,35 +152,36 @@ class AABBox
 		var e : Vector3D = getExtent();
 		e.scaleBy(0.5);
 		var t : Vector3D = getCenter().subtract(linemiddle);
-		if((MathUtil.abs(t.x)> e.x + halflength * MathUtil.abs(linevect.x)) ||
+		if ((MathUtil.abs(t.x)> e.x + halflength * MathUtil.abs(linevect.x)) ||
 		(MathUtil.abs(t.y)> e.y + halflength * MathUtil.abs(linevect.y)) ||
 		(MathUtil.abs(t.z)> e.z + halflength * MathUtil.abs(linevect.z)))
 		{
 			return false;
-		} else
+		}
+		else
 		{
 			var r : Float = e.y * Math.abs(linevect.z) + e.z * Math.abs(linevect.y);
-			if(MathUtil.abs(t.y * linevect.z - t.z * linevect.y)> r) return false;
+			if (MathUtil.abs(t.y * linevect.z - t.z * linevect.y)> r) return false;
 			r = e.x * MathUtil.abs(linevect.z) + e.z * MathUtil.abs(linevect.x);
-			if(MathUtil.abs(t.z * linevect.x - t.x * linevect.z)> r) return false;
+			if (MathUtil.abs(t.z * linevect.x - t.x * linevect.z)> r) return false;
 			r = e.x * MathUtil.abs(linevect.y) + e.y * MathUtil.abs(linevect.x);
-			if(MathUtil.abs(t.x * linevect.y - t.y * linevect.x)> r) return false;
+			if (MathUtil.abs(t.x * linevect.y - t.y * linevect.x)> r) return false;
 			return true;
 		}
 	}
-	
+
 	public inline function intersectsWithBox(box : AABBox) : Bool
 	{
-		return(minX <= box.maxX && minY <= box.maxY && minZ <= box.maxZ &&
-		        maxX>= box.minX && maxY>= box.minY && maxZ>= box.minZ);
+		return (minX <= box.maxX && minY <= box.maxY && minZ <= box.maxZ &&
+		maxX>= box.minX && maxY>= box.minY && maxZ>= box.minZ);
 	}
-	
+
 	public inline function isFullInside(box : AABBox) : Bool
 	{
-		return(minX>= box.minX && minY>= box.minY && minZ>= box.minZ &&
+		return (minX>= box.minX && minY>= box.minY && minZ>= box.minZ &&
 		maxX <= box.maxX && maxY <= box.maxY && maxZ <= box.maxZ);
 	}
-	
+
 	/**
 	* Classifies a relation with a plane.
 	* @param plane Plane to classify relation to.
@@ -192,34 +193,35 @@ class AABBox
 	{
 		var nearPoint : Vector3D = new Vector3D(maxX, maxY, maxZ);
 		var farPoint : Vector3D = new Vector3D(minX, minY, minZ);
-		if(plane.normal.x> 0)
+		if (plane.normal.x> 0)
 		{
 			nearPoint.x = minX;
 			farPoint.x = maxX;
 		}
-		if(plane.normal.y> 0)
+		if (plane.normal.y> 0)
 		{
 			nearPoint.y = minY;
 			farPoint.y = maxY;
 		}
-		if(plane.normal.z> 0)
+		if (plane.normal.z> 0)
 		{
 			nearPoint.z = minZ;
 			farPoint.z = maxZ;
 		}
-		if(plane.normal.dotProduct(nearPoint) + plane.d> 0)
+		if (plane.normal.dotProduct(nearPoint) + plane.d> 0)
 		{
 			return Plane3D.IS_FRONT;
-		} else if(plane.normal.dotProduct(farPoint) + plane.d> 0)
+		}
+		else if (plane.normal.dotProduct(farPoint) + plane.d> 0)
 		{
 			return Plane3D.IS_CLIPPED;
-		} else
+		}
+		else
 		{
 			return Plane3D.IS_BACK;
 		}
 	}
-	
-	
+
 	public inline function getCenter() : Vector3D
 	{
 		var center : Vector3D = new Vector3D();
@@ -228,7 +230,7 @@ class AABBox
 		center.z =(maxZ + minZ) * 0.5;
 		return center;
 	}
-	
+
 	public inline function getExtent() : Vector3D
 	{
 		var extent : Vector3D = new Vector3D();
@@ -237,12 +239,11 @@ class AABBox
 		extent.z =(maxZ - minZ) * 0.5;
 		return extent;
 	}
-	
-	
+
 	public inline function getEdges() : Vector<Vector3D>
 	{
 		var _edges : Vector<Vector3D>= new Vector<Vector3D>(8, true);
-		for(i in 0...8)
+		for (i in 0...8)
 		{
 			_edges[i] = new Vector3D();
 		}
@@ -286,58 +287,55 @@ class AABBox
 		v.z = centerZ - diagZ;
 		return _edges;
 	}
-	
-	
+
 	public inline function isEmpty() : Bool
 	{
 		var dX : Float = maxX - minX;
 		var dY : Float = maxY - minY;
 		var dZ : Float = maxZ - minZ;
-		if(dX <0) dX = - dX;
-		if(dY <0) dY = - dY;
-		if(dZ <0) dZ = - dZ;
-		return(dX <MathUtil.ROUNDING_ERROR && dY <MathUtil.ROUNDING_ERROR && dZ <MathUtil.ROUNDING_ERROR);
+		if (dX <0) dX = - dX;
+		if (dY <0) dY = - dY;
+		if (dZ <0) dZ = - dZ;
+		return (dX <MathUtil.ROUNDING_ERROR && dY <MathUtil.ROUNDING_ERROR && dZ <MathUtil.ROUNDING_ERROR);
 	}
-	
-	
+
 	// Get the volume enclosed by the box in cubed units
 	public inline function getVolume() : Float
 	{
 		var e : Vector3D = getExtent();
 		return e.x * e.y * e.z;
 	}
-	
-	
+
 	// Get the surface area of the box in squared units
 	public inline function getArea() : Float
 	{
 		var e : Vector3D = getExtent();
 		return 2 *(e.x * e.y + e.x * e.z + e.y * e.z);
 	}
-	
+
 	public inline function repair() : Void
 	{
 		var t : Float;
-		if(minX> maxX)
+		if (minX> maxX)
 		{
 			t = minX;
 			minX = maxX;
 			maxX = t;
 		}
-		if(minY> maxY)
+		if (minY> maxY)
 		{
 			t = minY;
 			minY = maxY;
 			maxY = t;
 		}
-		if(minZ> maxZ)
+		if (minZ> maxZ)
 		{
 			t = minZ;
 			minZ = maxZ;
 			maxZ = t;
 		}
 	}
-	
+
 	public inline function interpolate(a : AABBox, b : AABBox, div : Float) : Void
 	{
 		var inv : Float = 1.0 - div;
@@ -349,7 +347,7 @@ class AABBox
 		maxZ = a.maxZ * div + b.maxZ * inv;
 		repair();
 	}
-	
+
 	public inline function getInterpolated(other : AABBox, div : Float) : AABBox
 	{
 		var box : AABBox = new AABBox();
@@ -363,12 +361,12 @@ class AABBox
 		box.repair();
 		return box;
 	}
-	
+
 	public inline function clone() : AABBox
 	{
-		return new AABBox(new Vector3D(minX, minY, minZ) , new Vector3D(maxX, maxY, maxZ));
+		return new AABBox(new Vector3D(minX, minY, minZ), new Vector3D(maxX, maxY, maxZ));
 	}
-	
+
 	public function toString() : String
 	{
 		var s : String = new String("AABBox :");

@@ -24,12 +24,12 @@ class SkyBoxSceneNode extends SceneNode
 	private var materials : Vector<Material>;
 	private var _tmpMatrix : Matrix4;
 	public function new(
-	                     top : ITexture,bottom : ITexture,
-	                     left : ITexture,right : ITexture,
-	                     front : ITexture,back : ITexture)
+		top : ITexture,bottom : ITexture,
+		left : ITexture,right : ITexture,
+		front : ITexture,back : ITexture)
 	{
 		super();
-		
+
 		_tmpMatrix = new Matrix4();
 		debug = false;
 		autoCulling = false;
@@ -43,7 +43,7 @@ class SkyBoxSceneNode extends SceneNode
 		indices[3] = 0;
 		indices[4] = 2;
 		indices[5] = 3;
-		
+
 		// create front side
 		var l : Float = 999.;
 		frontMaterial = new Material();
@@ -59,7 +59,7 @@ class SkyBoxSceneNode extends SceneNode
 		frontVertices[1] = new Vertex(l, - l, - l, 0, 0, 1, clr, 0, 1);
 		frontVertices[2] = new Vertex(l, l, - l, 0, 0, 1, clr, 0, 0);
 		frontVertices[3] = new Vertex( - l, l, - l, 0, 0, 1, clr, 1, 0);
-		
+
 		// create left side
 		leftMaterial = new Material();
 		leftMaterial.wireframe = false;
@@ -73,7 +73,7 @@ class SkyBoxSceneNode extends SceneNode
 		leftVertices[1] = new Vertex(l, - l, l, - 1, 0, 0, clr, 0, 1);
 		leftVertices[2] = new Vertex(l, l, l, - 1, 0, 0, clr, 0, 0);
 		leftVertices[3] = new Vertex(l, l, - l, - 1, 0, 0, clr, 1, 0);
-		
+
 		// create back side
 		backMaterial = new Material();
 		backMaterial.wireframe = false;
@@ -87,7 +87,7 @@ class SkyBoxSceneNode extends SceneNode
 		backVertices[1] = new Vertex( - l, - l, l, 0, 0, - 1, clr, 0, 1);
 		backVertices[2] = new Vertex( - l, l, l, 0, 0, - 1, clr, 0, 0);
 		backVertices[3] = new Vertex(l, l, l, 0, 0, - 1, clr, 1, 0);
-		
+
 		// create right side
 		rightMaterial = new Material();
 		rightMaterial.wireframe = false;
@@ -101,7 +101,7 @@ class SkyBoxSceneNode extends SceneNode
 		rightVertices[1] = new Vertex( - l, - l, - l, 1, 0, 0, clr, 0, 1);
 		rightVertices[2] = new Vertex( - l, l, - l, 1, 0, 0, clr, 0, 0);
 		rightVertices[3] = new Vertex( - l, l, l, 1, 0, 0, clr, 1, 0);
-		
+
 		// create top side
 		topMaterial = new Material();
 		topMaterial.wireframe = false;
@@ -115,7 +115,7 @@ class SkyBoxSceneNode extends SceneNode
 		topVertices[1] = new Vertex(l, l, l, 0, - 1, 0, clr, 0, 1);
 		topVertices[2] = new Vertex( - l, l, l, 0, - 1, 0, clr, 0, 0);
 		topVertices[3] = new Vertex( - l, l, - l, 0, - 1, 0, clr, 1, 0);
-		
+
 		// create bottom side
 		bottomMaterial = new Material();
 		bottomMaterial.wireframe = false;
@@ -135,7 +135,7 @@ class SkyBoxSceneNode extends SceneNode
 	{
 		var driver : IVideoDriver = sceneManager.getVideoDriver();
 		var camera : CameraSceneNode = sceneManager.getActiveCamera();
-		if(driver == null || camera == null) return;
+		if (driver == null || camera == null) return;
 		_tmpMatrix.setTranslation(camera.getAbsolutePosition());
 		driver.setDistance(0);
 		driver.setTransformWorld(_tmpMatrix);
@@ -158,23 +158,23 @@ class SkyBoxSceneNode extends SceneNode
 		driver.setMaterial(bottomMaterial);
 		driver.drawIndexedTriangleList(bottomVertices, 4, indices, 6);
 	}
-	
+
 	override public function onRegisterSceneNode() : Void
 	{
-		if(visible)
+		if (visible)
 		{
 			sceneManager.registerNodeForRendering(this, SceneNodeType.SKYBOX);
 			super.onRegisterSceneNode();
 		}
 	}
-	
+
 	override public function getMaterial(i : Int = 0) : Material
 	{
-		if(i <0) i = 0;
-		if(i>= 5) i = 5;
+		if (i <0) i = 0;
+		if (i>= 5) i = 5;
 		return materials[i];
 	}
-	
+
 	override public function getMaterialCount() : Int
 	{
 		return 6;

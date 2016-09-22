@@ -6,7 +6,7 @@ class Light
 	public static inline var DIRECTIONAL : Int = 0;
 	public static inline var POINT : Int = 1;
 	public static inline var SPOT : Int = 2;
-	
+
 	public var diffuseColor : Color;//反射光
 	public var specularColor : Color;//高光
 	public var position : Vector3D;

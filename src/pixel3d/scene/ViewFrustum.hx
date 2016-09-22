@@ -64,7 +64,7 @@ class ViewFrustum
 	}
 	public inline function transform(matrix : Matrix4) : Void
 	{
-		if(matrix != null)
+		if (matrix != null)
 		{
 			matrix.transformPlane(leftPlane);
 			matrix.transformPlane(rightPlane);
@@ -98,7 +98,7 @@ class ViewFrustum
 	}
 	public inline function setFrom(mat : Matrix4) : Void
 	{
-		if(mat != null )
+		if (mat != null )
 		{
 			// left clipping plane
 			leftPlane.normal.x = -(mat.m14 + mat.m11);

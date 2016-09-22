@@ -32,7 +32,7 @@ class MipMapTexture implements ITexture
 	private var vectorCount : Int;
 	private var useMipMap : Bool;
 	private var level : Int;
-	
+
 	/**
 	* 要想重新生成新的MipMap必须重新调用setDrawable()
 	* @param	?drawable IBitmapDrawable if drawable is BitmapData,it`s transparent must be true;
@@ -49,17 +49,18 @@ class MipMapTexture implements ITexture
 		this.level =(level <1) ? 1 : level;
 		setDrawable(drawable);
 	}
-	
+
 	public function setDrawable(drawable : IBitmapDrawable) : Void
 	{
-		if(drawable != null)
+		if (drawable != null)
 		{
 			clear();
 			var image : BitmapData;
-			if(Std.is(drawable, BitmapData))
+			if (Std.is(drawable, BitmapData))
 			{
 				image = Lib.as(drawable, BitmapData).clone();
-			} else
+			}
+			else
 			{
 				var display : DisplayObject = Lib.as(drawable, DisplayObject);
 				//check display size
@@ -72,56 +73,57 @@ class MipMapTexture implements ITexture
 			vectors[0] = image.getVector(image.rect);
 			dimensions[0] = new Vector2i(image.width, image.height);
 			vectorCount = 1;
-			if(useMipMap)
+			if (useMipMap)
 			{
 				generateMipMaps(image);
 			}
 			image.dispose();
-		} else
+		}
+		else
 		{
 			vectorCount = 0;
 		}
 	}
-	
+
 	public function getBitmapData():BitmapData
 	{
 		return null;
 	}
-	
+
 	public inline function hasTexture() : Bool
 	{
 		return vectorCount> 0;
 	}
-	
+
 	public inline function getVector() : Vector<UInt>
 	{
 		//i = MathUtil.clampInt(i, 0, vectorCount - 1);
 		return vectors[0];
 	}
-	
+
 	public inline function getWidth() : Int
 	{
 		//i = MathUtil.clampInt(i, 0, vectorCount - 1);
 		return dimensions[0].width;
 	}
-	
+
 	public inline function getHeight() : Int
 	{
 		//i = MathUtil.clampInt(i, 0, vectorCount - 1);
 		return dimensions[0].height;
 	}
-	
+
 	public inline function getDimension() : Vector2i
 	{
 		//i = MathUtil.clampInt(i, 0, vectorCount - 1);
 		return dimensions[0];
 	}
-	
+
 	public inline function getVectorCount() : Int
 	{
 		return vectorCount;
 	}
-	
+
 	/**
 	* level 最小等级图片的大小
 	*/
@@ -129,9 +131,9 @@ class MipMapTexture implements ITexture
 	{
 		var min : Int = MathUtil.minInt(image.width, image.height);
 		var i : Int = Std.int(min>> 1);
-		while(i>= level)
+		while (i>= level)
 		{
-			var data : BitmapData = BitmapDataUtil.scale(image, 1 / MathUtil.pow(2, vectorCount) , true, 0x0);
+			var data : BitmapData = BitmapDataUtil.scale(image, 1 / MathUtil.pow(2, vectorCount), true, 0x0);
 			vectors[vectorCount] = data.getVector(data.rect);
 			dimensions[vectorCount] = new Vector2i(data.width, data.height);
 			data.dispose();
@@ -140,10 +142,10 @@ class MipMapTexture implements ITexture
 			i>>= 1;
 		}
 	}
-	
+
 	public function clear() : Void
 	{
-		for(i in 0...vectorCount)
+		for (i in 0...vectorCount)
 		{
 			vectors[i].length = 0;
 			vectors[i] = null;
@@ -151,17 +153,17 @@ class MipMapTexture implements ITexture
 		vectors.length = 0;
 		vectorCount = 0;
 	}
-	
+
 	public function toString() : String
 	{
 		return name;
 	}
-	
+
 	public function getName():String
 	{
 		return name;
 	}
-	
+
 	public function setName(name:String):Void
 	{
 		this.name = name;

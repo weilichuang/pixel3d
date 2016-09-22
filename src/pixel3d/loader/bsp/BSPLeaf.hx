@@ -3,7 +3,7 @@ import flash.utils.ByteArray;
 import flash.Vector;
 import pixel3d.math.AABBox;
 
-/** 
+/**
  * The leafs lump stores the leaves of the map's BSP tree.
  * Each leaf is a convex region that contains, among other things,
  * a cluster index(for determining the other leafs potentially visible from within the leaf),
@@ -22,17 +22,17 @@ class BSPLeaf
 	public var faceIndices : Array<Int>;// all face indices visible from this leaf
 
 	public var brushes : Array<BSPBrush>;// all collidable brushes in this leaf.
-	
+
 	public var boundingBox:AABBox;
 
 	public static inline var sizeof : Int = 48;
-	
+
 	public function new()
 	{
 		faceIndices = new Array<Int>();
-		
+
 		brushes = new Array<BSPBrush>();
-		
+
 		boundingBox = new AABBox();
 	}
 }

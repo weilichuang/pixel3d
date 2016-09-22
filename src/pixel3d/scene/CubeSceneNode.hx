@@ -16,7 +16,7 @@ class CubeSceneNode extends MeshSceneNode
 		mesh.recalculateBoundingBox();
 		this.setMesh(mesh);
 	}
-	
+
 	public function getCube():CubeObject
 	{
 		return cube;

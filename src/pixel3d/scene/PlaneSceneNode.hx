@@ -21,8 +21,8 @@ class PlaneSceneNode extends MeshSceneNode
 	public function build(width : Float, height : Float, segsW : Int, segsH : Int) : MeshBuffer
 	{
 		var meshBuffer:MeshBuffer = new MeshBuffer();
-		if(segsW <1) segsW = 1;
-		if(segsH <1) segsH = 1;
+		if (segsW <1) segsW = 1;
+		if (segsH <1) segsH = 1;
 		var perH : Float = height / segsH;
 		var perW : Float = width / segsW;
 		var wid2 : Float = width * 0.5;
@@ -30,9 +30,9 @@ class PlaneSceneNode extends MeshSceneNode
 		var vertices : Vector<Vertex>= meshBuffer.getVertices();
 		var indices : Vector<Int>= meshBuffer.getIndices();
 		vertices.length = 0;
-		for(i in 0...(segsH + 1))
+		for (i in 0...(segsH + 1))
 		{
-			for(j in 0...(segsW + 1))
+			for (j in 0...(segsW + 1))
 			{
 				var vertex : Vertex = new Vertex();
 				vertex.x = j * perW - wid2;
@@ -46,9 +46,9 @@ class PlaneSceneNode extends MeshSceneNode
 		// indices
 		indices.length = 0;
 		var segsW1 : Int = segsW + 1;
-		for(i in 0...segsH)
+		for (i in 0...segsH)
 		{
-			for(j in 0...segsW)
+			for (j in 0...segsW)
 			{
 				indices.push(i * segsW1 + j);
 				indices.push(i * segsW1 + j + 1);

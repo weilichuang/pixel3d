@@ -20,7 +20,7 @@ class SkinnedMeshBuffer extends MeshBuffer
 		buffer.material = material.clone();
 		buffer.indices = indices.concat();
 		var len : Int = vertices.length;
-		for(i in 0...len)
+		for (i in 0...len)
 		{
 			buffer.vertices[i].copy(vertices[i]);
 		}

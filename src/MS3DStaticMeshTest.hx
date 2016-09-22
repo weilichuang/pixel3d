@@ -14,13 +14,13 @@ class MS3DStaticMeshTest extends Test
 {
 	static function main()
 	{
-	   var test:MS3DStaticMeshTest = new MS3DStaticMeshTest();
-	   Lib.current.addChild(test);
-	   test.startRender();
+		var test:MS3DStaticMeshTest = new MS3DStaticMeshTest();
+		Lib.current.addChild(test);
+		test.startRender();
 	}
 
 	private var node:MeshSceneNode;
-	
+
 	private var texture:ITexture;
 
 	private var maxloader:MS3DMeshLoader;
@@ -38,12 +38,11 @@ class MS3DStaticMeshTest extends Test
 		maxloader.addEventListener(MeshEvent.COMPLETE, __load3ds);
 		maxloader.load("media/f360.ms3d");
 	}
-	
-	
-	private function __load3ds(e:MeshEvent):Void 
+
+	private function __load3ds(e:MeshEvent):Void
 	{
 		var mesh:IMesh = e.getMesh();
-		
+
 		node = new MeshSceneNode(mesh,false);
 		node.setScaleXYZ(2,2,2);
 		node.setMaterialFlag(Material.GOURAUD_SHADE, true);
@@ -53,7 +52,7 @@ class MS3DStaticMeshTest extends Test
 
 		manager.addChild(node);
 	}
-	
+
 	override private function _onEnterFrame(?e:Event=null):Void
 	{
 		if (node!=null)

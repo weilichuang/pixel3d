@@ -16,11 +16,11 @@ class ConeObject extends MeshBuffer
 		var angleStep : Float = MathUtil.TWO_PI / tesselation;
 		var angleStepHalf : Float = angleStep * 0.5;
 		var vertex : Vertex;
-		
+
 		var sin = Math.sin;
 		var cos = Math.cos;
 		var i : Int = 0;
-		while(i != tesselation)
+		while (i != tesselation)
 		{
 			var angle : Float = angleStep * i;
 			vertex = new Vertex();
@@ -56,7 +56,7 @@ class ConeObject extends MeshBuffer
 		vertices.push(vertex);
 		var index : Int = vertices.length - 1;
 		i = 0;
-		while(i != nonWrappedSize)
+		while (i != nonWrappedSize)
 		{
 			indices.push(i + 0 );
 			indices.push(index );
@@ -77,7 +77,7 @@ class ConeObject extends MeshBuffer
 		vertices.push(vertex);
 		index = vertices.length - 1;
 		i = 0;
-		while(i != nonWrappedSize)
+		while (i != nonWrappedSize)
 		{
 			indices.push(index);
 			indices.push(i + 0);

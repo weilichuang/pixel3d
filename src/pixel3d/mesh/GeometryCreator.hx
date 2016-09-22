@@ -28,14 +28,14 @@ class GeometryCreator
 	* @param	textureRepeatY
 	* @return
 	*/
-	public static function createHillPlane(tileWidth : Float, tileHeight : Float, 
-	                                        tileXCount : Int, tileYCount : Int,
-	                                        hillHeight : Float, hillXCount : Int, hillYCount : Int, 
-											textureRepeatX : Int, textureRepeatY : Int) : MeshBuffer
+	public static function createHillPlane(tileWidth : Float, tileHeight : Float,
+										   tileXCount : Int, tileYCount : Int,
+										   hillHeight : Float, hillXCount : Int, hillYCount : Int,
+										   textureRepeatX : Int, textureRepeatY : Int) : MeshBuffer
 	{
-		if(hillHeight == 0) hillHeight = 1.0;
-		if(hillXCount <0) hillXCount = 1;
-		if(hillYCount <0) hillYCount = 1;
+		if (hillHeight == 0) hillHeight = 1.0;
+		if (hillXCount <0) hillXCount = 1;
+		if (hillYCount <0) hillYCount = 1;
 		// center
 		var centerX : Float =(tileWidth * tileXCount) / 2.0;
 		var centerY : Float =(tileHeight * tileYCount) / 2.0;
@@ -55,28 +55,30 @@ class GeometryCreator
 		var tsx : Float = 0;
 		var sy : Float = 0.0;
 		var tsy : Float = 0.;
-		for(x in 0...tileXCount)
+		for (x in 0...tileXCount)
 		{
 			sy = 0.0;
 			tsy = 0.;
-			for(y in 0...tileYCount)
+			for (y in 0...tileYCount)
 			{
 				var vtx : Vertex = new Vertex();
 				vtx.color = Std.int(Math.random() * 0xFFFFFF);
 				vtx.x = sx - centerX;
 				vtx.z = sy - centerY;
 				vtx.y =(Math.sin(vtx.x * hillXCount * PI / centerX) * Math.cos(vtx.z * hillYCount * PI / centerY)) * hillHeight;
-				if(tsx> 1)
+				if (tsx> 1)
 				{
 					vtx.u = tsx - Std.int(tsx);
-				} else 
+				}
+				else
 				{
 					vtx.u = tsx;
 				}
-				if((1 - tsy) <0)
+				if ((1 - tsy) <0)
 				{
 					vtx.v = MathUtil.abs(1 - tsy - Std.int(1 - tsy));
-				} else 
+				}
+				else
 				{
 					vtx.v = 1 - tsy;
 				}
@@ -88,9 +90,9 @@ class GeometryCreator
 			tsx += texPx;
 		}
 		// create indices
-		for(x in 0...(tileXCount - 1))
+		for (x in 0...(tileXCount - 1))
 		{
-			for(y in 0...(tileYCount - 1))
+			for (y in 0...(tileYCount - 1))
 			{
 				var current : Int = x * tileYCount + y;
 				indices.push(current);
@@ -116,7 +118,7 @@ class GeometryCreator
 	*/
 	public static function createTerrainMesh(heightMap : BitmapData, stretchSize : Vector2i, maxHeight : Float, maxVtxBlockSize : Vector2i, debugBorders : Bool) : Mesh
 	{
-		if(heightMap == null) return null;
+		if (heightMap == null) return null;
 		var borderSkip = debugBorders ? 0 : 1;
 		var vtx : Vertex;
 		var mesh : Mesh = new Mesh();
@@ -125,15 +127,15 @@ class GeometryCreator
 		// height step per color value
 		var color : Color = new Color();
 		var processed : Vector2f = new Vector2f();
-		while(processed.y <hMapSize.height)
+		while (processed.y <hMapSize.height)
 		{
-			while(processed.x <hMapSize.width)
+			while (processed.x <hMapSize.width)
 			{
 				var blockSize : Vector2i = maxVtxBlockSize.clone();
-				if(processed.x + blockSize.width> hMapSize.width)
-				blockSize.width = Std.int(hMapSize.width - processed.x);
-				if(processed.y + blockSize.height> hMapSize.height)
-				blockSize.height = Std.int(hMapSize.height - processed.y);
+				if (processed.x + blockSize.width> hMapSize.width)
+					blockSize.width = Std.int(hMapSize.width - processed.x);
+				if (processed.y + blockSize.height> hMapSize.height)
+					blockSize.height = Std.int(hMapSize.height - processed.y);
 				var buffer : MeshBuffer = new MeshBuffer();
 				var indices : Vector<Int>= buffer.getIndices();
 				var vertices : Vector<Vertex>= buffer.getVertices();
@@ -141,13 +143,13 @@ class GeometryCreator
 				var pos : Vector2f = new Vector2f(0., processed.y * stretchSize.height);
 				var bs : Vector2f = new Vector2f(1. / blockSize.width, 1. / blockSize.height);
 				var tc : Vector2f = new Vector2f(0., 0.5 * bs.y);
-				for(y in 0...blockSize.height)
+				for (y in 0...blockSize.height)
 				{
 					pos.x = processed.x * stretchSize.width;
 					tc.x = 0.5 * bs.x;
-					for(x in 0...blockSize.width)
+					for (x in 0...blockSize.width)
 					{
-						color.color = (heightMap.getPixel(Std.int(x + processed.x) , Std.int(y + processed.y)));
+						color.color = (heightMap.getPixel(Std.int(x + processed.x), Std.int(y + processed.y)));
 						var height : Float = color.getAverage() * maxHeight;
 						vtx = new Vertex();
 						vtx.color = (0xFFFFFFFF);
@@ -166,9 +168,9 @@ class GeometryCreator
 				//buffer.indices.reallocate((blockSize.height-1)*(blockSize.width-1)*6);
 				// add indices of vertex block
 				var c1 : Int = 0;
-				for(y in 0...(blockSize.height - 1))
+				for (y in 0...(blockSize.height - 1))
 				{
-					for(x in 0...(blockSize.width - 1))
+					for (x in 0...(blockSize.width - 1))
 					{
 						var c : Int = c1 + x;
 						indices.push(c);

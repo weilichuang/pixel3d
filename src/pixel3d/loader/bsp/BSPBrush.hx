@@ -11,9 +11,9 @@ class BSPBrush
 	public var firstBrushSide : Int;// The starting brush side for the brush
 	public var numBrushSides : Int;// Number of brush sides for the brush
 	public var textureID : Int;// The texture index for the brush
-	
+
 	public static inline var sizeof : Int = 12;
-	
+
 	public function new()
 	{
 	}

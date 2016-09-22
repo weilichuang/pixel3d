@@ -12,7 +12,7 @@ class Material
 	public static inline var LIGHT : Int = 4;
 	public static inline var TRANSPARTENT : Int = 5;
 	public static inline var ZBUFFER : Int = 6;
-	
+
 	public var backfaceCulling : Bool ;//背面剔除
 	public var frontfaceCulling : Bool;//正面剔除
 	public var transparenting : Bool ;//透明
@@ -21,25 +21,24 @@ class Material
 	public var wireframe : Bool;
 	public var zBuffer : Bool;
 	public var isPowOfTow:Bool;//用于部分uv坐标需要调制的模型，比如bsp,设为true时贴图大小必须是2的n次方
-	
+
 	public var ambientColor : Color;
 	public var diffuseColor : Color;
 	public var emissiveColor : Color;
 	public var specularColor : Color;
-	
-	
+
 	public var texture : ITexture;//纹理图
 	public var texture2 : ITexture;//光照图,或其他类型的贴图
-	
+
 	public var shininess : Float;//指数，用于高光部分
-	
+
 	private var _alpha : Float;
 	public var alpha(get, set) : Float;
-	
+
 	public var name : String;
-	
+
 	public var extra:UserData;
-	
+
 	public function new()
 	{
 		name = "";
@@ -53,15 +52,15 @@ class Material
 		wireframe = false;
 		isPowOfTow = false;
 		zBuffer = true;
-		
+
 		ambientColor = new Color(255, 255, 255);
 		diffuseColor = new Color(255, 255, 255);
 		emissiveColor = new Color(0, 0, 0);
 		specularColor = new Color(0, 0, 0);
-		
+
 		extra = new UserData();
 	}
-	
+
 	private function set_alpha(value : Float) : Float
 	{
 		_alpha = MathUtil.clamp(value, 0.0, 1.0);
@@ -78,28 +77,29 @@ class Material
 	*/
 	public function setTexture(t : ITexture, layer : Int = 1) : Void
 	{
-		if(layer == 1)
+		if (layer == 1)
 		{
 			texture = t;
-		} else 
+		}
+		else
 		{
 			texture2 = t;
 		}
 	}
-	
+
 	public function getTexture() : ITexture
 	{
 		return texture;
 	}
-	
+
 	public function getTexture2() : ITexture
 	{
 		return texture2;
 	}
-	
+
 	public function setFlag(flag : Int, value : Bool) : Void
 	{
-		switch(flag)
+		switch (flag)
 		{
 			case BACKFACE :backfaceCulling = value;
 			case GOURAUD_SHADE :gouraudShading = value;
@@ -110,14 +110,14 @@ class Material
 			case ZBUFFER :zBuffer = value;
 		}
 	}
-	
+
 	public function clone() : Material
 	{
 		var mat : Material = new Material();
 		mat.copy(this);
 		return mat;
 	}
-	
+
 	public function copy(mat : Material) : Void
 	{
 		frontfaceCulling = mat.frontfaceCulling;
@@ -136,7 +136,7 @@ class Material
 		texture = mat.texture;
 		texture2 = mat.texture2;
 	}
-	
+
 	public function toString() : String
 	{
 		return name;

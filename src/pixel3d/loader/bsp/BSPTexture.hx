@@ -72,7 +72,7 @@ class BSPTexture
 	// don't dlight even if solid(solid lava, skies)
 	public static inline var SURF_DUST : Int	= 0x40000;
 	// leave a dust trail when walking on this surface
-	
+
 	public var name : String;
 	// The name of the texture w/o the extension(c8[64]);
 	public var flags : UInt;
@@ -84,6 +84,6 @@ class BSPTexture
 
 	public function new()
 	{
-		
+
 	}
 }
