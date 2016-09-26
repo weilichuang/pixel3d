@@ -6,32 +6,32 @@
 --each
 --next
 -swf bin/IntersectionTest.swf
--main IntersectionTest
+-main example.IntersectionTest
 
 --next
 -swf bin/LightMapTest.swf
--main LightMapTest
+-main example.LightMapTest
 
 --next
 -swf bin/Max3DSTest.swf
--main Max3DSTest
+-main example.Max3DSTest
 
 --next
 -swf bin/MD2Test.swf
--main MD2Test
+-main example.MD2Test
 
 --next
 -swf bin/MS3DFileLoaderTest.swf
--main MS3DFileLoaderTest
+-main example.MS3DFileLoaderTest
 
 --next
 -swf bin/MS3DStaticMeshTest.swf
--main MS3DStaticMeshTest
+-main example.MS3DStaticMeshTest
 
 --next
 -swf bin/OgreLoaderTest.swf
--main OgreLoaderTest
+-main example.OgreLoaderTest
 
 --next
 -swf bin/Quake3SceneNodeTest.swf
--main Quake3SceneNodeTest
+-main example.Quake3SceneNodeTest

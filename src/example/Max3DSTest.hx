@@ -1,4 +1,4 @@
-﻿package;
+﻿package example;
 import flash.events.Event;
 import flash.geom.Vector3D;
 import flash.Lib;
@@ -12,7 +12,7 @@ import pixel3d.mesh.MeshBuffer;
 import pixel3d.scene.LightNode;
 import pixel3d.scene.MeshNode;
 import pixel3d.mesh.IMesh;
-class Max3DSTest extends Test
+class Max3DSTest extends example.Test
 {
 	static function main()
 	{

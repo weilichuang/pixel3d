@@ -1,4 +1,4 @@
-package ;
+package example ;
 import flash.events.Event;
 import flash.Lib;
 import pixel3d.events.MeshEvent;
@@ -10,7 +10,7 @@ import pixel3d.scene.MeshNode;
 import pixel3d.scene.SceneNode;
 import pixel3d.scene.SkinnedMeshNode;
 
-class OgreLoaderTest extends Test
+class OgreLoaderTest extends example.Test
 {
 	static function main()
 	{

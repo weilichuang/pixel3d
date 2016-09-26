@@ -71,7 +71,7 @@ class BasicTextureGouraud extends AbstractTriangleRenderer
 		tw = texWidth - 1;
 		th = texHeight - 1;
 
-		perspectiveCorrect =(distance <perspectiveDistance);
+		perspectiveCorrect = (distance < perspectiveDistance);
 		var dy : Float;
 		var i : Int = 0;
 		while (i <indexCount)

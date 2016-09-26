@@ -24,7 +24,7 @@
 		this.y = y;
 	}
 
-	public inline function setXY(x : Float, y : Float) : Void
+	public inline function setTo(x : Float, y : Float) : Void
 	{
 		this.x = x;
 		this.y = y;
@@ -136,7 +136,7 @@
 		var sn : Float = Math.sin(degrees);
 		x -= center.x;
 		y -= center.y;
-		setXY((x * cs - y * sn),(x * sn + y * cs));
+		setTo((x * cs - y * sn),(x * sn + y * cs));
 		x += center.x;
 		y += center.y;
 	}

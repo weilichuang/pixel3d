@@ -1,4 +1,4 @@
-﻿package ;
+﻿package example ;
 import flash.geom.Vector3D;
 import flash.Lib;
 import pixel3d.animator.AnimatorFlyCircle;
@@ -11,7 +11,7 @@ import pixel3d.mesh.SkinnedMesh;
 import pixel3d.scene.LightNode;
 import pixel3d.scene.PlaneNode;
 import pixel3d.scene.SkinnedMeshNode;
-class MS3DFileLoaderTest extends Test
+class MS3DFileLoaderTest extends example.Test
 {
 	static function main()
 	{

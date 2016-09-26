@@ -56,18 +56,18 @@ class CubeObject extends MeshBuffer
 
 	public function build(width : Float, height : Float, depth : Float) : Void
 	{
-		vertices[0].setXYZ(0, 0, 0);
-		vertices[1].setXYZ(1, 0, 0);
-		vertices[2].setXYZ(1, 1, 0);
-		vertices[3].setXYZ(0, 1, 0);
-		vertices[4].setXYZ(1, 0, 1);
-		vertices[5].setXYZ(1, 1, 1);
-		vertices[6].setXYZ(0, 1, 1);
-		vertices[7].setXYZ(0, 0, 1);
-		vertices[8].setXYZ(0, 1, 1);
-		vertices[9].setXYZ(0, 1, 0);
-		vertices[10].setXYZ(1, 0, 1);
-		vertices[11].setXYZ(1, 0, 0);
+		vertices[0].setTo(0, 0, 0);
+		vertices[1].setTo(1, 0, 0);
+		vertices[2].setTo(1, 1, 0);
+		vertices[3].setTo(0, 1, 0);
+		vertices[4].setTo(1, 0, 1);
+		vertices[5].setTo(1, 1, 1);
+		vertices[6].setTo(0, 1, 1);
+		vertices[7].setTo(0, 0, 1);
+		vertices[8].setTo(0, 1, 1);
+		vertices[9].setTo(0, 1, 0);
+		vertices[10].setTo(1, 0, 1);
+		vertices[11].setTo(1, 0, 0);
 		for (i in 0...12)
 		{
 			var vertex : Vertex = vertices[i];

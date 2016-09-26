@@ -17,7 +17,7 @@ class MathUtil
 
 	public static inline function equals(a : Float, b : Float) : Bool
 	{
-		return (a + ROUNDING_ERROR> b) &&(a - ROUNDING_ERROR <b);
+		return (a + ROUNDING_ERROR > b) && (a - ROUNDING_ERROR < b);
 	}
 
 	public static inline function isNaN(c : Dynamic) : Bool

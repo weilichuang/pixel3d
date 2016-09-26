@@ -1,4 +1,4 @@
-﻿package ;
+﻿package example ;
 import flash.events.Event;
 import flash.geom.Vector3D;
 import flash.Lib;
@@ -11,7 +11,7 @@ import pixel3d.material.Material;
 import pixel3d.mesh.Q3LevelMesh;
 import pixel3d.scene.Quake3Node;
 
-class Quake3SceneNodeTest extends Test
+class Quake3SceneNodeTest extends example.Test
 {
 	static function main()
 	{

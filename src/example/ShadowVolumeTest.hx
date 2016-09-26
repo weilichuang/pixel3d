@@ -1,4 +1,4 @@
-﻿package;
+﻿package example;
 
 import flash.geom.Vector3D;
 import flash.Lib;
@@ -12,7 +12,7 @@ import pixel3d.scene.LightNode;
 import pixel3d.scene.PlaneNode;
 
 //不太正确，有时会报错
-class ShadowVolumeTest extends Test
+class ShadowVolumeTest extends example.Test
 {
 	static function main()
 	{

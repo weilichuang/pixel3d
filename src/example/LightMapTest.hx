@@ -1,4 +1,4 @@
-﻿package ;
+﻿package example ;
 import flash.events.Event;
 import flash.Lib;
 import pixel3d.material.LoadingTexture;

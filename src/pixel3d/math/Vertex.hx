@@ -24,9 +24,6 @@ import flash.geom.Vector3D;
 	public var v2 : Float;
 	public var z2 : Float;
 
-	//public var tangent:Vector3D;
-	//public var binormal:Vector3D;
-
 	public var color(get, set) : UInt;
 	public var position(get, set) : Vector3D;
 	public var normal(get, set) : Vector3D;
@@ -47,7 +44,7 @@ import flash.geom.Vector3D;
 		this.color = c;
 	}
 
-	public inline function setXYZ(x : Float, y : Float, z : Float) : Void
+	public inline function setTo(x : Float, y : Float, z : Float) : Void
 	{
 		this.x = x;
 		this.y = y;

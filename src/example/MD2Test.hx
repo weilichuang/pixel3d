@@ -1,4 +1,4 @@
-﻿package;
+﻿package example;
 import flash.events.Event;
 import flash.geom.Vector3D;
 import flash.Lib;
@@ -15,7 +15,7 @@ import pixel3d.scene.AnimatedMeshNode;
 import pixel3d.scene.LightNode;
 import pixel3d.scene.PlaneNode;
 
-class MD2Test extends Test
+class MD2Test extends example.Test
 {
 	static function main()
 	{

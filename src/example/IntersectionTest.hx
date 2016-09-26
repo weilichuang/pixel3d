@@ -1,10 +1,10 @@
-﻿package;
+﻿package example;
 import flash.Lib;
 import pixel3d.events.Mouse3DEvent;
 import pixel3d.scene.CubeNode;
 import pixel3d.scene.PlaneNode;
 
-class IntersectionTest extends Test
+class IntersectionTest extends example.Test
 {
 	static function main()
 	{
